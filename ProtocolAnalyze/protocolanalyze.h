@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::ProtocolAnalyze *ui;
+    void fillPortsInfo();
 };
 
 #endif // PROTOCOLANALYZE_H
