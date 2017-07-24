@@ -88,25 +88,55 @@ void ProtocolAnalyze::fillPortsInfo()
     }
 
 }
+
+void ProtocolAnalyze::updateSettings()
+{
+    portSetting.name = ui->serialPortInfoListBox->currentText();
+
+    if (ui->baudRateBox->currentIndex() == 4) {
+        portSetting.baudRate = ui->baudRateBox->currentText().toInt();
+    } else {
+        portSetting.baudRate = static_cast<QSerialPort::BaudRate>(
+                    ui->baudRateBox->itemData(ui->baudRateBox->currentIndex()).toInt());
+    }
+    portSetting.stringBaudRate = QString::number(portSetting.baudRate);
+
+    portSetting.dataBits = static_cast<QSerialPort::DataBits>(
+                ui->dataBitsBox->itemData(ui->dataBitsBox->currentIndex()).toInt());
+    portSetting.stringDataBits = ui->dataBitsBox->currentText();
+
+    portSetting.parity = static_cast<QSerialPort::Parity>(
+                ui->parityBox->itemData(ui->parityBox->currentIndex()).toInt());
+    portSetting.stringParity = ui->parityBox->currentText();
+
+    portSetting.stopBits = static_cast<QSerialPort::StopBits>(
+                ui->stopBitsBox->itemData(ui->stopBitsBox->currentIndex()).toInt());
+    portSetting.stringStopBits = ui->stopBitsBox->currentText();
+
+    portSetting.flowControl = static_cast<QSerialPort::FlowControl>(
+                ui->flowControlBox->itemData(ui->flowControlBox->currentIndex()).toInt());
+    portSetting.stringFlowControl = ui->flowControlBox->currentText();
+}
+
 /*
  * @ brief : open a serial port
  */
 void ProtocolAnalyze::openSerialPort()
 {
-    serial->setPortName(ui->serialPortInfoListBox->currentText());
-    serial->setBaudRate(ui->baudRateBox->currentText().toInt());
-    serial->setDataBits(static_cast<QSerialPort::DataBits>(
-                            ui->dataBitsBox->itemData(ui->dataBitsBox->currentIndex()).toInt()));
-    serial->setParity(static_cast<QSerialPort::Parity>(
-                          ui->parityBox->itemData(ui->parityBox->currentIndex()).toInt()));
-    serial->setStopBits(static_cast<QSerialPort::StopBits>(
-                            ui->stopBitsBox->itemData(ui->stopBitsBox->currentIndex()).toInt()));
-    serial->setFlowControl(static_cast<QSerialPort::FlowControl>(
-                               ui->flowControlBox->itemData(ui->flowControlBox->currentIndex()).toInt()));
+    updateSettings();
+    Settings *ps = &portSetting;
+    serial->setPortName(ps->name);
+    serial->setBaudRate(ps->baudRate);
+    serial->setDataBits(ps->dataBits);
+    serial->setParity(ps->parity);
+    serial->setStopBits(ps->stopBits);
+    serial->setFlowControl(ps->flowControl);
     if (serial->open(QIODevice::ReadWrite)) {
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
-        showStatusMessage(tr("Connected Success!"));
+        showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
+                          .arg(ps->name).arg(ps->stringBaudRate).arg(ps->stringDataBits)
+                          .arg(ps->stringParity).arg(ps->stringStopBits).arg(ps->stringFlowControl));
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
 

@@ -46,6 +46,7 @@ private:
     void initActionsConnections();
     void fillPortsParameters();
     void showStatusMessage(const QString &message);
+    void updateSettings();
 
 private:
     Ui::ProtocolAnalyze *ui;
