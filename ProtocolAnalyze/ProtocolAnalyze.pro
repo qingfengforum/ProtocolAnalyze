@@ -15,8 +15,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        protocolanalyze.cpp
+        protocolanalyze.cpp \
+    console.cpp
 
-HEADERS  += protocolanalyze.h
+HEADERS  += protocolanalyze.h \
+    console.h
 
 FORMS    += protocolanalyze.ui

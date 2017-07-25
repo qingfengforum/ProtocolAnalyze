@@ -11,6 +11,8 @@ namespace Ui {
 class ProtocolAnalyze;
 }
 
+class Console;
+
 class ProtocolAnalyze : public QMainWindow
 {
     Q_OBJECT
@@ -41,6 +43,9 @@ private slots:
 
     void on_pB_refreshPortInfo_clicked();
 
+    void readData();
+    void writeData(const QByteArray &data);
+
 private:
     void fillPortsInfo();
     void initActionsConnections();
@@ -50,6 +55,7 @@ private:
 
 private:
     Ui::ProtocolAnalyze *ui;
+    Console *console;
     Settings portSetting;
     QLabel *status;
     QSerialPort *serial;

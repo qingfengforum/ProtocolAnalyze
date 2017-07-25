@@ -1,6 +1,6 @@
 #include "protocolanalyze.h"
 #include "ui_protocolanalyze.h"
-
+#include "console.h"
 #include <QtSerialPort/QSerialPortInfo>
 #include <QMessageBox>
 
@@ -15,6 +15,10 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     serial = new QSerialPort(this);
 
+    console = new Console;
+    console->setEnabled(false);
+    ui->vtL_portOutPutInfo->addWidget(console);
+
     status = new QLabel;
     ui->statusBar->addWidget(status);
 
@@ -23,6 +27,9 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     initActionsConnections();
 
+    /* regist data read and write slot funcs */
+    connect(serial, &QSerialPort::readyRead, this, &ProtocolAnalyze::readData);
+    connect(console, &Console::getData, this, &ProtocolAnalyze::writeData);
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
@@ -132,6 +139,8 @@ void ProtocolAnalyze::openSerialPort()
     serial->setStopBits(ps->stopBits);
     serial->setFlowControl(ps->flowControl);
     if (serial->open(QIODevice::ReadWrite)) {
+        console->setEnabled(true);
+        console->setLocalEchoEnabled(true);
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
         showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
@@ -149,6 +158,8 @@ void ProtocolAnalyze::closeSerialPort()
 {
     if (serial->isOpen())
         serial->close();
+
+    //console->setEnabled(false);
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     showStatusMessage(tr("Disconnected"));
@@ -163,6 +174,17 @@ void ProtocolAnalyze::initActionsConnections()
     connect(ui->actionDisconnect, &QPushButton::clicked, this, &ProtocolAnalyze::closeSerialPort);
 }
 
+
+void ProtocolAnalyze::readData()
+{
+    QByteArray data = serial->readAll();
+    console->putData(data);
+}
+
+void ProtocolAnalyze::writeData(const QByteArray &data)
+{
+    serial->write(data);
+}
 /***************************************************/
 /************* actions *****************************/
 /***************************************************/
