@@ -22,3 +22,5 @@ HEADERS  += protocolanalyze.h \
     console.h
 
 FORMS    += protocolanalyze.ui
+
+RC_ICONS = taylor.ico

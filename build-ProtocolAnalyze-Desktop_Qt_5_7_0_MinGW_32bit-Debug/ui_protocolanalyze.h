@@ -57,6 +57,8 @@ public:
     QHBoxLayout *horizontalLayout_6;
     QPushButton *actionDisconnect;
     QPushButton *actionConnect;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *vtL_portOutPutInfo;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -65,7 +67,7 @@ public:
     {
         if (ProtocolAnalyze->objectName().isEmpty())
             ProtocolAnalyze->setObjectName(QStringLiteral("ProtocolAnalyze"));
-        ProtocolAnalyze->resize(486, 364);
+        ProtocolAnalyze->resize(799, 567);
         centralWidget = new QWidget(ProtocolAnalyze);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         groupBox = new QGroupBox(centralWidget);
@@ -197,10 +199,18 @@ public:
 
         verticalLayout->addLayout(verticalLayout_2);
 
+        verticalLayoutWidget_2 = new QWidget(centralWidget);
+        verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
+        verticalLayoutWidget_2->setGeometry(QRect(220, 10, 571, 351));
+        vtL_portOutPutInfo = new QVBoxLayout(verticalLayoutWidget_2);
+        vtL_portOutPutInfo->setSpacing(6);
+        vtL_portOutPutInfo->setContentsMargins(11, 11, 11, 11);
+        vtL_portOutPutInfo->setObjectName(QStringLiteral("vtL_portOutPutInfo"));
+        vtL_portOutPutInfo->setContentsMargins(0, 0, 0, 0);
         ProtocolAnalyze->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ProtocolAnalyze);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 486, 23));
+        menuBar->setGeometry(QRect(0, 0, 799, 23));
         ProtocolAnalyze->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ProtocolAnalyze);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
