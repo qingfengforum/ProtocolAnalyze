@@ -16,6 +16,8 @@ public:
     ~ProtocolGeneratorDialog();
 
 private:
+    void fillComboBoxParams();
+
     Ui::ProtocolGeneratorDialog *ui;
 };
 
