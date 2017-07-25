@@ -19,6 +19,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -31,6 +32,7 @@ QT_BEGIN_NAMESPACE
 class Ui_ProtocolAnalyze
 {
 public:
+    QAction *actionProtocol_generator;
     QWidget *centralWidget;
     QGroupBox *groupBox;
     QWidget *verticalLayoutWidget;
@@ -60,6 +62,7 @@ public:
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *vtL_portOutPutInfo;
     QMenuBar *menuBar;
+    QMenu *menuTools;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -68,6 +71,8 @@ public:
         if (ProtocolAnalyze->objectName().isEmpty())
             ProtocolAnalyze->setObjectName(QStringLiteral("ProtocolAnalyze"));
         ProtocolAnalyze->resize(799, 567);
+        actionProtocol_generator = new QAction(ProtocolAnalyze);
+        actionProtocol_generator->setObjectName(QStringLiteral("actionProtocol_generator"));
         centralWidget = new QWidget(ProtocolAnalyze);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         groupBox = new QGroupBox(centralWidget);
@@ -211,6 +216,8 @@ public:
         menuBar = new QMenuBar(ProtocolAnalyze);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 799, 23));
+        menuTools = new QMenu(menuBar);
+        menuTools->setObjectName(QStringLiteral("menuTools"));
         ProtocolAnalyze->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ProtocolAnalyze);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -218,6 +225,9 @@ public:
         statusBar = new QStatusBar(ProtocolAnalyze);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         ProtocolAnalyze->setStatusBar(statusBar);
+
+        menuBar->addAction(menuTools->menuAction());
+        menuTools->addAction(actionProtocol_generator);
 
         retranslateUi(ProtocolAnalyze);
 
@@ -227,6 +237,7 @@ public:
     void retranslateUi(QMainWindow *ProtocolAnalyze)
     {
         ProtocolAnalyze->setWindowTitle(QApplication::translate("ProtocolAnalyze", "ProtocolAnalyze", 0));
+        actionProtocol_generator->setText(QApplication::translate("ProtocolAnalyze", "protocol generator", 0));
         groupBox->setTitle(QApplication::translate("ProtocolAnalyze", "Serail Param", 0));
         pB_refreshPortInfo->setText(QApplication::translate("ProtocolAnalyze", "\345\210\267\346\226\260", 0));
         label_3->setText(QApplication::translate("ProtocolAnalyze", "BaudTate:", 0));
@@ -237,6 +248,7 @@ public:
         label_6->setText(QApplication::translate("ProtocolAnalyze", "Flow control:", 0));
         actionDisconnect->setText(QApplication::translate("ProtocolAnalyze", "\346\226\255\345\274\200", 0));
         actionConnect->setText(QApplication::translate("ProtocolAnalyze", "\350\277\236\346\216\245", 0));
+        menuTools->setTitle(QApplication::translate("ProtocolAnalyze", "tools", 0));
     } // retranslateUi
 
 };

@@ -16,11 +16,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         protocolanalyze.cpp \
-    console.cpp
+    console.cpp \
+    protocolgeneratordialog.cpp
 
 HEADERS  += protocolanalyze.h \
-    console.h
+    console.h \
+    protocolgeneratordialog.h
 
-FORMS    += protocolanalyze.ui
+FORMS    += protocolanalyze.ui \
+    protocolgeneratordialog.ui
 
-RC_ICONS = taylor.ico
+RC_ICONS = taylor.ico #add app icon

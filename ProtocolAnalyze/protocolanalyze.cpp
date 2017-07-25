@@ -1,6 +1,7 @@
 #include "protocolanalyze.h"
 #include "ui_protocolanalyze.h"
 #include "console.h"
+#include "protocolgeneratordialog.h"
 #include <QtSerialPort/QSerialPortInfo>
 #include <QMessageBox>
 
@@ -12,7 +13,7 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     ui(new Ui::ProtocolAnalyze)
 {
     ui->setupUi(this);
-
+    protGenDialog = new ProtocolGeneratorDialog;
     serial = new QSerialPort(this);
 
     console = new Console;
@@ -172,6 +173,7 @@ void ProtocolAnalyze::initActionsConnections()
 {
     connect(ui->actionConnect, &QPushButton::clicked, this, &ProtocolAnalyze::openSerialPort);
     connect(ui->actionDisconnect, &QPushButton::clicked, this, &ProtocolAnalyze::closeSerialPort);
+    connect(ui->actionProtocol_generator, &QAction::triggered, protGenDialog, &ProtocolAnalyze::show);
 }
 
 

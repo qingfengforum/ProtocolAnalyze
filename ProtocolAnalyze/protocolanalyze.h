@@ -12,6 +12,7 @@ class ProtocolAnalyze;
 }
 
 class Console;
+class ProtocolGeneratorDialog;
 
 class ProtocolAnalyze : public QMainWindow
 {
@@ -59,6 +60,8 @@ private:
     Settings portSetting;
     QLabel *status;
     QSerialPort *serial;
+
+    ProtocolGeneratorDialog *protGenDialog;
 
 };
 
