@@ -9,6 +9,9 @@ ProtocolGeneratorDialog::ProtocolGeneratorDialog(QWidget *parent) :
 
     /* init */
     fillComboBoxParams();
+
+    /* connect */
+    connect(ui->pB_add_param, QPushButton::clicked, this, &ProtocolGeneratorDialog::addParam);
 }
 
 ProtocolGeneratorDialog::~ProtocolGeneratorDialog()
@@ -30,4 +33,14 @@ void ProtocolGeneratorDialog::fillComboBoxParams()
     /* len meaning */
     ui->cBBox_len_meaning->addItem(QStringLiteral("the whole lenght"));
     ui->cBBox_len_meaning->addItem(QStringLiteral("len = cmd + param + check"));
+}
+
+void ProtocolGeneratorDialog::addParam()
+{
+    static int a= 10;
+    QPushButton* pb = new QPushButton("param add");
+    pb->setParent(this);
+    pb->setGeometry(a,0,20,30);
+    pb->show();
+    a = a+25;
 }

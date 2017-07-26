@@ -15,6 +15,9 @@ public:
     explicit ProtocolGeneratorDialog(QWidget *parent = 0);
     ~ProtocolGeneratorDialog();
 
+private slots:
+    void addParam();
+
 private:
     void fillComboBoxParams();
 

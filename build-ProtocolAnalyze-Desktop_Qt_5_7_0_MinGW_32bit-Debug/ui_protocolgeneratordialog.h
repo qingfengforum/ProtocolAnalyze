@@ -17,9 +17,12 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -38,14 +41,18 @@ public:
     QComboBox *cBBox_len_meaning;
     QLabel *label_3;
     QLineEdit *lineEdit;
-    QLabel *label_4;
-    QLineEdit *lineEdit_2;
-    QLabel *label_5;
-    QLineEdit *lineEdit_3;
     QLabel *label_6;
     QLineEdit *lineEdit_4;
     QLineEdit *lineEdit_5;
     QLabel *label_7;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label_9;
+    QLineEdit *lineEdit_2;
+    QSpacerItem *horizontalSpacer;
+    QLabel *label_4;
+    QLineEdit *lineEdit_6;
+    QPushButton *pB_add_param;
 
     void setupUi(QDialog *ProtocolGeneratorDialog)
     {
@@ -59,7 +66,7 @@ public:
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         gridLayoutWidget = new QWidget(ProtocolGeneratorDialog);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 10, 511, 84));
+        gridLayoutWidget->setGeometry(QRect(10, 10, 511, 51));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
@@ -95,34 +102,55 @@ public:
 
         label_3 = new QLabel(ProtocolGeneratorDialog);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(10, 100, 54, 12));
+        label_3->setGeometry(QRect(10, 120, 54, 12));
         lineEdit = new QLineEdit(ProtocolGeneratorDialog);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(10, 120, 51, 16));
-        label_4 = new QLabel(ProtocolGeneratorDialog);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(80, 100, 54, 12));
-        lineEdit_2 = new QLineEdit(ProtocolGeneratorDialog);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(80, 120, 51, 16));
-        label_5 = new QLabel(ProtocolGeneratorDialog);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(150, 100, 54, 12));
-        lineEdit_3 = new QLineEdit(ProtocolGeneratorDialog);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-        lineEdit_3->setGeometry(QRect(150, 120, 51, 16));
+        lineEdit->setGeometry(QRect(10, 140, 51, 16));
         label_6 = new QLabel(ProtocolGeneratorDialog);
         label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(240, 100, 54, 12));
+        label_6->setGeometry(QRect(80, 120, 54, 12));
         lineEdit_4 = new QLineEdit(ProtocolGeneratorDialog);
         lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
-        lineEdit_4->setGeometry(QRect(240, 120, 51, 16));
+        lineEdit_4->setGeometry(QRect(80, 140, 51, 16));
         lineEdit_5 = new QLineEdit(ProtocolGeneratorDialog);
         lineEdit_5->setObjectName(QStringLiteral("lineEdit_5"));
-        lineEdit_5->setGeometry(QRect(310, 120, 51, 16));
+        lineEdit_5->setGeometry(QRect(80, 160, 51, 16));
         label_7 = new QLabel(ProtocolGeneratorDialog);
         label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(310, 100, 54, 12));
+        label_7->setGeometry(QRect(140, 120, 54, 12));
+        horizontalLayoutWidget = new QWidget(ProtocolGeneratorDialog);
+        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(10, 70, 311, 41));
+        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        label_9 = new QLabel(horizontalLayoutWidget);
+        label_9->setObjectName(QStringLiteral("label_9"));
+
+        horizontalLayout->addWidget(label_9);
+
+        lineEdit_2 = new QLineEdit(horizontalLayoutWidget);
+        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+
+        horizontalLayout->addWidget(lineEdit_2);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        label_4 = new QLabel(horizontalLayoutWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        horizontalLayout->addWidget(label_4);
+
+        lineEdit_6 = new QLineEdit(horizontalLayoutWidget);
+        lineEdit_6->setObjectName(QStringLiteral("lineEdit_6"));
+
+        horizontalLayout->addWidget(lineEdit_6);
+
+        pB_add_param = new QPushButton(ProtocolGeneratorDialog);
+        pB_add_param->setObjectName(QStringLiteral("pB_add_param"));
+        pB_add_param->setGeometry(QRect(420, 130, 75, 23));
 
         retranslateUi(ProtocolGeneratorDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), ProtocolGeneratorDialog, SLOT(accept()));
@@ -138,10 +166,11 @@ public:
         label_2->setText(QApplication::translate("ProtocolGeneratorDialog", "check_method", 0));
         label->setText(QApplication::translate("ProtocolGeneratorDialog", "head", 0));
         label_3->setText(QApplication::translate("ProtocolGeneratorDialog", "cmd", 0));
-        label_4->setText(QApplication::translate("ProtocolGeneratorDialog", "param_len", 0));
-        label_5->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
         label_6->setText(QApplication::translate("ProtocolGeneratorDialog", "param 1", 0));
         label_7->setText(QApplication::translate("ProtocolGeneratorDialog", "param 2", 0));
+        label_9->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
+        label_4->setText(QApplication::translate("ProtocolGeneratorDialog", "param_len", 0));
+        pB_add_param->setText(QApplication::translate("ProtocolGeneratorDialog", "addparam", 0));
     } // retranslateUi
 
 };
