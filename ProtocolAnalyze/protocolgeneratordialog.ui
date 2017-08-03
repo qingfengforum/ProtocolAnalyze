@@ -71,7 +71,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QTreeWidget" name="treeWidget">
+  <widget class="QTreeWidget" name="treeW_CmdList">
    <property name="geometry">
     <rect>
      <x>10</x>

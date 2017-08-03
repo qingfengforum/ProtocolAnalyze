@@ -17,12 +17,12 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -39,29 +39,24 @@ public:
     QComboBox *cBBox_head;
     QLabel *label;
     QComboBox *cBBox_len_meaning;
-    QLabel *label_3;
-    QLineEdit *lineEdit;
-    QLabel *label_6;
-    QLineEdit *lineEdit_4;
-    QLineEdit *lineEdit_5;
-    QLabel *label_7;
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label_9;
-    QLineEdit *lineEdit_2;
-    QSpacerItem *horizontalSpacer;
-    QLabel *label_4;
-    QLineEdit *lineEdit_6;
-    QPushButton *pB_add_param;
+    QTreeWidget *treeW_CmdList;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
+    QPushButton *pushBtn_addRoot;
+    QPushButton *pushBtn_addNode;
+    QPushButton *pushBtn_deleteItem;
+    QSpacerItem *verticalSpacer;
+    QPushButton *pushBtn_saveSettings;
+    QPushButton *pushBtn_loadSettings;
 
     void setupUi(QDialog *ProtocolGeneratorDialog)
     {
         if (ProtocolGeneratorDialog->objectName().isEmpty())
             ProtocolGeneratorDialog->setObjectName(QStringLiteral("ProtocolGeneratorDialog"));
-        ProtocolGeneratorDialog->resize(523, 357);
+        ProtocolGeneratorDialog->resize(650, 485);
         buttonBox = new QDialogButtonBox(ProtocolGeneratorDialog);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(150, 310, 341, 32));
+        buttonBox->setGeometry(QRect(230, 450, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         gridLayoutWidget = new QWidget(ProtocolGeneratorDialog);
@@ -100,57 +95,47 @@ public:
 
         gridLayout->addWidget(cBBox_len_meaning, 1, 2, 1, 1);
 
-        label_3 = new QLabel(ProtocolGeneratorDialog);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(10, 120, 54, 12));
-        lineEdit = new QLineEdit(ProtocolGeneratorDialog);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(10, 140, 51, 16));
-        label_6 = new QLabel(ProtocolGeneratorDialog);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(80, 120, 54, 12));
-        lineEdit_4 = new QLineEdit(ProtocolGeneratorDialog);
-        lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
-        lineEdit_4->setGeometry(QRect(80, 140, 51, 16));
-        lineEdit_5 = new QLineEdit(ProtocolGeneratorDialog);
-        lineEdit_5->setObjectName(QStringLiteral("lineEdit_5"));
-        lineEdit_5->setGeometry(QRect(80, 160, 51, 16));
-        label_7 = new QLabel(ProtocolGeneratorDialog);
-        label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(140, 120, 54, 12));
-        horizontalLayoutWidget = new QWidget(ProtocolGeneratorDialog);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 70, 311, 41));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        label_9 = new QLabel(horizontalLayoutWidget);
-        label_9->setObjectName(QStringLiteral("label_9"));
+        treeW_CmdList = new QTreeWidget(ProtocolGeneratorDialog);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        treeW_CmdList->setHeaderItem(__qtreewidgetitem);
+        treeW_CmdList->setObjectName(QStringLiteral("treeW_CmdList"));
+        treeW_CmdList->setGeometry(QRect(10, 90, 511, 351));
+        verticalLayoutWidget = new QWidget(ProtocolGeneratorDialog);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(540, 140, 81, 191));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        pushBtn_addRoot = new QPushButton(verticalLayoutWidget);
+        pushBtn_addRoot->setObjectName(QStringLiteral("pushBtn_addRoot"));
 
-        horizontalLayout->addWidget(label_9);
+        verticalLayout->addWidget(pushBtn_addRoot);
 
-        lineEdit_2 = new QLineEdit(horizontalLayoutWidget);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        pushBtn_addNode = new QPushButton(verticalLayoutWidget);
+        pushBtn_addNode->setObjectName(QStringLiteral("pushBtn_addNode"));
 
-        horizontalLayout->addWidget(lineEdit_2);
+        verticalLayout->addWidget(pushBtn_addNode);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        pushBtn_deleteItem = new QPushButton(verticalLayoutWidget);
+        pushBtn_deleteItem->setObjectName(QStringLiteral("pushBtn_deleteItem"));
 
-        horizontalLayout->addItem(horizontalSpacer);
+        verticalLayout->addWidget(pushBtn_deleteItem);
 
-        label_4 = new QLabel(horizontalLayoutWidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        horizontalLayout->addWidget(label_4);
+        verticalLayout->addItem(verticalSpacer);
 
-        lineEdit_6 = new QLineEdit(horizontalLayoutWidget);
-        lineEdit_6->setObjectName(QStringLiteral("lineEdit_6"));
+        pushBtn_saveSettings = new QPushButton(verticalLayoutWidget);
+        pushBtn_saveSettings->setObjectName(QStringLiteral("pushBtn_saveSettings"));
 
-        horizontalLayout->addWidget(lineEdit_6);
+        verticalLayout->addWidget(pushBtn_saveSettings);
 
-        pB_add_param = new QPushButton(ProtocolGeneratorDialog);
-        pB_add_param->setObjectName(QStringLiteral("pB_add_param"));
-        pB_add_param->setGeometry(QRect(420, 130, 75, 23));
+        pushBtn_loadSettings = new QPushButton(verticalLayoutWidget);
+        pushBtn_loadSettings->setObjectName(QStringLiteral("pushBtn_loadSettings"));
+
+        verticalLayout->addWidget(pushBtn_loadSettings);
+
 
         retranslateUi(ProtocolGeneratorDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), ProtocolGeneratorDialog, SLOT(accept()));
@@ -165,12 +150,11 @@ public:
         label_8->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
         label_2->setText(QApplication::translate("ProtocolGeneratorDialog", "check_method", 0));
         label->setText(QApplication::translate("ProtocolGeneratorDialog", "head", 0));
-        label_3->setText(QApplication::translate("ProtocolGeneratorDialog", "cmd", 0));
-        label_6->setText(QApplication::translate("ProtocolGeneratorDialog", "param 1", 0));
-        label_7->setText(QApplication::translate("ProtocolGeneratorDialog", "param 2", 0));
-        label_9->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
-        label_4->setText(QApplication::translate("ProtocolGeneratorDialog", "param_len", 0));
-        pB_add_param->setText(QApplication::translate("ProtocolGeneratorDialog", "addparam", 0));
+        pushBtn_addRoot->setText(QApplication::translate("ProtocolGeneratorDialog", "add root", 0));
+        pushBtn_addNode->setText(QApplication::translate("ProtocolGeneratorDialog", "add node", 0));
+        pushBtn_deleteItem->setText(QApplication::translate("ProtocolGeneratorDialog", "delete", 0));
+        pushBtn_saveSettings->setText(QApplication::translate("ProtocolGeneratorDialog", "save", 0));
+        pushBtn_loadSettings->setText(QApplication::translate("ProtocolGeneratorDialog", "load", 0));
     } // retranslateUi
 
 };

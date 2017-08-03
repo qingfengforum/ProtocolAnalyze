@@ -2,6 +2,8 @@
 #define PROTOCOLGENERATORDIALOG_H
 
 #include <QDialog>
+#include <QTreeWidgetItem>
+#include <QSettings>
 
 namespace Ui {
 class ProtocolGeneratorDialog;
@@ -17,9 +19,23 @@ public:
 
 private slots:
     void addParam();
+    void on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum);
+
+    void on_pushBtn_addRoot_clicked();
+
+    void on_pushBtn_addNode_clicked();
+
+    void on_pushBtn_deleteItem_clicked();
+
+    void on_pushBtn_saveSettings_clicked();
+
+    void on_pushBtn_loadSettings_clicked();
 
 private:
     void fillComboBoxParams();
+    void initTreeWidget();
+    void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
+    void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
 
     Ui::ProtocolGeneratorDialog *ui;
 };
