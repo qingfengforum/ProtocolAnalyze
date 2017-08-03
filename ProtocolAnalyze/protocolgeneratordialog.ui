@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>357</height>
+    <width>650</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>310</y>
+     <x>230</x>
+     <y>450</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -71,132 +71,83 @@
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QTreeWidget" name="treeWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
-     <width>54</width>
-     <height>12</height>
+     <y>90</y>
+     <width>511</width>
+     <height>351</height>
     </rect>
    </property>
-   <property name="text">
-    <string>cmd</string>
-   </property>
+   <column>
+    <property name="text">
+     <string notr="true">1</string>
+    </property>
+   </column>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>540</x>
      <y>140</y>
-     <width>51</width>
-     <height>16</height>
+     <width>81</width>
+     <height>191</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>120</y>
-     <width>54</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>param 1</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_4">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>140</y>
-     <width>51</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_5">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>160</y>
-     <width>51</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>120</y>
-     <width>54</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>param 2</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>311</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="label_9">
+     <widget class="QPushButton" name="pushBtn_addRoot">
       <property name="text">
-       <string>len</string>
+       <string>add root</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_2"/>
+     <widget class="QPushButton" name="pushBtn_addNode">
+      <property name="text">
+       <string>add node</string>
+      </property>
+     </widget>
     </item>
     <item>
-     <spacer name="horizontalSpacer">
+     <widget class="QPushButton" name="pushBtn_deleteItem">
+      <property name="text">
+       <string>delete</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Expanding</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>40</width>
-        <height>20</height>
+        <width>20</width>
+        <height>40</height>
        </size>
       </property>
      </spacer>
     </item>
     <item>
-     <widget class="QLabel" name="label_4">
+     <widget class="QPushButton" name="pushBtn_saveSettings">
       <property name="text">
-       <string>param_len</string>
+       <string>save</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_6"/>
+     <widget class="QPushButton" name="pushBtn_loadSettings">
+      <property name="text">
+       <string>load</string>
+      </property>
+     </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="pB_add_param">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>130</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>addparam</string>
-   </property>
   </widget>
  </widget>
  <resources/>

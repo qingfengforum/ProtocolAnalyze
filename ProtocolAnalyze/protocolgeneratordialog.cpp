@@ -11,7 +11,6 @@ ProtocolGeneratorDialog::ProtocolGeneratorDialog(QWidget *parent) :
     fillComboBoxParams();
 
     /* connect */
-    connect(ui->pB_add_param, QPushButton::clicked, this, &ProtocolGeneratorDialog::addParam);
 }
 
 ProtocolGeneratorDialog::~ProtocolGeneratorDialog()
