@@ -53,8 +53,8 @@ void ProtocolGeneratorDialog::addParam()
 void ProtocolGeneratorDialog::initTreeWidget()
 {
     /* init params */
-    ui->treeW_CmdList->setColumnCount(2);
-    ui->treeW_CmdList->setHeaderLabels(QStringList()<<"meaning"<<"value");
+    ui->treeW_CmdList->setColumnCount(4);
+    ui->treeW_CmdList->setHeaderLabels(QStringList()<<"meaning"<<"value"<<"byte"<<"bit");
 
     /* connect slots */
     connect(ui->treeW_CmdList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidget_doubleClicked(QTreeWidgetItem *, int)));
@@ -129,6 +129,8 @@ void ProtocolGeneratorDialog::on_pushBtn_saveSettings_clicked()
        } else {
            settings.setValue("item"+QString::number(i) + "_meaning", (*it)->text(0));
            settings.setValue("item"+QString::number(i) + "_value", (*it)->text(1));
+           settings.setValue("item"+QString::number(i) + "_byte", (*it)->text(2));
+           settings.setValue("item"+QString::number(i) + "_bit", (*it)->text(3));
        }
        ++it;
        i++;
@@ -150,6 +152,8 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
     for (int i=0; i<list.size(); i++) {
         QString itemMeaning = settings.value("item"+QString::number(i) + "_meaning").toString();
         QString itemValue = settings.value("item"+QString::number(i) + "_value").toString();
+        QString itemByte = settings.value("item"+QString::number(i) + "_byte").toString();
+        QString itemBit = settings.value("item"+QString::number(i) + "_bit").toString();
 
         if (itemMeaning == NULL) {
             continue;
@@ -158,6 +162,8 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
         QTreeWidgetItem* newItem = new QTreeWidgetItem(ui->treeW_CmdList);
         newItem->setText(0, itemMeaning);
         newItem->setText(1, itemValue);
+        newItem->setText(2, itemByte);
+        newItem->setText(3, itemBit);
 
         if (settings.value("item"+QString::number(i)+".0" + "_meaning", "").toString() != NULL) {
             loadChildSettings(settings, list.size()-i-1, ("item"+QString::number(i)), newItem);
@@ -171,6 +177,55 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
     qDebug()<< "load settings";
 }
 
+void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
+{
+    int topCount = ui->treeW_CmdList->topLevelItemCount();
+    QVector<int> params(8);
+    for (int i=0; i<topCount; i++) {
+        QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
+        QString totalCmd = "";
+        QString head = "AB BA ";
+        QString cmd = topItem->text(1) + " ";
+        QString totalLen = QString::number((topItem->text(2).toInt(NULL, 16) + 7), 16) + " ";
+        QString paramLen = topItem->text(2) + " ";
+        QString crc = "crc_h crc_l";
+
+        /* get params */
+        QTreeWidgetItem* childItem = topItem->child(0);
+        int paramPos = childItem->text(2).toInt(NULL, 16);
+
+        QString bitStr = childItem->text(3);
+        QString endBitStr = "";
+        QString startBitStr = "";
+        for(int i=0; i<bitStr.length(); i++) {
+            if (bitStr[i] == '-') {
+                for(int j=i+1; j<bitStr.length(); j++) {
+                    startBitStr = startBitStr + bitStr[j];
+                }
+                break;
+            } else {
+                endBitStr = endBitStr + bitStr[i];
+            }
+        }
+        int bitCount = endBitStr.toInt() - startBitStr.toInt();
+        qDebug() << "endbit :" << endBitStr;
+        qDebug() << "startBit :" << startBitStr;
+        qDebug() << "bitCount :" << bitCount;
+
+        QTreeWidgetItem* child2_Item = childItem->child(0);
+        int param_int = child2_Item->text(1).toInt(NULL, 16);
+        params[paramPos-1] = param_int << startBitStr.toInt();
+        QString param ="";
+        for (int i=0; i<params.count(); i++) {
+            param += QString::number(params[i],16);
+            param += " ";
+        }
+
+        totalCmd = head + cmd + totalLen + paramLen + param + crc;
+        qDebug() << "totalCmd : " << totalCmd;
+    }
+}
+
 /* funcs */
 void ProtocolGeneratorDialog::saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head)
 {
@@ -178,6 +233,9 @@ void ProtocolGeneratorDialog::saveChildSettings(QSettings &settings, QTreeWidget
     /* save parent */
     settings.setValue(head + "_meaning", (*it)->text(0));
     settings.setValue(head + "_value", (*it)->text(1));
+    settings.setValue(head + "_byte", (*it)->text(2));
+    settings.setValue(head + "_bit", (*it)->text(3));
+
     for (int j=0; j<count; j++) {
         ++it;
         if ((*it)->childCount() != 0) {
@@ -185,6 +243,8 @@ void ProtocolGeneratorDialog::saveChildSettings(QSettings &settings, QTreeWidget
         } else {
             settings.setValue(head + "." + QString::number(j) + "_meaning", (*it)->text(0));
             settings.setValue(head + "." + QString::number(j)+"_value", (*it)->text(1));
+            settings.setValue(head + "." + QString::number(j)+"_byte", (*it)->text(2));
+            settings.setValue(head + "." + QString::number(j)+"_bit", (*it)->text(3));
         }
     }
     return;
@@ -195,6 +255,8 @@ void ProtocolGeneratorDialog::loadChildSettings(QSettings &settings, int size, Q
     for (int i=0; i<size; i++) {
         QString itemMeaning = settings.value(head + "." + QString::number(i) + "_meaning").toString();
         QString itemValue = settings.value(head + "." + QString::number(i) + "_value").toString();
+        QString itemByte = settings.value(head + "." + QString::number(i) + "_byte").toString();
+        QString itemBit = settings.value(head + "." + QString::number(i) + "_bit").toString();
 
         if (itemMeaning == NULL) {
             continue;
@@ -203,9 +265,13 @@ void ProtocolGeneratorDialog::loadChildSettings(QSettings &settings, int size, Q
         QTreeWidgetItem* newItem = new QTreeWidgetItem(item);
         newItem->setText(0, itemMeaning);
         newItem->setText(1, itemValue);
+        newItem->setText(2, itemByte);
+        newItem->setText(3, itemBit);
 
         if (settings.value(head + "." + QString::number(i) +".0" + "_meaning", "").toString() != NULL) {
             loadChildSettings(settings, size-i-1, (head + "." + QString::number(i)), newItem);
         }
     }
 }
+
+

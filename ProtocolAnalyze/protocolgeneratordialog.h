@@ -31,6 +31,8 @@ private slots:
 
     void on_pushBtn_loadSettings_clicked();
 
+    void on_pushBtn_generate_clicked();
+
 private:
     void fillComboBoxParams();
     void initTreeWidget();

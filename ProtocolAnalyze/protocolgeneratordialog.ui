@@ -90,7 +90,7 @@
    <property name="geometry">
     <rect>
      <x>540</x>
-     <y>140</y>
+     <y>90</y>
      <width>81</width>
      <height>191</height>
     </rect>
@@ -149,6 +149,25 @@
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="pushBtn_generate">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>420</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>generate</string>
+   </property>
+  </widget>
+  <zorder>buttonBox</zorder>
+  <zorder>gridLayoutWidget</zorder>
+  <zorder>treeW_CmdList</zorder>
+  <zorder>verticalLayoutWidget</zorder>
+  <zorder>pushBtn_addRoot</zorder>
+  <zorder>pushBtn_generate</zorder>
  </widget>
  <resources/>
  <connections>
