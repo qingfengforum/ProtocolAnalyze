@@ -38,6 +38,9 @@ public:
     explicit ProtocolAnalyze(QWidget *parent = 0);
     ~ProtocolAnalyze();
 
+public:
+    void generateButtons();
+
 private slots:
     void openSerialPort();
     void closeSerialPort();

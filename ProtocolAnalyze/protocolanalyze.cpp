@@ -13,7 +13,7 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     ui(new Ui::ProtocolAnalyze)
 {
     ui->setupUi(this);
-    protGenDialog = new ProtocolGeneratorDialog;
+    protGenDialog = new ProtocolGeneratorDialog(this);
     serial = new QSerialPort(this);
 
     console = new Console;
@@ -31,11 +31,20 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     /* regist data read and write slot funcs */
     connect(serial, &QSerialPort::readyRead, this, &ProtocolAnalyze::readData);
     connect(console, &Console::getData, this, &ProtocolAnalyze::writeData);
+
+    generateButtons();
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
 {
     delete ui;
+}
+
+void ProtocolAnalyze::generateButtons()
+{
+    QPushButton* pushbtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
+    QPushButton* pushbtn2 = new QPushButton("qingfeng2 btn", ui->tabWdgt_btns);
+
 }
 
 void ProtocolAnalyze::fillPortsParameters()

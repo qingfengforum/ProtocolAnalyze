@@ -223,6 +223,7 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 
         totalCmd = head + cmd + totalLen + paramLen + param + crc;
         qDebug() << "totalCmd : " << totalCmd;
+
     }
 }
 

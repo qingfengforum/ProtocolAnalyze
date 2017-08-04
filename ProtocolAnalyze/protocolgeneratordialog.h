@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTreeWidgetItem>
 #include <QSettings>
+#include <protocolanalyze.h>
 
 namespace Ui {
 class ProtocolGeneratorDialog;
