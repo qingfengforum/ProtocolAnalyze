@@ -182,17 +182,68 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
     ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
     //pMain->generateButtons("录像时长1min");
 
+    QVector<int> cmd_hex(2);
+    cmd_hex[0] = 0xab;
+    cmd_hex[1] = 0xba;
+
+    QRect btnRect(0,30, 100, 30);
+    int btn_dy = 30;
+    int btn_dx = 100;
+
     int topCount = ui->treeW_CmdList->topLevelItemCount();
-    QVector<int> params(8);
+
     for (int i=0; i<topCount; i++) {
         QString btnName = "";
         QVector<int> cmd_hex(2);
+        cmd_hex[0] = 0xab;
+        cmd_hex[1] = 0xba;
+
         QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
-        getFullCmd(topItem, btnName, cmd_hex);
-        QRect btnRect(0,30, 100, 30);
+        int cmd_id = topItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);// cmd_id
+        int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
+        int total_len = param_len + 7;
 
-        pMain->generateButtons(btnName, btnRect, cmd_hex);
+        for (int i=0; i<total_len-2; i++) {
+            cmd_hex.append(0);
+        }
 
+        if (total_len < 7) {
+            qDebug() <<"total_len is too short" << total_len;
+            return;
+        }
+
+        cmd_hex[2] = cmd_id;
+        cmd_hex[3] = total_len;
+        cmd_hex[4] = param_len;
+
+        for (int j=0; j<topItem->childCount(); j++) {
+            QTreeWidgetItem* level1_childItem = topItem->child(j);
+            int paramPosByte = level1_childItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16);
+            QString strBit = level1_childItem->text(ITEM_COLUM_BIT);
+            QStringList strBitList = strBit.split('-', QString::SkipEmptyParts);
+            int startBit = strBitList.at(1).toInt();
+            int endBit = strBitList.at(0).toInt();
+            int bitCount = endBit - startBit;
+            if (j != 0) {
+                btnRect.translate(btn_dx,0);
+            }
+            for (int k=0; k<level1_childItem->childCount(); k++) {
+                QTreeWidgetItem* level2_childItem = level1_childItem->child(k);
+                btnName = level1_childItem->text(ITEM_COLUM_MEANTING) + level2_childItem->text(ITEM_COLUM_MEANTING);
+                int int_param = level2_childItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);
+                int_param = int_param << startBit;
+
+                cmd_hex[paramPosByte+4] = int_param;
+
+                qDebug() << hex << cmd_hex;
+                //getFullCmd(topItem, btnName, cmd_hex);
+                if (k != 0) {
+                    btnRect.translate(0, btn_dy);
+                }
+
+                pMain->generateButtons(btnName, btnRect, cmd_hex);
+            }
+        }
     }
 }
 
@@ -266,6 +317,7 @@ void ProtocolGeneratorDialog::getFullCmd(QTreeWidgetItem* topItem, QString & btn
 
     /* get params */
     QTreeWidgetItem* childItem = topItem->child(0);
+
     int paramPosByte = childItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16);
     QString strBit = childItem->text(ITEM_COLUM_BIT);
     QStringList strBitList = strBit.split('-', QString::SkipEmptyParts);

@@ -1,6 +1,6 @@
 [treeW_CmdList]
 item1_meaning=0x03 key ctrl
-item1_value=0x30
+item1_value=0x03
 item1_byte=8
 item1_bit=
 item1.0_meaning=\x5f55\x5236\x65f6\x957f

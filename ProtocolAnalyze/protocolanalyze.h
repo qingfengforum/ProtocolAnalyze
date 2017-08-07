@@ -68,7 +68,6 @@ private:
 
     ProtocolGeneratorDialog *protGenDialog;
     QMap<QString, QVector<int>> cmdMap;
-    QString name;
 
 };
 
