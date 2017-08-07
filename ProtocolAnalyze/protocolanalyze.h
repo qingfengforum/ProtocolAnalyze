@@ -6,6 +6,7 @@
 
 #include <QMessageBox>
 #include <QLabel>
+#include <QMap>
 
 namespace Ui {
 class ProtocolAnalyze;
@@ -39,7 +40,7 @@ public:
     ~ProtocolAnalyze();
 
 public:
-    void generateButtons(QString btnName, QRect &btnRect);
+    void generateButtons(QString btnName, QRect &btnRect, QVector<int> &cmd_hex);
 
 private slots:
     void openSerialPort();
@@ -66,6 +67,8 @@ private:
     QSerialPort *serial;
 
     ProtocolGeneratorDialog *protGenDialog;
+    QMap<QString, QVector<int>> cmdMap;
+    QString name;
 
 };
 

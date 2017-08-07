@@ -47,7 +47,7 @@ private:
     void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
     void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
 
-    void getFullCmd(QTreeWidgetItem *topItem);
+    void getFullCmd(QTreeWidgetItem *topItem, QString &btnName, QVector<int> &cmd_hex);
 
     Ui::ProtocolGeneratorDialog *ui;
 };

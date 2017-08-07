@@ -41,7 +41,7 @@ ProtocolAnalyze::~ProtocolAnalyze()
     delete ui;
 }
 
-void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect)
+void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<int> & cmd_hex)
 {
     //QRect btnRect(0, 20, 100, 30);
     // btnRect.translate(0, move_dy);
@@ -49,6 +49,9 @@ void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect)
     pushBtn->setText(btnName);
     pushBtn->setGeometry(btnRect);
     pushBtn->show();
+
+    cmdMap[btnName] = cmd_hex;
+    name = btnName;
 
     connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
 
@@ -233,13 +236,9 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
 
  void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
  {
-    QVector<int> cmd(6);
-    cmd[0] = 0xab;
-    cmd[1] = 0xba;
-    cmd[2] = 0x03;
-    cmd[3] = 0x0f;
-    cmd[4] = 0x00;
-    cmd[5] = 0x00;
+    QVector<int> cmd(cmdMap[name]);
+    //cmd = cmdMap[name];
+
     QString cmd_str = "send : ";
     for (int i=0; i<cmd.size(); i++) {
         cmd_str += QString("%1").arg(cmd.at(i), 2, 16, QChar('0'));
