@@ -39,13 +39,14 @@ public:
     ~ProtocolAnalyze();
 
 public:
-    void generateButtons();
+    void generateButtons(QString btnName, QRect &btnRect);
 
 private slots:
     void openSerialPort();
     void closeSerialPort();
 
     void on_pB_refreshPortInfo_clicked();
+    void on_pB_autoGenBtn_clicked();
 
     void readData();
     void writeData(const QByteArray &data);

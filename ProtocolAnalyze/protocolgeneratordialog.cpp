@@ -179,50 +179,16 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
 
 void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 {
+    ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
+    //pMain->generateButtons("录像时长1min");
+
     int topCount = ui->treeW_CmdList->topLevelItemCount();
     QVector<int> params(8);
     for (int i=0; i<topCount; i++) {
         QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
-        QString totalCmd = "";
-        QString head = "AB BA ";
-        QString cmd = topItem->text(1) + " ";
-        QString totalLen = QString::number((topItem->text(2).toInt(NULL, 16) + 7), 16) + " ";
-        QString paramLen = topItem->text(2) + " ";
-        QString crc = "crc_h crc_l";
+        getFullCmd(topItem);
 
-        /* get params */
-        QTreeWidgetItem* childItem = topItem->child(0);
-        int paramPos = childItem->text(2).toInt(NULL, 16);
-
-        QString bitStr = childItem->text(3);
-        QString endBitStr = "";
-        QString startBitStr = "";
-        for(int i=0; i<bitStr.length(); i++) {
-            if (bitStr[i] == '-') {
-                for(int j=i+1; j<bitStr.length(); j++) {
-                    startBitStr = startBitStr + bitStr[j];
-                }
-                break;
-            } else {
-                endBitStr = endBitStr + bitStr[i];
-            }
-        }
-        int bitCount = endBitStr.toInt() - startBitStr.toInt();
-        qDebug() << "endbit :" << endBitStr;
-        qDebug() << "startBit :" << startBitStr;
-        qDebug() << "bitCount :" << bitCount;
-
-        QTreeWidgetItem* child2_Item = childItem->child(0);
-        int param_int = child2_Item->text(1).toInt(NULL, 16);
-        params[paramPos-1] = param_int << startBitStr.toInt();
-        QString param ="";
-        for (int i=0; i<params.count(); i++) {
-            param += QString::number(params[i],16);
-            param += " ";
-        }
-
-        totalCmd = head + cmd + totalLen + paramLen + param + crc;
-        qDebug() << "totalCmd : " << totalCmd;
+        //pMain->generateButtons((childItem->text(0) + child2_Item->text(0)), btnRect);
 
     }
 }
@@ -275,4 +241,64 @@ void ProtocolGeneratorDialog::loadChildSettings(QSettings &settings, int size, Q
     }
 }
 
+void ProtocolGeneratorDialog::getFullCmd(QTreeWidgetItem* topItem)
+{
+    QVector<int> cmd_hex(2);
 
+    cmd_hex[0] = 0xab;
+    cmd_hex[1] = 0xba;
+
+    int cmd_id = topItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);// cmd_id
+    int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
+    int total_len = param_len + 7;
+
+    cmd_hex.append(cmd_id);
+    cmd_hex.append(total_len);
+    cmd_hex.append(param_len);
+
+    qDebug() << cmd_hex;
+#if 0
+    QString totalCmd = "";
+    QString head = "AB BA ";
+    QString totalLen = QString::number((topItem->text(2).toInt(NULL, 16) + 7), 16) + " ";
+    QString paramLen = topItem->text(2) + " ";
+    QString crc = "crc_h crc_l";
+
+    QString cmd = topItem->text(1) + " ";
+
+    /* get params */
+    QTreeWidgetItem* childItem = topItem->child(0);
+    int paramPos = childItem->text(2).toInt(NULL, 16);
+
+    QString bitStr = childItem->text(3);
+    QString endBitStr = "";
+    QString startBitStr = "";
+    for(int i=0; i<bitStr.length(); i++) {
+        if (bitStr[i] == '-') {
+            for(int j=i+1; j<bitStr.length(); j++) {
+                startBitStr = startBitStr + bitStr[j];
+            }
+            break;
+        } else {
+            endBitStr = endBitStr + bitStr[i];
+        }
+    }
+    int bitCount = endBitStr.toInt() - startBitStr.toInt();
+    qDebug() << "endbit :" << endBitStr;
+    qDebug() << "startBit :" << startBitStr;
+    qDebug() << "bitCount :" << bitCount;
+
+    QTreeWidgetItem* child2_Item = childItem->child(0);
+    int param_int = child2_Item->text(1).toInt(NULL, 16);
+    params[paramPos-1] = param_int << startBitStr.toInt();
+    QString param ="";
+    for (int i=0; i<params.count(); i++) {
+        param += QString("%1").arg(params[i],2,16,QChar('0'));
+        param += " ";
+    }
+
+    totalCmd = head + cmd + totalLen + paramLen + param + crc;
+    qDebug() << "totalCmd : " << totalCmd;
+    QRect btnRect(0,30, 100, 30);
+#endif
+}

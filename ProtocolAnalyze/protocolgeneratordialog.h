@@ -13,6 +13,13 @@ class ProtocolGeneratorDialog;
 class ProtocolGeneratorDialog : public QDialog
 {
     Q_OBJECT
+private:
+        enum _TREE_COLUMS_MEANINGS_e_{
+            ITEM_COLUM_MEANTING = 0,
+            ITEM_COLUM_VALUE = 1,
+            ITEM_COLUM_BYTE = 2,
+            ITEM_COLUM_BIT = 3,
+        };
 
 public:
     explicit ProtocolGeneratorDialog(QWidget *parent = 0);
@@ -39,6 +46,8 @@ private:
     void initTreeWidget();
     void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
     void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
+
+    void getFullCmd(QTreeWidgetItem *topItem);
 
     Ui::ProtocolGeneratorDialog *ui;
 };

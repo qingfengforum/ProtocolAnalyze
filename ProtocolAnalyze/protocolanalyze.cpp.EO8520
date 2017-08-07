@@ -41,16 +41,18 @@ ProtocolAnalyze::~ProtocolAnalyze()
     delete ui;
 }
 
-void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect)
+void ProtocolAnalyze::generateButtons(QString btnName, ProtocolAnalyze *parent)
 {
-    //QRect btnRect(0, 20, 100, 30);
-    // btnRect.translate(0, move_dy);
-    QPushButton* pushBtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
-    pushBtn->setText(btnName);
-    pushBtn->setGeometry(btnRect);
-    pushBtn->show();
+    QRect btnRect(0, 20, 100, 30);
+    int move_dy = 30;
+    QPushButton* pushBtn = new QPushButton("qingfeng btn", parent->ui->tabWdgt_btns);
+    QPushButton* pushBtn2 = new QPushButton("qingfeng2 btn", parent->ui->tabWdgt_btns);
 
-    connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+    pushBtn->setGeometry(btnRect);
+    btnRect.translate(0, move_dy);
+    pushBtn2->setGeometry(btnRect);
+    pushBtn2->setText(btnName);
+    qDebug() << "finished generate buttons";
 
 
 }
@@ -226,26 +228,3 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
 {
     status->setText(message);
 }
-
-/***************************************************/
-/************* slots *****************************/
-/***************************************************/
-
- void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
- {
-    QVector<int> cmd(6);
-    cmd[0] = 0xab;
-    cmd[1] = 0xba;
-    cmd[2] = 0x03;
-    cmd[3] = 0x0f;
-    cmd[4] = 0x00;
-    cmd[5] = 0x00;
-    QString cmd_str = "send : ";
-    for (int i=0; i<cmd.size(); i++) {
-        cmd_str += QString("%1").arg(cmd.at(i), 2, 16, QChar('0'));
-        cmd_str += " ";
-    }
-
-    qDebug() << cmd_str;
-    console->putData(cmd_str.toLocal8Bit());
- }

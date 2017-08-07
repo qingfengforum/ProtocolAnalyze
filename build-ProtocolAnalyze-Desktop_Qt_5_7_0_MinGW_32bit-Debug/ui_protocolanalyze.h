@@ -23,6 +23,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -61,6 +62,9 @@ public:
     QPushButton *actionConnect;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *vtL_portOutPutInfo;
+    QTabWidget *tabWdgt_btns;
+    QWidget *tab;
+    QWidget *tab_2;
     QMenuBar *menuBar;
     QMenu *menuTools;
     QToolBar *mainToolBar;
@@ -70,7 +74,7 @@ public:
     {
         if (ProtocolAnalyze->objectName().isEmpty())
             ProtocolAnalyze->setObjectName(QStringLiteral("ProtocolAnalyze"));
-        ProtocolAnalyze->resize(799, 567);
+        ProtocolAnalyze->resize(799, 674);
         actionProtocol_generator = new QAction(ProtocolAnalyze);
         actionProtocol_generator->setObjectName(QStringLiteral("actionProtocol_generator"));
         centralWidget = new QWidget(ProtocolAnalyze);
@@ -212,6 +216,15 @@ public:
         vtL_portOutPutInfo->setContentsMargins(11, 11, 11, 11);
         vtL_portOutPutInfo->setObjectName(QStringLiteral("vtL_portOutPutInfo"));
         vtL_portOutPutInfo->setContentsMargins(0, 0, 0, 0);
+        tabWdgt_btns = new QTabWidget(centralWidget);
+        tabWdgt_btns->setObjectName(QStringLiteral("tabWdgt_btns"));
+        tabWdgt_btns->setGeometry(QRect(0, 430, 791, 181));
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        tabWdgt_btns->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        tabWdgt_btns->addTab(tab_2, QString());
         ProtocolAnalyze->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ProtocolAnalyze);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -248,6 +261,8 @@ public:
         label_6->setText(QApplication::translate("ProtocolAnalyze", "Flow control:", 0));
         actionDisconnect->setText(QApplication::translate("ProtocolAnalyze", "\346\226\255\345\274\200", 0));
         actionConnect->setText(QApplication::translate("ProtocolAnalyze", "\350\277\236\346\216\245", 0));
+        tabWdgt_btns->setTabText(tabWdgt_btns->indexOf(tab), QApplication::translate("ProtocolAnalyze", "Tab 1", 0));
+        tabWdgt_btns->setTabText(tabWdgt_btns->indexOf(tab_2), QApplication::translate("ProtocolAnalyze", "Tab 2", 0));
         menuTools->setTitle(QApplication::translate("ProtocolAnalyze", "tools", 0));
     } // retranslateUi
 

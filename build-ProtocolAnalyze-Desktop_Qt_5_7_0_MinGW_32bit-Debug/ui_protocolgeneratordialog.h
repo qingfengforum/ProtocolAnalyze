@@ -48,6 +48,7 @@ public:
     QSpacerItem *verticalSpacer;
     QPushButton *pushBtn_saveSettings;
     QPushButton *pushBtn_loadSettings;
+    QPushButton *pushBtn_generate;
 
     void setupUi(QDialog *ProtocolGeneratorDialog)
     {
@@ -103,7 +104,7 @@ public:
         treeW_CmdList->setGeometry(QRect(10, 90, 511, 351));
         verticalLayoutWidget = new QWidget(ProtocolGeneratorDialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(540, 140, 81, 191));
+        verticalLayoutWidget->setGeometry(QRect(540, 90, 81, 191));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -136,6 +137,15 @@ public:
 
         verticalLayout->addWidget(pushBtn_loadSettings);
 
+        pushBtn_generate = new QPushButton(ProtocolGeneratorDialog);
+        pushBtn_generate->setObjectName(QStringLiteral("pushBtn_generate"));
+        pushBtn_generate->setGeometry(QRect(540, 420, 75, 23));
+        buttonBox->raise();
+        gridLayoutWidget->raise();
+        treeW_CmdList->raise();
+        verticalLayoutWidget->raise();
+        pushBtn_addRoot->raise();
+        pushBtn_generate->raise();
 
         retranslateUi(ProtocolGeneratorDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), ProtocolGeneratorDialog, SLOT(accept()));
@@ -155,6 +165,7 @@ public:
         pushBtn_deleteItem->setText(QApplication::translate("ProtocolGeneratorDialog", "delete", 0));
         pushBtn_saveSettings->setText(QApplication::translate("ProtocolGeneratorDialog", "save", 0));
         pushBtn_loadSettings->setText(QApplication::translate("ProtocolGeneratorDialog", "load", 0));
+        pushBtn_generate->setText(QApplication::translate("ProtocolGeneratorDialog", "generate", 0));
     } // retranslateUi
 
 };
