@@ -179,8 +179,8 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
 
 void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 {
+    /* get parent pointer to access its public funcs */
     ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
-    //pMain->generateButtons("录像时长1min");
 
     QVector<int> cmd_hex(2);
     cmd_hex[0] = 0xab;
@@ -242,9 +242,14 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
                 cmd_hex[paramPosByte+4] = int_param;
 
                 qDebug() << hex << cmd_hex;
-                //getFullCmd(topItem, btnName, cmd_hex);
                 if (k != 0) {
-                    btnRect.translate(0, btn_dy);
+                    if (k%4 == 0) {
+                        btnRect.moveTop(30);
+                        btnRect.translate(btn_dx,0);
+
+                    } else {
+                        btnRect.translate(0, btn_dy);
+                    }
                 }
 
                 pMain->generateButtons(btnName, btnRect, cmd_hex);

@@ -52,6 +52,8 @@ private slots:
     void readData();
     void writeData(const QByteArray &data);
 
+    void on_pushBtn_save_clicked();
+
 private:
     void fillPortsInfo();
     void initActionsConnections();
