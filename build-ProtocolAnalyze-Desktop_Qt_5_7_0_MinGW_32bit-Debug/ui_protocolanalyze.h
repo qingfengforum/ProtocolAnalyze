@@ -65,6 +65,7 @@ public:
     QTabWidget *tabWdgt_btns;
     QWidget *tab;
     QWidget *tab_2;
+    QPushButton *pushBtn_save;
     QMenuBar *menuBar;
     QMenu *menuTools;
     QToolBar *mainToolBar;
@@ -225,6 +226,9 @@ public:
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
         tabWdgt_btns->addTab(tab_2, QString());
+        pushBtn_save = new QPushButton(centralWidget);
+        pushBtn_save->setObjectName(QStringLiteral("pushBtn_save"));
+        pushBtn_save->setGeometry(QRect(0, 400, 75, 23));
         ProtocolAnalyze->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ProtocolAnalyze);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -263,6 +267,7 @@ public:
         actionConnect->setText(QApplication::translate("ProtocolAnalyze", "\350\277\236\346\216\245", 0));
         tabWdgt_btns->setTabText(tabWdgt_btns->indexOf(tab), QApplication::translate("ProtocolAnalyze", "Tab 1", 0));
         tabWdgt_btns->setTabText(tabWdgt_btns->indexOf(tab_2), QApplication::translate("ProtocolAnalyze", "Tab 2", 0));
+        pushBtn_save->setText(QApplication::translate("ProtocolAnalyze", "save", 0));
         menuTools->setTitle(QApplication::translate("ProtocolAnalyze", "tools", 0));
     } // retranslateUi
 

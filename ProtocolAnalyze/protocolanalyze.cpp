@@ -249,6 +249,7 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
     console->putData(cmd_str.toLocal8Bit());
  }
 
+<<<<<<< HEAD
  /*********
   * tools
   * ******/
@@ -297,4 +298,9 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 #endif
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
     btnSettins.close();
+=======
+void ProtocolAnalyze::on_pushBtn_save_clicked()
+{
+
+>>>>>>> 5e65de86e069371cacbff133209cf16089db9699
 }

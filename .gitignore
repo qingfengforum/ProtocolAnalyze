@@ -4,3 +4,7 @@
 build-ProtocolAnalyze-Desktop_Qt_5_7_0_MinGW_32bit-Debug/debug/console.o
 *.o
 *.Debug
+ProtocolAnalyze/protocolanalyze.cpp
+ProtocolAnalyze/protocolanalyze.h
+ProtocolAnalyze/protocolanalyze.ui
+ProtocolAnalyze/protocolgeneratordialog.cpp
