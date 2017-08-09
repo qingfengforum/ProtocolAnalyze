@@ -56,6 +56,8 @@ private slots:
 
     void on_pushBtn_loadBtnSettings_clicked();
 
+    void on_pushBtn_saveBtnSettings_clicked();
+
 private:
     void fillPortsInfo();
     void initActionsConnections();

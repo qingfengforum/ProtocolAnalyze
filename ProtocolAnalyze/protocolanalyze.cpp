@@ -320,3 +320,22 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
     btnSettins.close();
 }
+
+void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
+{
+    /* open file */
+    QFile btnSettins("./config/buttons_settins_save.txt");
+    QTextStream out(&btnSettins);
+
+    if (!btnSettins.open(QFile::WriteOnly | QFile::Truncate)) {
+        qDebug() << "open file error";
+        return ;
+    }
+
+    QMap<QString, QVector<uchar>>::const_iterator i;
+    for (i=cmdMap.begin(); i!=cmdMap.end(); ++i) {
+        qDebug() << i.key();
+    }
+    out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
+    btnSettins.close();
+}
