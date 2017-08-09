@@ -260,10 +260,6 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
                     if (k%4 == 0) {
                         btnRect.moveTop(30);
                         btnRect.translate(btn_dx,0);
-<<<<<<< HEAD
-=======
-
->>>>>>> 5e65de86e069371cacbff133209cf16089db9699
                     } else {
                         btnRect.translate(0, btn_dy);
                     }

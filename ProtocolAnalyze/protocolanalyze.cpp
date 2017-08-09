@@ -34,7 +34,7 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     connect(serial, &QSerialPort::readyRead, this, &ProtocolAnalyze::readData);
     connect(console, &Console::getData, this, &ProtocolAnalyze::writeData);
 
-    //generateButtons("init");
+    on_pushBtn_loadBtnSettings_clicked();
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
@@ -249,7 +249,6 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
     console->putData(cmd_str.toLocal8Bit());
  }
 
-<<<<<<< HEAD
  /*********
   * tools
   * ******/
@@ -263,6 +262,18 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
 
      return hexStr;
  }
+QVector<uchar> ProtocolAnalyze::stringToHex(QString str_cmdHex)
+{
+    QVector<uchar> cmdHex;
+    QStringList strList = str_cmdHex.split(' ', QString::SkipEmptyParts);
+
+    for (int i=0; i<strList.size(); i++) {
+        cmdHex.append(strList.at(i).toInt(nullptr, 16));
+    }
+
+    return cmdHex;
+}
+
 
 void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 {
@@ -275,32 +286,37 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
         return;
     }
     qDebug() << fileIn.readLine();
-    QString btnName = "";
-    int x = 0;
-    int y = 0;
-    int w = 0;
-    int h = 0;
-    QString str_cmdHex = "";
-    QString line = fileIn.readLine();
-    qDebug() << btnName;
-    qDebug() << str_cmdHex;
-    qDebug() << x << y << w << h;
 
-#if 0
-    QPushButton* pushBtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
-    pushBtn->setText(btnName);
-    pushBtn->setGeometry(btnRect);
-    pushBtn->show();
+    while (!fileIn.atEnd()) {
+        QString btnName = "";
+        int x = 0;
+        int y = 0;
+        int w = 0;
+        int h = 0;
+        QString str_cmdHex = "";
+        QString line = fileIn.readLine();
+        QStringList lineList = line.split(',', QString::SkipEmptyParts);
+        btnName = lineList.at(0);
+        str_cmdHex = lineList.at(1);
+        x = lineList.at(2).toInt();
+        y = lineList.at(3).toInt();
+        w = lineList.at(4).toInt();
+        h = lineList.at(5).toInt();
+        qDebug() << str_cmdHex;
 
-    cmdMap[btnName] = cmd_hex;
+        QRect btnRect(x, y, w, h);
+        QVector<uchar> cmd_hex;
+        QPushButton* pushBtn = new QPushButton(ui->tabWdgt_btns);
+        pushBtn->setText(btnName);
+        pushBtn->setGeometry(btnRect);
+        pushBtn->show();
 
-    connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
-#endif
+        cmd_hex = stringToHex(str_cmdHex);
+        cmdMap[btnName] = cmd_hex;
+
+        connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+    }
+
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
     btnSettins.close();
-=======
-void ProtocolAnalyze::on_pushBtn_save_clicked()
-{
-
->>>>>>> 5e65de86e069371cacbff133209cf16089db9699
 }

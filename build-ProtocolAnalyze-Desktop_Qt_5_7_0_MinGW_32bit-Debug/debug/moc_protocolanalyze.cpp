@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ProtocolAnalyze_t {
     QByteArrayData data[10];
-    char stringdata0[151];
+    char stringdata0[162];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,13 +38,13 @@ QT_MOC_LITERAL(5, 78, 24), // "on_pB_autoGenBtn_clicked"
 QT_MOC_LITERAL(6, 103, 8), // "readData"
 QT_MOC_LITERAL(7, 112, 9), // "writeData"
 QT_MOC_LITERAL(8, 122, 4), // "data"
-QT_MOC_LITERAL(9, 127, 23) // "on_pushBtn_save_clicked"
+QT_MOC_LITERAL(9, 127, 34) // "on_pushBtn_loadBtnSettings_cl..."
 
     },
     "ProtocolAnalyze\0openSerialPort\0\0"
     "closeSerialPort\0on_pB_refreshPortInfo_clicked\0"
     "on_pB_autoGenBtn_clicked\0readData\0"
-    "writeData\0data\0on_pushBtn_save_clicked"
+    "writeData\0data\0on_pushBtn_loadBtnSettings_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -94,7 +94,7 @@ void ProtocolAnalyze::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 3: _t->on_pB_autoGenBtn_clicked(); break;
         case 4: _t->readData(); break;
         case 5: _t->writeData((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
-        case 6: _t->on_pushBtn_save_clicked(); break;
+        case 6: _t->on_pushBtn_loadBtnSettings_clicked(); break;
         default: ;
         }
     }

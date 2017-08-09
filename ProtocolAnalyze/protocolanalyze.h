@@ -42,6 +42,7 @@ public:
 public:
     void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
     QString hexToString(QVector<uchar> &hex);
+    QVector<uchar> stringToHex(QString str_cmdHex);
 
 private slots:
     void openSerialPort();
@@ -53,11 +54,7 @@ private slots:
     void readData();
     void writeData(const QByteArray &data);
 
-<<<<<<< HEAD
     void on_pushBtn_loadBtnSettings_clicked();
-=======
-    void on_pushBtn_save_clicked();
->>>>>>> 5e65de86e069371cacbff133209cf16089db9699
 
 private:
     void fillPortsInfo();
