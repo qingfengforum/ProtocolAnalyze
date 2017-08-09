@@ -18,7 +18,8 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     serial = new QSerialPort(this);
 
     console = new Console;
-    console->setEnabled(false);
+    //console->setEnabled(false);
+    //console->copyAvailable(true);
     ui->vtL_portOutPutInfo->addWidget(console);
 
     status = new QLabel;
@@ -41,7 +42,7 @@ ProtocolAnalyze::~ProtocolAnalyze()
     delete ui;
 }
 
-void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<int> & cmd_hex)
+void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<uchar> &cmd_hex)
 {
     //QRect btnRect(0, 20, 100, 30);
     // btnRect.translate(0, move_dy);
@@ -206,6 +207,9 @@ void ProtocolAnalyze::writeData(const QByteArray &data)
 {
     serial->write(data);
 }
+
+
+
 /***************************************************/
 /************* actions *****************************/
 /***************************************************/
@@ -236,14 +240,61 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
  void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
  {
     QPushButton* ptrBtn = (QPushButton*)sender();
-    QVector<int> cmd(cmdMap[ptrBtn->text()]);
+    QVector<uchar> cmd(cmdMap[ptrBtn->text()]);
 
     QString cmd_str = "send : ";
-    for (int i=0; i<cmd.size(); i++) {
-        cmd_str += QString("%1").arg(cmd.at(i), 2, 16, QChar('0'));
-        cmd_str += " ";
-    }
+    cmd_str += hexToString(cmd);
     cmd_str += "\n";
     qDebug() << cmd_str;
     console->putData(cmd_str.toLocal8Bit());
  }
+
+ /*********
+  * tools
+  * ******/
+ QString ProtocolAnalyze::hexToString(QVector<uchar> &hex)
+ {
+     QString hexStr = "";
+     for (int i=0; i<hex.size(); i++) {
+         hexStr += QString("%1").arg(hex.at(i), 2, 16, QChar('0'));
+         hexStr += " ";
+     }
+
+     return hexStr;
+ }
+
+void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
+{
+    /* open file */
+    QFile btnSettins("./config/buttons_settins.txt");
+    QTextStream fileIn(&btnSettins);
+
+    if (!btnSettins.open(QFile::ReadOnly)) {
+        qDebug() << "open file error";
+        return;
+    }
+    qDebug() << fileIn.readLine();
+    QString btnName = "";
+    int x = 0;
+    int y = 0;
+    int w = 0;
+    int h = 0;
+    QString str_cmdHex = "";
+    QString line = fileIn.readLine();
+    qDebug() << btnName;
+    qDebug() << str_cmdHex;
+    qDebug() << x << y << w << h;
+
+#if 0
+    QPushButton* pushBtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
+    pushBtn->setText(btnName);
+    pushBtn->setGeometry(btnRect);
+    pushBtn->show();
+
+    cmdMap[btnName] = cmd_hex;
+
+    connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+#endif
+    //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
+    btnSettins.close();
+}

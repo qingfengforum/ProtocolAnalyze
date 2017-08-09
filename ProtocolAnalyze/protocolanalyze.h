@@ -40,7 +40,8 @@ public:
     ~ProtocolAnalyze();
 
 public:
-    void generateButtons(QString btnName, QRect &btnRect, QVector<int> &cmd_hex);
+    void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
+    QString hexToString(QVector<uchar> &hex);
 
 private slots:
     void openSerialPort();
@@ -52,12 +53,16 @@ private slots:
     void readData();
     void writeData(const QByteArray &data);
 
+    void on_pushBtn_loadBtnSettings_clicked();
+
 private:
     void fillPortsInfo();
     void initActionsConnections();
     void fillPortsParameters();
     void showStatusMessage(const QString &message);
     void updateSettings();
+
+
 
 private:
     Ui::ProtocolAnalyze *ui;
@@ -67,7 +72,7 @@ private:
     QSerialPort *serial;
 
     ProtocolGeneratorDialog *protGenDialog;
-    QMap<QString, QVector<int>> cmdMap;
+    QMap<QString, QVector<uchar>> cmdMap;
 
 };
 

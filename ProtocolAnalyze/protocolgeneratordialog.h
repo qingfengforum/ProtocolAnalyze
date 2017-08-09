@@ -49,6 +49,9 @@ private:
 
     void getFullCmd(QTreeWidgetItem *topItem, QString &btnName, QVector<int> &cmd_hex);
 
+    /** tools */
+    uint16_t crc16_check(QVector<uchar>& pLcPtr, uint16_t LcLen);
+
     Ui::ProtocolGeneratorDialog *ui;
 };
 

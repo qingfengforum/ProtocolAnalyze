@@ -2,6 +2,7 @@
 #include "ui_protocolgeneratordialog.h"
 
 #include <QDebug>
+#include <QFile>
 
 
 ProtocolGeneratorDialog::ProtocolGeneratorDialog(QWidget *parent) :
@@ -192,9 +193,22 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 
     int topCount = ui->treeW_CmdList->topLevelItemCount();
 
+    /* open file */
+    QFile btnSettins("./config/buttons_settins.txt");
+    QTextStream out(&btnSettins);
+
+    if (btnSettins.open(QFile::WriteOnly | QFile::Truncate)) {
+          //out << "Result: " << qSetFieldWidth(10) << left << 3.14 << 2.7;
+          out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
+     } else {
+        qDebug() << "open file error";
+        return;
+    }
+
+
     for (int i=0; i<topCount; i++) {
         QString btnName = "";
-        QVector<int> cmd_hex(2);
+        QVector<uchar> cmd_hex(2);
 
 
         QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
@@ -244,13 +258,29 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
                 qDebug() << hex << cmd_hex;
                 //getFullCmd(topItem, btnName, cmd_hex);
                 if (k != 0) {
-                    btnRect.translate(0, btn_dy);
+                    if (k%4 == 0) {
+                        btnRect.moveTop(30);
+                        btnRect.translate(btn_dx,0);
+                    } else {
+                        btnRect.translate(0, btn_dy);
+                    }
                 }
 
+                uint16_t crcCheck = crc16_check(cmd_hex, cmd_hex.size()-2);
+                uchar crc_h = (uchar)(crcCheck>>8);
+                uchar crc_l = (uchar)(crcCheck&0xff);
+                cmd_hex[cmd_hex[3]-2] = crc_h;
+                cmd_hex[cmd_hex[3]-1] = crc_l;
+                qDebug() << "before send" << hex << cmd_hex;
+
+                QString str_cmdHex= pMain->hexToString(cmd_hex);
+                out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
                 pMain->generateButtons(btnName, btnRect, cmd_hex);
             }
         }
     }
+
+    btnSettins.close();
 }
 
 /* funcs */
@@ -343,4 +373,39 @@ void ProtocolGeneratorDialog::getFullCmd(QTreeWidgetItem* topItem, QString & btn
     qDebug() << cmd_hex;
     qDebug() << btnName;
 
+}
+/**************************************************************************
+ *  tool s
+ * ************************************************************************/
+
+/******************************************************************
+* 函数名称: CalculateCRC16
+* 功能描述: 循环校验
+* 输入参数: pLcPtr(指针地址)， LcLen(数据长度)
+* 输出参数: CRC 校验结果
+* 返 回 值: lwCRC16， 循环校验
+*********************************************************************/
+uint16_t ProtocolGeneratorDialog::crc16_check(QVector<uchar>& pLcPtr, uint16_t LcLen)
+{
+    uchar i;
+    uint16_t lwCRC16 = 0;
+    for(int j=0; j<LcLen; j++) {
+        for(i=0x80;i!=0;i>>=1)
+        {
+            if(0 != (lwCRC16&0x8000))
+            {
+                lwCRC16 <<= 1;
+                lwCRC16 ^= 0x1021;
+            }
+            else
+            {
+                lwCRC16 <<= 1;
+            }
+            if(0 != (pLcPtr[j]&i))
+            {
+                lwCRC16 ^= 0x1021;
+            }
+        }
+    }
+    return(lwCRC16);
 }
