@@ -8,3 +8,5 @@ ProtocolAnalyze/protocolanalyze.cpp
 ProtocolAnalyze/protocolanalyze.h
 ProtocolAnalyze/protocolanalyze.ui
 ProtocolAnalyze/protocolgeneratordialog.cpp
+*.o
+*.o

@@ -356,3 +356,8 @@ void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
 
     btnSettins.close();
 }
+
+void ProtocolAnalyze::on_pushBtn_clear_clicked()
+{
+    console->clear();
+}

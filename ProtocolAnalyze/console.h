@@ -17,11 +17,12 @@ public:
     void setLocalEchoEnabled(bool set);
 
 protected:
+#if 0
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void contextMenuEvent(QContextMenuEvent *e);
-
+#endif
 private:
     bool localEchoEnabled;
 

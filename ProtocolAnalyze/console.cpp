@@ -28,6 +28,7 @@ void Console::setLocalEchoEnabled(bool set)
     localEchoEnabled = set;
 }
 
+#if 0
 void Console::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
@@ -59,3 +60,4 @@ void Console::contextMenuEvent(QContextMenuEvent *e)
 {
     Q_UNUSED(e)
 }
+#endif
