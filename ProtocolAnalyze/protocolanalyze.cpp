@@ -51,7 +51,11 @@ void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<u
     pushBtn->setGeometry(btnRect);
     pushBtn->show();
 
-    cmdMap[btnName] = cmd_hex;
+    BtnSettings btnSet;
+    btnSet.cmdHex = cmd_hex;
+    btnSet.btnRect = btnRect;
+
+    cmdMap[btnName] = btnSet;
 
     connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
 
@@ -240,7 +244,7 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
  void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
  {
     QPushButton* ptrBtn = (QPushButton*)sender();
-    QVector<uchar> cmd(cmdMap[ptrBtn->text()]);
+    QVector<uchar> cmd(cmdMap[ptrBtn->text()].cmdHex);
 
     QString cmd_str = "send : ";
     cmd_str += hexToString(cmd);
@@ -252,7 +256,7 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
  /*********
   * tools
   * ******/
- QString ProtocolAnalyze::hexToString(QVector<uchar> &hex)
+ QString ProtocolAnalyze::hexToString(const QVector<uchar> hex)
  {
      QString hexStr = "";
      for (int i=0; i<hex.size(); i++) {
@@ -312,7 +316,10 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
         pushBtn->show();
 
         cmd_hex = stringToHex(str_cmdHex);
-        cmdMap[btnName] = cmd_hex;
+        BtnSettings btnSet;
+        btnSet.btnRect = btnRect;
+        btnSet.cmdHex = cmd_hex;
+        cmdMap[btnName] = btnSet;
 
         connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
     }
@@ -324,18 +331,28 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
 {
     /* open file */
-    QFile btnSettins("./config/buttons_settins_save.txt");
+    QFile btnSettins("./config/buttons_settins.txt");
     QTextStream out(&btnSettins);
 
     if (!btnSettins.open(QFile::WriteOnly | QFile::Truncate)) {
         qDebug() << "open file error";
         return ;
     }
-
-    QMap<QString, QVector<uchar>>::const_iterator i;
-    for (i=cmdMap.begin(); i!=cmdMap.end(); ++i) {
-        qDebug() << i.key();
-    }
+    /* head */
     out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
+
+    QMap<QString, BtnSettings>::const_iterator i;
+    for (i=cmdMap.begin(); i!=cmdMap.end(); ++i) {
+        QString btnName = i.key();
+        QRect btnRect = i.value().btnRect;
+        QString str_cmdHex = hexToString(i.value().cmdHex);
+        qDebug() << btnRect << str_cmdHex;
+        out << btnName << "," << str_cmdHex << ","
+            << btnRect.x() << "," << btnRect.y() << ","
+            << btnRect.width() << "," <<btnRect.height()
+            <<endl;
+    }
+
+
     btnSettins.close();
 }

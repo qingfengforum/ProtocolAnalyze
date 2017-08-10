@@ -34,6 +34,10 @@ public:
         QString stringFlowControl;
         bool localEchoEnabled;
     };
+    struct BtnSettings {
+        QVector<uchar> cmdHex;
+        QRect btnRect;
+    };
 
 public:
     explicit ProtocolAnalyze(QWidget *parent = 0);
@@ -41,7 +45,7 @@ public:
 
 public:
     void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
-    QString hexToString(QVector<uchar> &hex);
+    QString hexToString(const QVector<uchar> hex);
     QVector<uchar> stringToHex(QString str_cmdHex);
 
 private slots:
@@ -75,7 +79,7 @@ private:
     QSerialPort *serial;
 
     ProtocolGeneratorDialog *protGenDialog;
-    QMap<QString, QVector<uchar>> cmdMap;
+    QMap<QString, BtnSettings> cmdMap;
 
 };
 
