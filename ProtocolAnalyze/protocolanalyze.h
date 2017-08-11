@@ -65,6 +65,8 @@ private slots:
     void on_pushBtn_clear_clicked();
     void show_rightClickedMenu(const QPoint&);
 
+    void btnRename();
+
 private:
     void fillPortsInfo();
     void initActionsConnections();

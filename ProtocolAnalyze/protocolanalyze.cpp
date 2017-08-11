@@ -370,7 +370,18 @@ void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
 {
     qDebug()<< "right clicked";
     QMenu * menu = new QMenu(ui->pushBtn_clear);
+    QAction * newAction = new QAction(tr("rename"));
+    connect(newAction, SIGNAL(triggered()), this, SLOT(btnRename()));
     menu->addAction(new QAction(tr("edit")));
+    menu->addAction(newAction);
     menu->exec(QCursor::pos());
     delete menu;
+}
+void ProtocolAnalyze::btnRename()
+{
+    QDialog* dialogRename = new QDialog(this);
+    dialogRename->setGeometry(100, 100, 100, 20);
+    QPushButton* btn = new QPushButton(dialogRename);
+    btn->setText("OK");
+    dialogRename->show();
 }
