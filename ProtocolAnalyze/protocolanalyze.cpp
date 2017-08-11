@@ -35,6 +35,10 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     connect(console, &Console::getData, this, &ProtocolAnalyze::writeData);
 
     on_pushBtn_loadBtnSettings_clicked();
+
+    /* righ click menu*/
+    ui->tabWdgt_btns->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->tabWdgt_btns, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_rightClickedMenu(const QPoint&)));
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
@@ -360,4 +364,13 @@ void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
 void ProtocolAnalyze::on_pushBtn_clear_clicked()
 {
     console->clear();
+}
+
+void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
+{
+    qDebug()<< "right clicked";
+    QMenu * menu = new QMenu(ui->pushBtn_clear);
+    menu->addAction(new QAction(tr("edit")));
+    menu->exec(QCursor::pos());
+    delete menu;
 }
