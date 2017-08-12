@@ -5,6 +5,9 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QMessageBox>
 #include <QDebug>
+#include <QLineEdit>
+#include <QGridLayout>
+#include <QHBoxLayout>
 
 QT_USE_NAMESPACE
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
@@ -380,8 +383,19 @@ void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
 void ProtocolAnalyze::btnRename()
 {
     QDialog* dialogRename = new QDialog(this);
-    dialogRename->setGeometry(100, 100, 100, 20);
+    dialogRename->setWindowTitle("Rename");
+    //dialogRename->setGeometry(100, 100, 100, 20);
+    QGridLayout* lay = new QGridLayout(dialogRename);
+
+    lay->setColumnMinimumWidth(0, 200);
+
     QPushButton* btn = new QPushButton(dialogRename);
+    QLineEdit*  lineEdit = new QLineEdit(dialogRename);
+    lay->addWidget(lineEdit, 0, 0);
+    lay->addWidget(btn, 0, 1);
+
+
+
     btn->setText("OK");
     dialogRename->show();
 }
