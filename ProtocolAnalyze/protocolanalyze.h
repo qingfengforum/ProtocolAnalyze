@@ -54,6 +54,7 @@ private slots:
 
     void on_pB_refreshPortInfo_clicked();
     void on_pB_autoGenBtn_clicked();
+    void on_pB_autoGenBtn_pressed();
 
     void readData();
     void writeData(const QByteArray &data);
@@ -64,6 +65,7 @@ private slots:
 
     void on_pushBtn_clear_clicked();
     void show_rightClickedMenu(const QPoint&);
+    void show_rightClickedBtnMenu(const QPoint&);
 
     void btnRename();
 
@@ -74,7 +76,10 @@ private:
     void showStatusMessage(const QString &message);
     void updateSettings();
 
-
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     Ui::ProtocolAnalyze *ui;
@@ -85,6 +90,8 @@ private:
 
     ProtocolGeneratorDialog *protGenDialog;
     QMap<QString, BtnSettings> cmdMap;
+
+    QPushButton* btnPressed;
 
 };
 

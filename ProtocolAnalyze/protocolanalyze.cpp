@@ -8,6 +8,9 @@
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QHBoxLayout>
+#include <QPushButton>
+
+#include "qfpushbuttons.h"
 
 QT_USE_NAMESPACE
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
@@ -42,6 +45,13 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     /* righ click menu*/
     ui->tabWdgt_btns->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->tabWdgt_btns, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_rightClickedMenu(const QPoint&)));
+
+    qfPushButtons* qfBtn = new qfPushButtons(this);
+    qfBtn->setText("btn1");
+    qfBtn->show();
+    qfPushButtons* qfBtn2 = new qfPushButtons(this);
+    qfBtn2->setText("btn2");
+    qfBtn2->show();
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
@@ -248,8 +258,8 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
 /************* slots *****************************/
 /***************************************************/
 
- void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
- {
+void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
+{
     QPushButton* ptrBtn = (QPushButton*)sender();
     QVector<uchar> cmd(cmdMap[ptrBtn->text()].cmdHex);
 
@@ -258,7 +268,16 @@ void ProtocolAnalyze::showStatusMessage(const QString &message)
     cmd_str += "\n";
     qDebug() << cmd_str;
     console->putData(cmd_str.toLocal8Bit());
- }
+}
+
+void ProtocolAnalyze::on_pB_autoGenBtn_pressed()
+{
+   btnPressed = (QPushButton*)sender();
+   qDebug() << "button has been pressed";
+   if (btnPressed == nullptr) {
+       qDebug() << "button pressed no";
+   }
+}
 
  /*********
   * tools
@@ -317,7 +336,7 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 
         QRect btnRect(x, y, w, h);
         QVector<uchar> cmd_hex;
-        QPushButton* pushBtn = new QPushButton(ui->tabWdgt_btns);
+        qfPushButtons* pushBtn = new qfPushButtons(ui->tabWdgt_btns);
         pushBtn->setText(btnName);
         pushBtn->setGeometry(btnRect);
         pushBtn->show();
@@ -328,7 +347,14 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
         btnSet.cmdHex = cmd_hex;
         cmdMap[btnName] = btnSet;
 
+        /* btn clicked */
         connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+        connect(pushBtn, &QPushButton::pressed, this ,&ProtocolAnalyze::on_pB_autoGenBtn_pressed);
+        pushBtn->setContextMenuPolicy(Qt::CustomContextMenu);
+        /* right clicked menu */
+        connect(pushBtn, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_rightClickedBtnMenu(const QPoint&)));
+        /* middle clicked */
+        connect(pushBtn,SIGNAL(), this, SLOT());
     }
 
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
@@ -373,9 +399,8 @@ void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
 {
     qDebug()<< "right clicked";
     QMenu * menu = new QMenu(ui->pushBtn_clear);
-    QAction * newAction = new QAction(tr("rename"));
+    QAction * newAction = new QAction(tr("add button"));
     connect(newAction, SIGNAL(triggered()), this, SLOT(btnRename()));
-    menu->addAction(new QAction(tr("edit")));
     menu->addAction(newAction);
     menu->exec(QCursor::pos());
     delete menu;
@@ -384,7 +409,6 @@ void ProtocolAnalyze::btnRename()
 {
     QDialog* dialogRename = new QDialog(this);
     dialogRename->setWindowTitle("Rename");
-    //dialogRename->setGeometry(100, 100, 100, 20);
     QGridLayout* lay = new QGridLayout(dialogRename);
 
     lay->setColumnMinimumWidth(0, 200);
@@ -394,8 +418,55 @@ void ProtocolAnalyze::btnRename()
     lay->addWidget(lineEdit, 0, 0);
     lay->addWidget(btn, 0, 1);
 
-
-
     btn->setText("OK");
     dialogRename->show();
 }
+
+void ProtocolAnalyze::show_rightClickedBtnMenu(const QPoint&)
+{
+    qDebug()<< "right clicked";
+    QMenu * menu = new QMenu(this);
+#if 0
+    QAction * newAction = new QAction(tr("rename"));
+    connect(newAction, SIGNAL(triggered()), this, SLOT(btnRename()));
+    menu->addAction(newAction);
+#endif
+    menu->addAction("rename",this, SLOT(btnRename()));
+    menu->exec(QCursor::pos());
+    delete menu;
+}
+
+QPoint m_press;
+bool midBtnPress = false;
+void ProtocolAnalyze::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button()==Qt::MidButton) {
+        midBtnPress = true;
+        m_press = event->globalPos();
+        qDebug()<< "mouse press";
+    }
+    event->ignore();
+}
+void ProtocolAnalyze::mouseReleaseEvent(QMouseEvent *event)
+{
+
+    if( event->button() == Qt::MidButton ){
+        midBtnPress = false;
+        btnPressed = nullptr;
+    }
+    event->ignore();
+}
+
+void ProtocolAnalyze::mouseMoveEvent(QMouseEvent *event)
+{
+    qDebug()<< "mouse move";
+    if (midBtnPress && btnPressed != nullptr) {
+        QPoint m_move = event->globalPos();
+        btnPressed->move(btnPressed->pos() + m_move - m_press);
+        m_press = m_move;
+        qDebug()<< "move";
+    }
+    event->ignore();
+}
+
+

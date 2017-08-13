@@ -68,6 +68,7 @@ public:
     QPushButton *pushBtn_saveBtnSettings;
     QPushButton *pushBtn_loadBtnSettings;
     QPushButton *pushBtn_clear;
+    QPushButton *pushBtn_test;
     QMenuBar *menuBar;
     QMenu *menuTools;
     QToolBar *mainToolBar;
@@ -237,6 +238,9 @@ public:
         pushBtn_clear = new QPushButton(centralWidget);
         pushBtn_clear->setObjectName(QStringLiteral("pushBtn_clear"));
         pushBtn_clear->setGeometry(QRect(140, 340, 75, 23));
+        pushBtn_test = new QPushButton(centralWidget);
+        pushBtn_test->setObjectName(QStringLiteral("pushBtn_test"));
+        pushBtn_test->setGeometry(QRect(0, 340, 75, 23));
         ProtocolAnalyze->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ProtocolAnalyze);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -278,6 +282,7 @@ public:
         pushBtn_saveBtnSettings->setText(QApplication::translate("ProtocolAnalyze", "save", 0));
         pushBtn_loadBtnSettings->setText(QApplication::translate("ProtocolAnalyze", "load", 0));
         pushBtn_clear->setText(QApplication::translate("ProtocolAnalyze", "clear", 0));
+        pushBtn_test->setText(QApplication::translate("ProtocolAnalyze", "test", 0));
         menuTools->setTitle(QApplication::translate("ProtocolAnalyze", "tools", 0));
     } // retranslateUi
 

@@ -17,11 +17,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         protocolanalyze.cpp \
     console.cpp \
-    protocolgeneratordialog.cpp
+    protocolgeneratordialog.cpp \
+    qfpushbuttons.cpp
 
 HEADERS  += protocolanalyze.h \
     console.h \
-    protocolgeneratordialog.h
+    protocolgeneratordialog.h \
+    qfpushbuttons.h
 
 FORMS    += protocolanalyze.ui \
     protocolgeneratordialog.ui
