@@ -46,12 +46,6 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     ui->tabWdgt_btns->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->tabWdgt_btns, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_rightClickedMenu(const QPoint&)));
 
-    qfPushButtons* qfBtn = new qfPushButtons(this);
-    qfBtn->setText("btn1");
-    qfBtn->show();
-    qfPushButtons* qfBtn2 = new qfPushButtons(this);
-    qfBtn2->setText("btn2");
-    qfBtn2->show();
 }
 
 ProtocolAnalyze::~ProtocolAnalyze()
