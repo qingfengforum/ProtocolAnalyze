@@ -1,13 +1,13 @@
-#ifndef QFPUSHBUTTONS_H
-#define QFPUSHBUTTONS_H
+#ifndef QFPUSHBUTTON_H
+#define QFPUSHBUTTON_H
 
 #include <QWidget>
 #include <QPushButton>
 
-class qfPushButtons : public QPushButton
+class qfpushbutton : public QPushButton
 {
 public:
-    explicit qfPushButtons(QWidget *parent = 0);
+    explicit qfpushbutton(QWidget *parent = 0);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -21,4 +21,4 @@ private:
     QPoint m_move;
 };
 
-#endif // QFPUSHBUTTONS_H
+#endif // qfpushbutton_H
