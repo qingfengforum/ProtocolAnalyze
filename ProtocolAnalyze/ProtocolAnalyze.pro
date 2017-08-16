@@ -18,12 +18,12 @@ SOURCES += main.cpp\
         protocolanalyze.cpp \
     console.cpp \
     protocolgeneratordialog.cpp \
-    qfpushbuttons.cpp
+    qfpushbutton.cpp
 
 HEADERS  += protocolanalyze.h \
     console.h \
     protocolgeneratordialog.h \
-    qfpushbuttons.h
+    qfpushbutton.h
 
 FORMS    += protocolanalyze.ui \
     protocolgeneratordialog.ui

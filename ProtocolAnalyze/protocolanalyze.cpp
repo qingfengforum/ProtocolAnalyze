@@ -10,7 +10,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
-#include "qfpushbuttons.h"
+#include "qfpushbutton.h"
 
 QT_USE_NAMESPACE
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
@@ -330,7 +330,7 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 
         QRect btnRect(x, y, w, h);
         QVector<uchar> cmd_hex;
-        qfPushButtons* pushBtn = new qfPushButtons(ui->tabWdgt_btns);
+        qfPushButton* pushBtn = new qfPushButton(ui->tabWdgt_btns);
         pushBtn->setText(btnName);
         pushBtn->setGeometry(btnRect);
         pushBtn->show();
@@ -342,13 +342,13 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
         cmdMap[btnName] = btnSet;
 
         /* btn clicked */
-        connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
-        connect(pushBtn, &QPushButton::pressed, this ,&ProtocolAnalyze::on_pB_autoGenBtn_pressed);
+        //connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+        //connect(pushBtn, &QPushButton::pressed, this ,&ProtocolAnalyze::on_pB_autoGenBtn_pressed);
         pushBtn->setContextMenuPolicy(Qt::CustomContextMenu);
         /* right clicked menu */
-        connect(pushBtn, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_rightClickedBtnMenu(const QPoint&)));
+        connect(pushBtn, &ProtocolAnalyze::customContextMenuRequested, pushBtn, &qfPushButton::show_rightClickedMenu);
         /* middle clicked */
-        connect(pushBtn,SIGNAL(), this, SLOT());
+        //connect(pushBtn,SIGNAL(), this, SLOT());
     }
 
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
