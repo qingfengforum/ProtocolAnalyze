@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QLineEdit>
 
 class qfPushButton : public QPushButton
 {
@@ -21,6 +22,7 @@ public slots:
 
 private slots:
     void dialogBtnRename();
+    void on_btnRename_okBtn_pushed();
 
 private:
     bool midBtnPressed;
@@ -28,6 +30,10 @@ private:
     QPoint m_move;
 
     QVector<uchar> cmd_hex;
+
+    QLineEdit* LineEdt_btnRename;
+
+
 };
 
 #endif // qfpushbutton_H

@@ -47,26 +47,28 @@ SOURCES       = ..\ProtocolAnalyze\main.cpp \
 		..\ProtocolAnalyze\protocolanalyze.cpp \
 		..\ProtocolAnalyze\console.cpp \
 		..\ProtocolAnalyze\protocolgeneratordialog.cpp \
-		..\ProtocolAnalyze\qfpushbuttons.cpp debug\moc_protocolanalyze.cpp \
+		..\ProtocolAnalyze\qfpushbutton.cpp debug\moc_protocolanalyze.cpp \
 		debug\moc_console.cpp \
-		debug\moc_protocolgeneratordialog.cpp
+		debug\moc_protocolgeneratordialog.cpp \
+		debug\moc_qfpushbutton.cpp
 OBJECTS       = debug/main.o \
 		debug/protocolanalyze.o \
 		debug/console.o \
 		debug/protocolgeneratordialog.o \
-		debug/qfpushbuttons.o \
+		debug/qfpushbutton.o \
 		debug/moc_protocolanalyze.o \
 		debug/moc_console.o \
-		debug/moc_protocolgeneratordialog.o
+		debug/moc_protocolgeneratordialog.o \
+		debug/moc_qfpushbutton.o
 
 DIST          =  ..\ProtocolAnalyze\protocolanalyze.h \
 		..\ProtocolAnalyze\console.h \
 		..\ProtocolAnalyze\protocolgeneratordialog.h \
-		..\ProtocolAnalyze\qfpushbuttons.h ..\ProtocolAnalyze\main.cpp \
+		..\ProtocolAnalyze\qfpushbutton.h ..\ProtocolAnalyze\main.cpp \
 		..\ProtocolAnalyze\protocolanalyze.cpp \
 		..\ProtocolAnalyze\console.cpp \
 		..\ProtocolAnalyze\protocolgeneratordialog.cpp \
-		..\ProtocolAnalyze\qfpushbuttons.cpp
+		..\ProtocolAnalyze\qfpushbutton.cpp
 QMAKE_TARGET  = ProtocolAnalyze
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = ProtocolAnalyze.exe
@@ -92,7 +94,7 @@ dist:
 	$(ZIP) ProtocolAnalyze.zip $(SOURCES) $(DIST) ..\ProtocolAnalyze\ProtocolAnalyze.pro D:\install\qt\5.7\mingw53_32\mkspecs\features\spec_pre.prf D:\install\qt\5.7\mingw53_32\mkspecs\qdevice.pri D:\install\qt\5.7\mingw53_32\mkspecs\features\device_config.prf D:\install\qt\5.7\mingw53_32\mkspecs\common\angle.conf D:\install\qt\5.7\mingw53_32\mkspecs\qconfig.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_core.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_core_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designer.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gui.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_help.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_help_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_location.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_location_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_network.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_network_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_platformsupport_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qml.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quick.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_script.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_script_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sql.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_svg.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xml.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri D:\install\qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri D:\install\qt\5.7\mingw53_32\mkspecs\features\qt_functions.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\qt_config.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\win32\qt_config.prf D:\install\qt\5.7\mingw53_32\mkspecs\win32-g++\qmake.conf D:\install\qt\5.7\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash D:\install\qt\5.7\mingw53_32\mkspecs\features\exclusive_builds.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\default_pre.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\win32\default_pre.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\resolve_config.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\exclusive_builds_post.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\default_post.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\build_pass.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\qml_debug.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\win32\rtti.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\precompile_header.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\warn_on.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\qt.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\resources.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\moc.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\win32\opengl.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\uic.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\file_copies.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\win32\windows.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\testcase_targets.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\exceptions.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\yacc.prf D:\install\qt\5.7\mingw53_32\mkspecs\features\lex.prf ..\ProtocolAnalyze\ProtocolAnalyze.pro D:\install\qt\5.7\mingw53_32\lib\qtmaind.prl D:\install\qt\5.7\mingw53_32\lib\Qt5Widgetsd.prl D:\install\qt\5.7\mingw53_32\lib\Qt5Guid.prl D:\install\qt\5.7\mingw53_32\lib\Qt5SerialPortd.prl D:\install\qt\5.7\mingw53_32\lib\Qt5Cored.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\main.o debug\protocolanalyze.o debug\console.o debug\protocolgeneratordialog.o debug\qfpushbuttons.o debug\moc_protocolanalyze.o debug\moc_console.o debug\moc_protocolgeneratordialog.o
+	-$(DEL_FILE) debug\main.o debug\protocolanalyze.o debug\console.o debug\protocolgeneratordialog.o debug\qfpushbutton.o debug\moc_protocolanalyze.o debug\moc_console.o debug\moc_protocolgeneratordialog.o debug\moc_qfpushbutton.o
 	-$(DEL_FILE) debug\ProtocolAnalyze_resource_res.o
 
 distclean: clean 
@@ -112,9 +114,9 @@ compiler_no_pch_compiler_make_all:
 compiler_no_pch_compiler_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: debug/moc_protocolanalyze.cpp debug/moc_console.cpp debug/moc_protocolgeneratordialog.cpp
+compiler_moc_header_make_all: debug/moc_protocolanalyze.cpp debug/moc_console.cpp debug/moc_protocolgeneratordialog.cpp debug/moc_qfpushbutton.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_protocolanalyze.cpp debug\moc_console.cpp debug\moc_protocolgeneratordialog.cpp
+	-$(DEL_FILE) debug\moc_protocolanalyze.cpp debug\moc_console.cpp debug\moc_protocolgeneratordialog.cpp debug\moc_qfpushbutton.cpp
 debug/moc_protocolanalyze.cpp: D:/install/qt/5.7/mingw53_32/include/QtWidgets/QMainWindow \
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qmainwindow.h \
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qwidget.h \
@@ -480,6 +482,111 @@ debug/moc_protocolgeneratordialog.cpp: D:/install/qt/5.7/mingw53_32/include/QtWi
 		D:/install/qt/5.7/mingw53_32/bin/moc.exe
 	D:\install\qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/install/qt/5.7/mingw53_32/mkspecs/win32-g++ -IE:/project/git_hub/ProtocolAnalyze/ProtocolAnalyze -ID:/install/qt/5.7/mingw53_32/include -ID:/install/qt/5.7/mingw53_32/include/QtWidgets -ID:/install/qt/5.7/mingw53_32/include/QtGui -ID:/install/qt/5.7/mingw53_32/include/QtANGLE -ID:/install/qt/5.7/mingw53_32/include/QtSerialPort -ID:/install/qt/5.7/mingw53_32/include/QtCore -I. -ID:/install/qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -ID:/install/qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ..\ProtocolAnalyze\protocolgeneratordialog.h -o debug\moc_protocolgeneratordialog.cpp
 
+debug/moc_qfpushbutton.cpp: D:/install/qt/5.7/mingw53_32/include/QtWidgets/QWidget \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qwidget.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qglobal.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qconfig.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qisenum.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qlogging.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qflags.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qatomic.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qmutex.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qlist.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qiterator.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qpair.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qregexp.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpalette.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qbrush.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qvector.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qregion.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qline.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpainterpath.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixmap.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qshareddata.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qhash.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer_impl.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qfont.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qfontmetrics.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qfontinfo.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qsizepolicy.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qcursor.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qkeysequence.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qevent.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qvariant.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qmap.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qdebug.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qtextstream.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qlocale.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qset.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qcontiguouscache.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qurl.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qurlquery.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qfile.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qfiledevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qvector2d.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtouchdevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QPushButton \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qpushbutton.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qabstractbutton.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qicon.h \
+		../ProtocolAnalyze/qfpushbutton.h \
+		D:/install/qt/5.7/mingw53_32/bin/moc.exe
+	D:\install\qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/install/qt/5.7/mingw53_32/mkspecs/win32-g++ -IE:/project/git_hub/ProtocolAnalyze/ProtocolAnalyze -ID:/install/qt/5.7/mingw53_32/include -ID:/install/qt/5.7/mingw53_32/include/QtWidgets -ID:/install/qt/5.7/mingw53_32/include/QtGui -ID:/install/qt/5.7/mingw53_32/include/QtANGLE -ID:/install/qt/5.7/mingw53_32/include/QtSerialPort -ID:/install/qt/5.7/mingw53_32/include/QtCore -I. -ID:/install/qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -ID:/install/qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -ID:/install/qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ..\ProtocolAnalyze\qfpushbutton.h -o debug\moc_qfpushbutton.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: ui_protocolanalyze.h ui_protocolgeneratordialog.h
@@ -817,7 +924,7 @@ debug/protocolanalyze.o: ../ProtocolAnalyze/protocolanalyze.cpp ../ProtocolAnaly
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QLineEdit \
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qlineedit.h \
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QGridLayout \
-		../ProtocolAnalyze/qfpushbuttons.h
+		../ProtocolAnalyze/qfpushbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\protocolanalyze.o ..\ProtocolAnalyze\protocolanalyze.cpp
 
 debug/console.o: ../ProtocolAnalyze/console.cpp ../ProtocolAnalyze/console.h \
@@ -1107,11 +1214,10 @@ debug/protocolgeneratordialog.o: ../ProtocolAnalyze/protocolgeneratordialog.cpp 
 		D:/install/qt/5.7/mingw53_32/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\protocolgeneratordialog.o ..\ProtocolAnalyze\protocolgeneratordialog.cpp
 
-debug/qfpushbuttons.o: ../ProtocolAnalyze/qfpushbuttons.cpp ../ProtocolAnalyze/qfpushbuttons.h \
-		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QPushButton \
-		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qpushbutton.h \
-		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qabstractbutton.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qicon.h \
+debug/qfpushbutton.o: ../ProtocolAnalyze/qfpushbutton.cpp ../ProtocolAnalyze/qfpushbutton.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QWidget \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qwidget.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qglobal.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qconfig.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
@@ -1134,66 +1240,64 @@ debug/qfpushbuttons.o: ../ProtocolAnalyze/qfpushbuttons.cpp ../ProtocolAnalyze/q
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qmutex.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qlist.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qiterator.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qchar.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qpair.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qstring.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qregexp.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixmap.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qrect.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qmargins.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qpoint.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qcolor.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgb.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qshareddata.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qhash.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer_impl.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qobject.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qimage.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpalette.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qbrush.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qvector.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
-		D:/install/qt/5.7/mingw53_32/include/QtCore/qvector.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qregion.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qline.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtransform.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qpainterpath.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qkeysequence.h \
-		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qwidget.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qpalette.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qbrush.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpixmap.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qshareddata.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qhash.h \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/qsharedpointer_impl.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qfont.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qfontmetrics.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qfontinfo.h \
 		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qsizepolicy.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qcursor.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qkeysequence.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qevent.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qvariant.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qmap.h \
@@ -1207,8 +1311,32 @@ debug/qfpushbuttons.o: ../ProtocolAnalyze/qfpushbuttons.cpp ../ProtocolAnalyze/q
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qfile.h \
 		D:/install/qt/5.7/mingw53_32/include/QtCore/qfiledevice.h \
 		D:/install/qt/5.7/mingw53_32/include/QtGui/qvector2d.h \
-		D:/install/qt/5.7/mingw53_32/include/QtGui/qtouchdevice.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\qfpushbuttons.o ..\ProtocolAnalyze\qfpushbuttons.cpp
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtouchdevice.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QPushButton \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qpushbutton.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qabstractbutton.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qicon.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/QMouseEvent \
+		D:/install/qt/5.7/mingw53_32/include/QtCore/QDebug \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QMenu \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qmenu.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qaction.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qactiongroup.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QDialog \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qdialog.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QGridLayout \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qgridlayout.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qlayout.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qlayoutitem.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qboxlayout.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/QLineEdit \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qlineedit.h \
+		D:/install/qt/5.7/mingw53_32/include/QtWidgets/qframe.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtextcursor.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtextformat.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qpen.h \
+		D:/install/qt/5.7/mingw53_32/include/QtGui/qtextoption.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\qfpushbutton.o ..\ProtocolAnalyze\qfpushbutton.cpp
 
 debug/moc_protocolanalyze.o: debug/moc_protocolanalyze.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_protocolanalyze.o debug\moc_protocolanalyze.cpp
@@ -1218,6 +1346,9 @@ debug/moc_console.o: debug/moc_console.cpp
 
 debug/moc_protocolgeneratordialog.o: debug/moc_protocolgeneratordialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_protocolgeneratordialog.o debug\moc_protocolgeneratordialog.cpp
+
+debug/moc_qfpushbutton.o: debug/moc_qfpushbutton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_qfpushbutton.o debug\moc_qfpushbutton.cpp
 
 ####### Install
 

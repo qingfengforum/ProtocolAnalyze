@@ -47,20 +47,39 @@ void qfPushButton::mouseReleaseEvent(QMouseEvent *event)
 void qfPushButton::dialogBtnRename()
 {
     QDialog* dialogRename = new QDialog();
-    dialogRename->setWindowTitle("Rename");
-    QGridLayout* lay = new QGridLayout(dialogRename);
 
+    /* set title */
+    dialogRename->setWindowTitle("Rename");
+
+    /* lay out */
+    QGridLayout* lay = new QGridLayout(dialogRename);
     lay->setColumnMinimumWidth(0, 200);
 
-    QPushButton* btn = new QPushButton(dialogRename);
+    /* add items */
     QLineEdit*  lineEdit = new QLineEdit(dialogRename);
+    LineEdt_btnRename = lineEdit;
+    QPushButton* btn = new QPushButton(dialogRename);
+
     lay->addWidget(lineEdit, 0, 0);
     lay->addWidget(btn, 0, 1);
 
     btn->setText("OK");
+    connect(btn, SIGNAL(clicked()), this, SLOT(on_btnRename_okBtn_pushed()));
+
+    /* show dialog*/
     dialogRename->show();
     qDebug() << "qf button dialog";
 }
+
+void qfPushButton::on_btnRename_okBtn_pushed()
+{
+
+    if (LineEdt_btnRename != nullptr) {
+        this->setText(LineEdt_btnRename->text());
+        qDebug() << "qf rename";
+    }
+}
+
 /************************************************
  * public slot
  ************************************************/
