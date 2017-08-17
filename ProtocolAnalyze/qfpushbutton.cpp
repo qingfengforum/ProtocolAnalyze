@@ -43,10 +43,29 @@ void qfPushButton::mouseReleaseEvent(QMouseEvent *event)
 
 void qfPushButton::wheelEvent(QWheelEvent * event)
 {
-    this->resize(20, 30);
+    if (ctlKeyPressed) {
+        QPoint numStep = event->angleDelta() / 8 /15;
+        QSize size = this->size();
+        size.setWidth(size.width() + numStep.ry()*3);
+        this->resize(size);
+    }
     qDebug() << "qingfeng qwheel event";
 }
 
+void qfPushButton::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control) {
+        ctlKeyPressed = true;
+    }
+    qDebug() << "key pressed";
+}
+
+void qfPushButton::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control) {
+        ctlKeyPressed = false;
+    }
+}
 /***********************************************
  * private slots
  * *********************************************/
