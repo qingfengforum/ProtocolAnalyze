@@ -41,6 +41,12 @@ void qfPushButton::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+void qfPushButton::wheelEvent(QWheelEvent * event)
+{
+    this->resize(20, 30);
+    qDebug() << "qingfeng qwheel event";
+}
+
 /***********************************************
  * private slots
  * *********************************************/
@@ -80,6 +86,11 @@ void qfPushButton::on_btnRename_okBtn_pushed()
     }
 }
 
+void qfPushButton::on_btnResize_action_triggered()
+{
+    qDebug() << "qf resize";
+}
+
 /************************************************
  * public slot
  ************************************************/
@@ -90,7 +101,7 @@ void qfPushButton::show_rightClickedMenu(const QPoint& point)
 {
     QMenu* q_menu = new QMenu(this);
     q_menu->addAction("rename", this, SLOT(dialogBtnRename()));
-    q_menu->addAction(new QAction(tr("resize")));
+    q_menu->addAction("resize", this, SLOT(on_btnResize_action_triggered()));
     q_menu->exec(QCursor::pos());
     qDebug() << "qf button right clicked button";
 }

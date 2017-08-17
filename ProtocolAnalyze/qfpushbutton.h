@@ -16,6 +16,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent * event);
 
 public slots:
     void show_rightClickedMenu(const QPoint& point);
@@ -23,6 +24,7 @@ public slots:
 private slots:
     void dialogBtnRename();
     void on_btnRename_okBtn_pushed();
+    void on_btnResize_action_triggered();
 
 private:
     bool midBtnPressed;
