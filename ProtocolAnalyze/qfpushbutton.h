@@ -13,9 +13,12 @@ public:
     explicit qfPushButton(QWidget *parent = 0);
 
 protected:
+    /* use middle mouse button to move button */
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+
+    /* for use ctrl+wheel to resize button */
     void wheelEvent(QWheelEvent * event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
