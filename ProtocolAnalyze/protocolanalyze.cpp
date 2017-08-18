@@ -416,6 +416,7 @@ void ProtocolAnalyze::btnRename()
     dialogRename->show();
 }
 
+#if 0
 void ProtocolAnalyze::show_rightClickedBtnMenu(const QPoint&)
 {
     qDebug()<< "right clicked";
@@ -429,7 +430,7 @@ void ProtocolAnalyze::show_rightClickedBtnMenu(const QPoint&)
     menu->exec(QCursor::pos());
     delete menu;
 }
-
+#endif
 QPoint m_press;
 bool midBtnPress = false;
 void ProtocolAnalyze::mousePressEvent(QMouseEvent *event)

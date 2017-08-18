@@ -29,7 +29,12 @@ public slots:
 private slots:
     void dialogBtnRename();
     void on_btnRename_okBtn_pushed();
-    void on_btnResize_action_triggered();
+
+    void on_btnEditCmd_action_triggered();
+    void on_btnEditCmd_okBtn_pushed();
+
+public:
+    QVector<uchar> stringToHex(QString str_cmdHex);
 
 private:
     bool midBtnPressed;
@@ -39,6 +44,7 @@ private:
     QVector<uchar> cmd_hex;
 
     QLineEdit* LineEdt_btnRename;
+    QLineEdit* LineEdt_btnEditCmd;
 
     bool ctlKeyPressed;
 
