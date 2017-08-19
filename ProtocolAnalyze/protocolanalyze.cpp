@@ -20,12 +20,14 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     ui(new Ui::ProtocolAnalyze)
 {
     ui->setupUi(this);
-    protGenDialog = new ProtocolGeneratorDialog(this);
+
+    /* create serial object */
     serial = new QSerialPort(this);
 
+    /* create new dialog of generate buttons */
+    protGenDialog = new ProtocolGeneratorDialog(this);
+
     console = new Console;
-    //console->setEnabled(false);
-    //console->copyAvailable(true);
     ui->vtL_portOutPutInfo->addWidget(console);
 
     status = new QLabel;
@@ -40,7 +42,7 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
     connect(serial, &QSerialPort::readyRead, this, &ProtocolAnalyze::readData);
     connect(console, &Console::getData, this, &ProtocolAnalyze::writeData);
 
-    on_pushBtn_loadBtnSettings_clicked();
+    //on_pushBtn_loadBtnSettings_clicked();
 
     /* righ click menu*/
     ui->tabWdgt_btns->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -53,114 +55,9 @@ ProtocolAnalyze::~ProtocolAnalyze()
     delete ui;
 }
 
-void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<uchar> &cmd_hex)
-{
-    //QRect btnRect(0, 20, 100, 30);
-    // btnRect.translate(0, move_dy);
-    QPushButton* pushBtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
-    pushBtn->setText(btnName);
-    pushBtn->setGeometry(btnRect);
-    pushBtn->show();
-
-    BtnSettings btnSet;
-    btnSet.cmdHex = cmd_hex;
-    btnSet.btnRect = btnRect;
-
-    cmdMap[btnName] = btnSet;
-
-    connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
-
-
-}
-
-void ProtocolAnalyze::fillPortsParameters()
-{
-    ui->baudRateBox->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);
-    ui->baudRateBox->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
-    ui->baudRateBox->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
-    ui->baudRateBox->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
-    //ui->baudRateBox->addItem(tr("Custom"));
-
-    ui->dataBitsBox->addItem(QStringLiteral("5"), QSerialPort::Data5);
-    ui->dataBitsBox->addItem(QStringLiteral("6"), QSerialPort::Data6);
-    ui->dataBitsBox->addItem(QStringLiteral("7"), QSerialPort::Data7);
-    ui->dataBitsBox->addItem(QStringLiteral("8"), QSerialPort::Data8);
-    ui->dataBitsBox->setCurrentIndex(3);
-
-    ui->parityBox->addItem(tr("None"), QSerialPort::NoParity);
-    ui->parityBox->addItem(tr("Even"), QSerialPort::EvenParity);
-    ui->parityBox->addItem(tr("Odd"), QSerialPort::OddParity);
-    ui->parityBox->addItem(tr("Mark"), QSerialPort::MarkParity);
-    ui->parityBox->addItem(tr("Space"), QSerialPort::SpaceParity);
-
-    ui->stopBitsBox->addItem(QStringLiteral("1"), QSerialPort::OneStop);
-#ifdef Q_OS_WIN
-    ui->stopBitsBox->addItem(tr("1.5"), QSerialPort::OneAndHalfStop);
-#endif
-    ui->stopBitsBox->addItem(QStringLiteral("2"), QSerialPort::TwoStop);
-
-    ui->flowControlBox->addItem(tr("None"), QSerialPort::NoFlowControl);
-    ui->flowControlBox->addItem(tr("RTS/CTS"), QSerialPort::HardwareControl);
-    ui->flowControlBox->addItem(tr("XON/XOFF"), QSerialPort::SoftwareControl);
-}
-
-/*
- * @ brief : auto fill the available port name
- */
-void ProtocolAnalyze::fillPortsInfo()
-{
-    ui->serialPortInfoListBox->clear();
-    QString description;
-    QString manufacturer;
-    QString serialNumber;
-    const auto infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &info : infos) {
-        QStringList list;
-        description = info.description();
-        manufacturer = info.manufacturer();
-        serialNumber = info.serialNumber();
-        list << info.portName()
-             << (!description.isEmpty() ? description : blankString)
-             << (!manufacturer.isEmpty() ? manufacturer : blankString)
-             << (!serialNumber.isEmpty() ? serialNumber : blankString)
-             << info.systemLocation()
-             << (info.vendorIdentifier() ? QString::number(info.vendorIdentifier(), 16) : blankString)
-             << (info.productIdentifier() ? QString::number(info.productIdentifier(), 16) : blankString);
-
-        ui->serialPortInfoListBox->addItem(list.first(), list);
-    }
-
-}
-
-void ProtocolAnalyze::updateSettings()
-{
-    portSetting.name = ui->serialPortInfoListBox->currentText();
-
-    if (ui->baudRateBox->currentIndex() == 4) {
-        portSetting.baudRate = ui->baudRateBox->currentText().toInt();
-    } else {
-        portSetting.baudRate = static_cast<QSerialPort::BaudRate>(
-                    ui->baudRateBox->itemData(ui->baudRateBox->currentIndex()).toInt());
-    }
-    portSetting.stringBaudRate = QString::number(portSetting.baudRate);
-
-    portSetting.dataBits = static_cast<QSerialPort::DataBits>(
-                ui->dataBitsBox->itemData(ui->dataBitsBox->currentIndex()).toInt());
-    portSetting.stringDataBits = ui->dataBitsBox->currentText();
-
-    portSetting.parity = static_cast<QSerialPort::Parity>(
-                ui->parityBox->itemData(ui->parityBox->currentIndex()).toInt());
-    portSetting.stringParity = ui->parityBox->currentText();
-
-    portSetting.stopBits = static_cast<QSerialPort::StopBits>(
-                ui->stopBitsBox->itemData(ui->stopBitsBox->currentIndex()).toInt());
-    portSetting.stringStopBits = ui->stopBitsBox->currentText();
-
-    portSetting.flowControl = static_cast<QSerialPort::FlowControl>(
-                ui->flowControlBox->itemData(ui->flowControlBox->currentIndex()).toInt());
-    portSetting.stringFlowControl = ui->flowControlBox->currentText();
-}
-
+/*********************************************************
+ * private slots
+ * *******************************************************/
 /*
  * @ brief : open a serial port
  */
@@ -189,7 +86,6 @@ void ProtocolAnalyze::openSerialPort()
     }
 
 }
-
 void ProtocolAnalyze::closeSerialPort()
 {
     if (serial->isOpen())
@@ -200,34 +96,6 @@ void ProtocolAnalyze::closeSerialPort()
     ui->actionDisconnect->setEnabled(false);
     showStatusMessage(tr("Disconnected"));
 }
-
-/*
- *@ brief : initial actions(signals) with slot.
- */
-void ProtocolAnalyze::initActionsConnections()
-{
-    connect(ui->actionConnect, &QPushButton::clicked, this, &ProtocolAnalyze::openSerialPort);
-    connect(ui->actionDisconnect, &QPushButton::clicked, this, &ProtocolAnalyze::closeSerialPort);
-    connect(ui->actionProtocol_generator, &QAction::triggered, protGenDialog, &ProtocolAnalyze::show);
-}
-
-
-void ProtocolAnalyze::readData()
-{
-    QByteArray data = serial->readAll();
-    console->putData(data);
-}
-
-void ProtocolAnalyze::writeData(const QByteArray &data)
-{
-    serial->write(data);
-}
-
-
-
-/***************************************************/
-/************* actions *****************************/
-/***************************************************/
 /*
  * @ brief : [refresh port] refresh available port name information
  */
@@ -242,16 +110,6 @@ void ProtocolAnalyze::on_pB_refreshPortInfo_clicked()
         ui->serialPortInfoListBox->addItem(list.first(), list);
     }
 }
-
-void ProtocolAnalyze::showStatusMessage(const QString &message)
-{
-    status->setText(message);
-}
-
-/***************************************************/
-/************* slots *****************************/
-/***************************************************/
-
 void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
 {
     QPushButton* ptrBtn = (QPushButton*)sender();
@@ -263,7 +121,6 @@ void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
     qDebug() << cmd_str;
     console->putData(cmd_str.toLocal8Bit());
 }
-
 void ProtocolAnalyze::on_pB_autoGenBtn_pressed()
 {
    btnPressed = (QPushButton*)sender();
@@ -272,33 +129,15 @@ void ProtocolAnalyze::on_pB_autoGenBtn_pressed()
        qDebug() << "button pressed no";
    }
 }
-
- /*********
-  * tools
-  * ******/
- QString ProtocolAnalyze::hexToString(const QVector<uchar> hex)
- {
-     QString hexStr = "";
-     for (int i=0; i<hex.size(); i++) {
-         hexStr += QString("%1").arg(hex.at(i), 2, 16, QChar('0'));
-         hexStr += " ";
-     }
-
-     return hexStr;
- }
-QVector<uchar> ProtocolAnalyze::stringToHex(QString str_cmdHex)
+void ProtocolAnalyze::readData()
 {
-    QVector<uchar> cmdHex;
-    QStringList strList = str_cmdHex.split(' ', QString::SkipEmptyParts);
-
-    for (int i=0; i<strList.size(); i++) {
-        cmdHex.append(strList.at(i).toInt(nullptr, 16));
-    }
-
-    return cmdHex;
+    QByteArray data = serial->readAll();
+    console->putData(data);
 }
-
-
+void ProtocolAnalyze::writeData(const QByteArray &data)
+{
+    serial->write(data);
+}
 void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
 {
     /* open file */
@@ -354,7 +193,6 @@ void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
     //out << "btnName" << " " <<"btnCmd " << " " << "btnRect " << endl;
     btnSettins.close();
 }
-
 void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
 {
     /* open file */
@@ -383,12 +221,10 @@ void ProtocolAnalyze::on_pushBtn_saveBtnSettings_clicked()
 
     btnSettins.close();
 }
-
 void ProtocolAnalyze::on_pushBtn_clear_clicked()
 {
     console->clear();
 }
-
 void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
 {
     qDebug()<< "right clicked";
@@ -416,52 +252,152 @@ void ProtocolAnalyze::btnRename()
     dialogRename->show();
 }
 
-#if 0
-void ProtocolAnalyze::show_rightClickedBtnMenu(const QPoint&)
+
+/*********************************************************
+ * public funcs
+ * *******************************************************/
+void ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<uchar> &cmd_hex)
 {
-    qDebug()<< "right clicked";
-    QMenu * menu = new QMenu(this);
-#if 0
-    QAction * newAction = new QAction(tr("rename"));
-    connect(newAction, SIGNAL(triggered()), this, SLOT(btnRename()));
-    menu->addAction(newAction);
+    QPushButton* pushBtn = new QPushButton("qingfeng btn", ui->tabWdgt_btns);
+    pushBtn->setText(btnName);
+    pushBtn->setGeometry(btnRect);
+    pushBtn->show();
+
+    BtnSettings btnSet;
+    btnSet.cmdHex = cmd_hex;
+    btnSet.btnRect = btnRect;
+
+    cmdMap[btnName] = btnSet;
+
+    connect(pushBtn, &QPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+}
+
+QString ProtocolAnalyze::hexToString(const QVector<uchar> hex)
+{
+    QString hexStr = "";
+    for (int i=0; i<hex.size(); i++) {
+        hexStr += QString("%1").arg(hex.at(i), 2, 16, QChar('0'));
+        hexStr += " ";
+    }
+
+    return hexStr;
+}
+
+QVector<uchar> ProtocolAnalyze::stringToHex(QString str_cmdHex)
+{
+    QVector<uchar> cmdHex;
+    QStringList strList = str_cmdHex.split(' ', QString::SkipEmptyParts);
+
+    for (int i=0; i<strList.size(); i++) {
+        cmdHex.append(strList.at(i).toInt(nullptr, 16));
+    }
+
+    return cmdHex;
+}
+
+
+/*********************************************************
+ * private funcs
+ * *******************************************************/
+/*
+ * @ brief : auto fill the available port name
+ */
+void ProtocolAnalyze::fillPortsInfo()
+{
+    ui->serialPortInfoListBox->clear();
+    QString description;
+    QString manufacturer;
+    QString serialNumber;
+    const auto infos = QSerialPortInfo::availablePorts();
+    for (const QSerialPortInfo &info : infos) {
+        QStringList list;
+        description = info.description();
+        manufacturer = info.manufacturer();
+        serialNumber = info.serialNumber();
+        list << info.portName()
+             << (!description.isEmpty() ? description : blankString)
+             << (!manufacturer.isEmpty() ? manufacturer : blankString)
+             << (!serialNumber.isEmpty() ? serialNumber : blankString)
+             << info.systemLocation()
+             << (info.vendorIdentifier() ? QString::number(info.vendorIdentifier(), 16) : blankString)
+             << (info.productIdentifier() ? QString::number(info.productIdentifier(), 16) : blankString);
+
+        ui->serialPortInfoListBox->addItem(list.first(), list);
+    }
+
+}
+/*
+ *@ brief : initial actions(signals) with slot.
+ */
+void ProtocolAnalyze::initActionsConnections()
+{
+    connect(ui->actionConnect, &QPushButton::clicked, this, &ProtocolAnalyze::openSerialPort);
+    connect(ui->actionDisconnect, &QPushButton::clicked, this, &ProtocolAnalyze::closeSerialPort);
+    connect(ui->actionProtocol_generator, &QAction::triggered, protGenDialog, &ProtocolAnalyze::show);
+}
+
+void ProtocolAnalyze::fillPortsParameters()
+{
+    ui->baudRateBox->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);
+    ui->baudRateBox->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
+    ui->baudRateBox->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
+    ui->baudRateBox->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
+    //ui->baudRateBox->addItem(tr("Custom"));
+
+    ui->dataBitsBox->addItem(QStringLiteral("5"), QSerialPort::Data5);
+    ui->dataBitsBox->addItem(QStringLiteral("6"), QSerialPort::Data6);
+    ui->dataBitsBox->addItem(QStringLiteral("7"), QSerialPort::Data7);
+    ui->dataBitsBox->addItem(QStringLiteral("8"), QSerialPort::Data8);
+    ui->dataBitsBox->setCurrentIndex(3);
+
+    ui->parityBox->addItem(tr("None"), QSerialPort::NoParity);
+    ui->parityBox->addItem(tr("Even"), QSerialPort::EvenParity);
+    ui->parityBox->addItem(tr("Odd"), QSerialPort::OddParity);
+    ui->parityBox->addItem(tr("Mark"), QSerialPort::MarkParity);
+    ui->parityBox->addItem(tr("Space"), QSerialPort::SpaceParity);
+
+    ui->stopBitsBox->addItem(QStringLiteral("1"), QSerialPort::OneStop);
+#ifdef Q_OS_WIN
+    ui->stopBitsBox->addItem(tr("1.5"), QSerialPort::OneAndHalfStop);
 #endif
-    menu->addAction("rename",this, SLOT(btnRename()));
-    menu->exec(QCursor::pos());
-    delete menu;
-}
-#endif
-QPoint m_press;
-bool midBtnPress = false;
-void ProtocolAnalyze::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button()==Qt::MidButton) {
-        midBtnPress = true;
-        m_press = event->globalPos();
-        qDebug()<< "mouse press";
-    }
-    event->ignore();
-}
-void ProtocolAnalyze::mouseReleaseEvent(QMouseEvent *event)
-{
+    ui->stopBitsBox->addItem(QStringLiteral("2"), QSerialPort::TwoStop);
 
-    if( event->button() == Qt::MidButton ){
-        midBtnPress = false;
-        btnPressed = nullptr;
-    }
-    event->ignore();
+    ui->flowControlBox->addItem(tr("None"), QSerialPort::NoFlowControl);
+    ui->flowControlBox->addItem(tr("RTS/CTS"), QSerialPort::HardwareControl);
+    ui->flowControlBox->addItem(tr("XON/XOFF"), QSerialPort::SoftwareControl);
 }
 
-void ProtocolAnalyze::mouseMoveEvent(QMouseEvent *event)
+void ProtocolAnalyze::showStatusMessage(const QString &message)
 {
-    qDebug()<< "mouse move";
-    if (midBtnPress && btnPressed != nullptr) {
-        QPoint m_move = event->globalPos();
-        btnPressed->move(btnPressed->pos() + m_move - m_press);
-        m_press = m_move;
-        qDebug()<< "move";
-    }
-    event->ignore();
+    status->setText(message);
 }
 
+void ProtocolAnalyze::updateSettings()
+{
+    portSetting.name = ui->serialPortInfoListBox->currentText();
+
+    if (ui->baudRateBox->currentIndex() == 4) {
+        portSetting.baudRate = ui->baudRateBox->currentText().toInt();
+    } else {
+        portSetting.baudRate = static_cast<QSerialPort::BaudRate>(
+                    ui->baudRateBox->itemData(ui->baudRateBox->currentIndex()).toInt());
+    }
+    portSetting.stringBaudRate = QString::number(portSetting.baudRate);
+
+    portSetting.dataBits = static_cast<QSerialPort::DataBits>(
+                ui->dataBitsBox->itemData(ui->dataBitsBox->currentIndex()).toInt());
+    portSetting.stringDataBits = ui->dataBitsBox->currentText();
+
+    portSetting.parity = static_cast<QSerialPort::Parity>(
+                ui->parityBox->itemData(ui->parityBox->currentIndex()).toInt());
+    portSetting.stringParity = ui->parityBox->currentText();
+
+    portSetting.stopBits = static_cast<QSerialPort::StopBits>(
+                ui->stopBitsBox->itemData(ui->stopBitsBox->currentIndex()).toInt());
+    portSetting.stringStopBits = ui->stopBitsBox->currentText();
+
+    portSetting.flowControl = static_cast<QSerialPort::FlowControl>(
+                ui->flowControlBox->itemData(ui->flowControlBox->currentIndex()).toInt());
+    portSetting.stringFlowControl = ui->flowControlBox->currentText();
+}
 

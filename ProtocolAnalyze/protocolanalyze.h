@@ -43,11 +43,6 @@ public:
     explicit ProtocolAnalyze(QWidget *parent = 0);
     ~ProtocolAnalyze();
 
-public:
-    void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
-    QString hexToString(const QVector<uchar> hex);
-    QVector<uchar> stringToHex(QString str_cmdHex);
-
 private slots:
     void openSerialPort();
     void closeSerialPort();
@@ -60,14 +55,17 @@ private slots:
     void writeData(const QByteArray &data);
 
     void on_pushBtn_loadBtnSettings_clicked();
-
     void on_pushBtn_saveBtnSettings_clicked();
 
     void on_pushBtn_clear_clicked();
     void show_rightClickedMenu(const QPoint&);
-    //void show_rightClickedBtnMenu(const QPoint&);
 
     void btnRename();
+
+public:
+    void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
+    QString hexToString(const QVector<uchar> hex);
+    QVector<uchar> stringToHex(QString str_cmdHex);
 
 private:
     void fillPortsInfo();
@@ -75,11 +73,6 @@ private:
     void fillPortsParameters();
     void showStatusMessage(const QString &message);
     void updateSettings();
-
-protected:
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
 
 private:
     Ui::ProtocolAnalyze *ui;
@@ -92,6 +85,8 @@ private:
     QMap<QString, BtnSettings> cmdMap;
 
     QPushButton* btnPressed;
+    QPoint m_press;
+    bool midBtnPress;
 
 };
 

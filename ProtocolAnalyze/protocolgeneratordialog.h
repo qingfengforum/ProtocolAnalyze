@@ -19,6 +19,18 @@ private:
             ITEM_COLUM_VALUE = 1,
             ITEM_COLUM_BYTE = 2,
             ITEM_COLUM_BIT = 3,
+            ITEM_COLUM_NUM,
+        };
+
+        enum _CMD_HEAD_TYPE_e_ {
+            CMD_HEAD_AB_BA,
+            CMD_HEAD_5A_A5,
+        };
+
+        enum _CMD_CHECK_TYPE_e_ {
+            CMD_CHECK_TYPE_CRC_2BYTE,
+            CMD_CHECK_TYPE_CHECK_SUM_1BYTE,
+            CMD_CHECK_TYPE_CHECK_SUM_2BYTE,
         };
 
 public:
@@ -26,20 +38,20 @@ public:
     ~ProtocolGeneratorDialog();
 
 private slots:
-    void addParam();
     void on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum);
-
     void on_pushBtn_addRoot_clicked();
-
     void on_pushBtn_addNode_clicked();
-
     void on_pushBtn_deleteItem_clicked();
 
+    /* save and load treeWidget settings */
     void on_pushBtn_saveSettings_clicked();
-
     void on_pushBtn_loadSettings_clicked();
 
+    /* generate push buttons */
     void on_pushBtn_generate_clicked();
+
+public:
+    uint16_t crc16_check(QVector<uchar>& pLcPtr, uint16_t LcLen);
 
 private:
     void fillComboBoxParams();
@@ -47,11 +59,8 @@ private:
     void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
     void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
 
-    void getFullCmd(QTreeWidgetItem *topItem, QString &btnName, QVector<int> &cmd_hex);
 
-    /** tools */
-    uint16_t crc16_check(QVector<uchar>& pLcPtr, uint16_t LcLen);
-
+private:
     Ui::ProtocolGeneratorDialog *ui;
 };
 
