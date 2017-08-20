@@ -90,6 +90,7 @@ void qfPushButton::show_rightClickedMenu(const QPoint& point)
     QMenu* q_menu = new QMenu(this);
     q_menu->addAction("rename", this, SLOT(dialogBtnRename()));
     q_menu->addAction("edit cmd", this, SLOT(on_btnEditCmd_action_triggered()));
+    q_menu->addAction("delete", this, SLOT(on_btnDeleteAction_triggered()));
     q_menu->exec(QCursor::pos());
     qDebug() << "qf button right clicked button";
 }
@@ -172,6 +173,11 @@ void qfPushButton::on_btnEditCmd_okBtn_pushed()
     }
 }
 
+void qfPushButton::on_btnDeleteAction_triggered()
+{
+    emit deleteAction_triggered(_btnIdx);
+    qDebug() << "send delete :" << _btnIdx;
+}
 
 /*************************************************
  * public func

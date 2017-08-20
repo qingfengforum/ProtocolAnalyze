@@ -257,6 +257,17 @@ void ProtocolAnalyze::btnRename()
     dialogRename->show();
 }
 
+void ProtocolAnalyze::on_deleteAction_triggered(uint btnIdx)
+{
+    qfPushButton* ptr_PushBtn = cmdMap.value(btnIdx);
+    if (ptr_PushBtn != nullptr) {
+        qDebug() << "ready to delete buttons : " << btnIdx;
+        qDebug() << ptr_PushBtn->getBtnIdx();
+        cmdMap.remove(btnIdx);
+        ptr_PushBtn->deleteLater();
+    }
+}
+
 /*********************************************************
  * public funcs
  * *******************************************************/
@@ -286,6 +297,7 @@ int ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<uc
 
     /* when btn clicked */
     connect(pushBtn, &qfPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+    connect(pushBtn, &qfPushButton::deleteAction_triggered, this, &ProtocolAnalyze::on_deleteAction_triggered);
     return 1;
 }
 

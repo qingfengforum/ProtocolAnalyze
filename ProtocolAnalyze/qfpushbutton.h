@@ -23,6 +23,9 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
+signals:
+    void deleteAction_triggered(uint btnIdx);
+
 private slots:
     void show_rightClickedMenu(const QPoint& point);
 
@@ -31,6 +34,8 @@ private slots:
 
     void on_btnEditCmd_action_triggered();
     void on_btnEditCmd_okBtn_pushed();
+
+    void on_btnDeleteAction_triggered();
 
 public:
     QVector<uchar> stringToHex(QString str_cmdHex);

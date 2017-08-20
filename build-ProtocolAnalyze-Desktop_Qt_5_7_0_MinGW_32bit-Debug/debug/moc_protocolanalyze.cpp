@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ProtocolAnalyze_t {
-    QByteArrayData data[15];
-    char stringdata0[279];
+    QByteArrayData data[17];
+    char stringdata0[312];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,7 +43,9 @@ QT_MOC_LITERAL(10, 152, 34), // "on_pushBtn_loadBtnSettings_cl..."
 QT_MOC_LITERAL(11, 187, 34), // "on_pushBtn_saveBtnSettings_cl..."
 QT_MOC_LITERAL(12, 222, 24), // "on_pushBtn_clear_clicked"
 QT_MOC_LITERAL(13, 247, 21), // "show_rightClickedMenu"
-QT_MOC_LITERAL(14, 269, 9) // "btnRename"
+QT_MOC_LITERAL(14, 269, 9), // "btnRename"
+QT_MOC_LITERAL(15, 279, 25), // "on_deleteAction_triggered"
+QT_MOC_LITERAL(16, 305, 6) // "btnIdx"
 
     },
     "ProtocolAnalyze\0openSerialPort\0\0"
@@ -53,7 +55,8 @@ QT_MOC_LITERAL(14, 269, 9) // "btnRename"
     "writeData\0data\0on_pushBtn_loadBtnSettings_clicked\0"
     "on_pushBtn_saveBtnSettings_clicked\0"
     "on_pushBtn_clear_clicked\0show_rightClickedMenu\0"
-    "btnRename"
+    "btnRename\0on_deleteAction_triggered\0"
+    "btnIdx"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +66,7 @@ static const uint qt_meta_data_ProtocolAnalyze[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,18 +74,19 @@ static const uint qt_meta_data_ProtocolAnalyze[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x08 /* Private */,
-       3,    0,   75,    2, 0x08 /* Private */,
-       4,    0,   76,    2, 0x08 /* Private */,
-       5,    0,   77,    2, 0x08 /* Private */,
-       6,    0,   78,    2, 0x08 /* Private */,
-       7,    0,   79,    2, 0x08 /* Private */,
-       8,    1,   80,    2, 0x08 /* Private */,
-      10,    0,   83,    2, 0x08 /* Private */,
-      11,    0,   84,    2, 0x08 /* Private */,
-      12,    0,   85,    2, 0x08 /* Private */,
-      13,    1,   86,    2, 0x08 /* Private */,
-      14,    0,   89,    2, 0x08 /* Private */,
+       1,    0,   79,    2, 0x08 /* Private */,
+       3,    0,   80,    2, 0x08 /* Private */,
+       4,    0,   81,    2, 0x08 /* Private */,
+       5,    0,   82,    2, 0x08 /* Private */,
+       6,    0,   83,    2, 0x08 /* Private */,
+       7,    0,   84,    2, 0x08 /* Private */,
+       8,    1,   85,    2, 0x08 /* Private */,
+      10,    0,   88,    2, 0x08 /* Private */,
+      11,    0,   89,    2, 0x08 /* Private */,
+      12,    0,   90,    2, 0x08 /* Private */,
+      13,    1,   91,    2, 0x08 /* Private */,
+      14,    0,   94,    2, 0x08 /* Private */,
+      15,    1,   95,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -97,6 +101,7 @@ static const uint qt_meta_data_ProtocolAnalyze[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QPoint,    2,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::UInt,   16,
 
        0        // eod
 };
@@ -119,6 +124,7 @@ void ProtocolAnalyze::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 9: _t->on_pushBtn_clear_clicked(); break;
         case 10: _t->show_rightClickedMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 11: _t->btnRename(); break;
+        case 12: _t->on_deleteAction_triggered((*reinterpret_cast< uint(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -149,13 +155,13 @@ int ProtocolAnalyze::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

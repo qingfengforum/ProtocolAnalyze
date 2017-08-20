@@ -64,6 +64,8 @@ private slots:
 
     void btnRename();
 
+    void on_deleteAction_triggered(uint btnIdx);
+
 public:
     int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
     QString hexToString(const QVector<uchar> hex);
