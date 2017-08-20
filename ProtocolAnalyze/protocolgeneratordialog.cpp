@@ -143,6 +143,8 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
 
 void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 {
+    int lastBtn_isNewBtn = 1;
+
     /* get parent pointer to access its public funcs */
     ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
 
@@ -218,7 +220,7 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
             qDebug() << "startBit: " << startBit << ", endBit: " << endBit;
 
             /* adjust button position --> move to top*/
-            if (j != 0) {
+            if (j != 0 && lastBtn_isNewBtn) {
                 btnRect.translate(btn_dx,0);
                 btnRect.moveTop(30);
             }
@@ -232,7 +234,7 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
                 cmd_hex[paramPosByte+4] = int_param;
 
                 qDebug() << hex << cmd_hex;
-                if (k != 0) {
+                if (k != 0 && lastBtn_isNewBtn) {
                     if (k%4 == 0) {
                         btnRect.moveTop(30);
                         btnRect.translate(btn_dx,0);
@@ -254,7 +256,7 @@ void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 
                 QString str_cmdHex= pMain->hexToString(cmd_hex);
                 out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
-                pMain->generateButtons(btnName, btnRect, cmd_hex);
+                lastBtn_isNewBtn = pMain->generateButtons(btnName, btnRect, cmd_hex);
             }
         }
     }

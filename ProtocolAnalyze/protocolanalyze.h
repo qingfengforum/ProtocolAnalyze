@@ -1,12 +1,13 @@
 #ifndef PROTOCOLANALYZE_H
 #define PROTOCOLANALYZE_H
 
+
 #include <QMainWindow>
 #include <QtSerialPort/QSerialPort>
-
 #include <QMessageBox>
 #include <QLabel>
 #include <QMap>
+#include "qfpushbutton.h"
 
 namespace Ui {
 class ProtocolAnalyze;
@@ -35,6 +36,7 @@ public:
         bool localEchoEnabled;
     };
     struct BtnSettings {
+        QString btnName;
         QVector<uchar> cmdHex;
         QRect btnRect;
     };
@@ -63,7 +65,7 @@ private slots:
     void btnRename();
 
 public:
-    void generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
+    int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
     QString hexToString(const QVector<uchar> hex);
     QVector<uchar> stringToHex(QString str_cmdHex);
 
@@ -82,11 +84,14 @@ private:
     QSerialPort *serial;
 
     ProtocolGeneratorDialog *protGenDialog;
-    QMap<QString, BtnSettings> cmdMap;
+
+    QMap<int, qfPushButton*> cmdMap; /* store btn info */
+    uint btnIdx;
 
     QPushButton* btnPressed;
     QPoint m_press;
     bool midBtnPress;
+
 
 };
 

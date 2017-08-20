@@ -34,7 +34,7 @@ public:
     QWidget *gridLayoutWidget;
     QGridLayout *gridLayout;
     QComboBox *cBBox_check_method;
-    QLabel *label_8;
+    QLabel *labl_len;
     QLabel *label_2;
     QComboBox *cBBox_head;
     QLabel *label;
@@ -55,6 +55,11 @@ public:
         if (ProtocolGeneratorDialog->objectName().isEmpty())
             ProtocolGeneratorDialog->setObjectName(QStringLiteral("ProtocolGeneratorDialog"));
         ProtocolGeneratorDialog->resize(650, 485);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(ProtocolGeneratorDialog->sizePolicy().hasHeightForWidth());
+        ProtocolGeneratorDialog->setSizePolicy(sizePolicy);
         buttonBox = new QDialogButtonBox(ProtocolGeneratorDialog);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
         buttonBox->setGeometry(QRect(230, 450, 341, 32));
@@ -71,10 +76,10 @@ public:
 
         gridLayout->addWidget(cBBox_check_method, 1, 1, 1, 1);
 
-        label_8 = new QLabel(gridLayoutWidget);
-        label_8->setObjectName(QStringLiteral("label_8"));
+        labl_len = new QLabel(gridLayoutWidget);
+        labl_len->setObjectName(QStringLiteral("labl_len"));
 
-        gridLayout->addWidget(label_8, 0, 2, 1, 1);
+        gridLayout->addWidget(labl_len, 0, 2, 1, 1);
 
         label_2 = new QLabel(gridLayoutWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
@@ -104,7 +109,7 @@ public:
         treeW_CmdList->setGeometry(QRect(10, 90, 511, 351));
         verticalLayoutWidget = new QWidget(ProtocolGeneratorDialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(540, 90, 81, 191));
+        verticalLayoutWidget->setGeometry(QRect(540, 90, 82, 191));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -140,12 +145,6 @@ public:
         pushBtn_generate = new QPushButton(ProtocolGeneratorDialog);
         pushBtn_generate->setObjectName(QStringLiteral("pushBtn_generate"));
         pushBtn_generate->setGeometry(QRect(540, 420, 75, 23));
-        buttonBox->raise();
-        gridLayoutWidget->raise();
-        treeW_CmdList->raise();
-        verticalLayoutWidget->raise();
-        pushBtn_addRoot->raise();
-        pushBtn_generate->raise();
 
         retranslateUi(ProtocolGeneratorDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), ProtocolGeneratorDialog, SLOT(accept()));
@@ -157,7 +156,7 @@ public:
     void retranslateUi(QDialog *ProtocolGeneratorDialog)
     {
         ProtocolGeneratorDialog->setWindowTitle(QApplication::translate("ProtocolGeneratorDialog", "Dialog", 0));
-        label_8->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
+        labl_len->setText(QApplication::translate("ProtocolGeneratorDialog", "len", 0));
         label_2->setText(QApplication::translate("ProtocolGeneratorDialog", "check_method", 0));
         label->setText(QApplication::translate("ProtocolGeneratorDialog", "head", 0));
         pushBtn_addRoot->setText(QApplication::translate("ProtocolGeneratorDialog", "add root", 0));

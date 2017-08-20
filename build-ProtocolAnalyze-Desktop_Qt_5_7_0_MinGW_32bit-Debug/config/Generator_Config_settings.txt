@@ -1,0 +1,21 @@
+[treeW_CmdList]
+item1_meaning=\x8bbe\x7f6e
+item1_value=0x03
+item1_byte=8
+item1_bit=
+item1.0_meaning=\x65f6\x957f
+item1.0_value=
+item1.0_byte=1
+item1.0_bit=5 - 4
+item1.0.0_meaning=1min
+item1.0.0_value=0x1
+item1.0.0_byte=
+item1.0.0_bit=
+item1.0.1_meaning=3min
+item1.0.1_value=0x2
+item1.0.1_byte=
+item1.0.1_bit=
+item1.0.2_meaning=5min
+item1.0.2_value=0x4
+item1.0.2_byte=
+item1.0.2_bit=

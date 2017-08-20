@@ -10,7 +10,11 @@
 qfPushButton::qfPushButton(QWidget *parent) :
     QPushButton(parent)
 {
+    midBtnPressed = false;
 
+    /* right clicked menu */
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &qfPushButton::customContextMenuRequested, this, &qfPushButton::show_rightClickedMenu);
 }
 
 /*****************************************************
@@ -21,8 +25,13 @@ void qfPushButton::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::MidButton) {
         midBtnPressed = true;
         m_press = event->globalPos();
-        qDebug() << "middle button clicked";
+        qDebug() << __func__ << "middle button pressed";
+    } else {
+        /*call parents's this func to send signal : clicked()*/
+        QPushButton::mousePressEvent(event);
     }
+
+
 }
 void qfPushButton::mouseMoveEvent(QMouseEvent *event)
 {
@@ -38,6 +47,9 @@ void qfPushButton::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::MidButton) {
         midBtnPressed = false;
         qDebug() << "middle button release";
+    } else {
+        /*call parents's this func to send signal : clicked()*/
+        QPushButton::mouseReleaseEvent(event);
     }
 }
 
@@ -69,6 +81,20 @@ void qfPushButton::keyReleaseEvent(QKeyEvent *event)
 /***********************************************
  * private slots
  * *********************************************/
+
+/*
+ * show right clicked menu
+ */
+void qfPushButton::show_rightClickedMenu(const QPoint& point)
+{
+    QMenu* q_menu = new QMenu(this);
+    q_menu->addAction("rename", this, SLOT(dialogBtnRename()));
+    q_menu->addAction("edit cmd", this, SLOT(on_btnEditCmd_action_triggered()));
+    q_menu->exec(QCursor::pos());
+    qDebug() << "qf button right clicked button";
+}
+
+
 void qfPushButton::dialogBtnRename()
 {
     QDialog* dialogRename = new QDialog();
@@ -138,28 +164,14 @@ void qfPushButton::on_btnEditCmd_okBtn_pushed()
 {
     if (LineEdt_btnEditCmd != nullptr) {
         //this->setText(LineEdt_btnRename->text());
-        cmd_hex = stringToHex(LineEdt_btnEditCmd->text());
+        _cmd_hex = stringToHex(LineEdt_btnEditCmd->text());
         qDebug() << "qf edit cmd set";
         ((QDialog*)LineEdt_btnEditCmd->parent())->close();
 
-        qDebug() << hex << cmd_hex;
+        qDebug() << hex << _cmd_hex;
     }
 }
 
-/************************************************
- * public slot
- ************************************************/
-/*
- * show right clicked menu
- */
-void qfPushButton::show_rightClickedMenu(const QPoint& point)
-{
-    QMenu* q_menu = new QMenu(this);
-    q_menu->addAction("rename", this, SLOT(dialogBtnRename()));
-    q_menu->addAction("edit cmd", this, SLOT(on_btnEditCmd_action_triggered()));
-    q_menu->exec(QCursor::pos());
-    qDebug() << "qf button right clicked button";
-}
 
 /*************************************************
  * public func
@@ -174,4 +186,23 @@ QVector<uchar> qfPushButton::stringToHex(QString str_cmdHex)
     }
 
     return cmdHex;
+}
+
+void qfPushButton::setCmdHex(QVector<uchar> &cmdHex)
+{
+    _cmd_hex = cmdHex;
+}
+
+QVector<uchar> qfPushButton::getCmdHex()
+{
+    return _cmd_hex;
+}
+
+void qfPushButton::setBtnIdx(uint btnIdx)
+{
+    _btnIdx = btnIdx;
+}
+uint qfPushButton::getBtnIdx()
+{
+    return _btnIdx;
 }

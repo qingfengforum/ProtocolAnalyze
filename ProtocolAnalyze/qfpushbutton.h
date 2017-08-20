@@ -23,10 +23,9 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
-public slots:
+private slots:
     void show_rightClickedMenu(const QPoint& point);
 
-private slots:
     void dialogBtnRename();
     void on_btnRename_okBtn_pushed();
 
@@ -36,12 +35,21 @@ private slots:
 public:
     QVector<uchar> stringToHex(QString str_cmdHex);
 
+    void setCmdHex(QVector<uchar> &cmdHex);
+    QVector<uchar> getCmdHex();
+
+    void setBtnIdx(uint btnIdx);
+    uint getBtnIdx();
+
 private:
+    QVector<uchar> _cmd_hex;
+    uint _btnIdx;
+
     bool midBtnPressed;
     QPoint m_press;
     QPoint m_move;
 
-    QVector<uchar> cmd_hex;
+
 
     QLineEdit* LineEdt_btnRename;
     QLineEdit* LineEdt_btnEditCmd;
