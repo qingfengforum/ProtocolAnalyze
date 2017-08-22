@@ -268,6 +268,9 @@ void ProtocolAnalyze::on_deleteAction_triggered(uint btnIdx)
 
 void ProtocolAnalyze::on_menuAddBtn_Action_triggered()
 {
+    _lineEdit_btnName = nullptr;
+    _lineEdit_cmdHex = nullptr;
+
     QDialog* dialogAddBtn = new QDialog();
 
     /* set title */
@@ -288,14 +291,30 @@ void ProtocolAnalyze::on_menuAddBtn_Action_triggered()
     lay->addWidget(lineEdit_btnName, 0, 1);
     lay->addWidget(label_cmdHex, 1, 0);
     lay->addWidget(lineEdit_cmdHex, 1, 1);
-    lay->addWidget(btn, 2, 1);
+    lay->addWidget(btn, 2, 2);
 
+    lay->setColumnMinimumWidth(1, 200);
     btn->setText("OK");
-    //connect(btn, SIGNAL(clicked()), this, SLOT(on_btnRename_okBtn_pushed()));
+
+    _lineEdit_btnName = lineEdit_btnName;
+    _lineEdit_cmdHex = lineEdit_cmdHex;
+
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(on_addBtn_OK_clicked()));
 
     /* show dialog*/
     dialogAddBtn->show();
-    qDebug() << "qf button dialog";
+    qDebug() << "add qf button dialog";
+}
+
+void ProtocolAnalyze::on_addBtn_OK_clicked()
+{
+    qDebug() << "add button";
+    if (_lineEdit_btnName != nullptr && _lineEdit_cmdHex != nullptr) {
+        QString btnName = _lineEdit_btnName->text();
+        QVector<uchar> v_cmdHex = stringToHex(_lineEdit_cmdHex->text());
+        addNewBtn(btnName, v_cmdHex);
+        ((QDialog*)_lineEdit_btnName->parent())->close();
+    }
 }
 
 /*********************************************************
@@ -460,3 +479,19 @@ void ProtocolAnalyze::updateSettings()
     portSetting.stringFlowControl = ui->flowControlBox->currentText();
 }
 
+void ProtocolAnalyze::addNewBtn(QString btnName, QVector<uchar> cmd_hex, QRect btnRect)
+{
+    qfPushButton* pushBtn = new qfPushButton(ui->tabWdgt_btns);
+    btnIdx++;
+    pushBtn->setText(btnName);
+    pushBtn->setGeometry(btnRect);
+    pushBtn->setCmdHex(cmd_hex);
+    pushBtn->setBtnIdx(btnIdx);
+    pushBtn->show();
+    /* store info in the cmdMap */
+    cmdMap.insert(btnIdx, pushBtn);
+
+    /* when btn clicked */
+    connect(pushBtn, &qfPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
+    connect(pushBtn, &qfPushButton::deleteAction_triggered, this, &ProtocolAnalyze::on_deleteAction_triggered);
+}

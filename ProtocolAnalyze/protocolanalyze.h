@@ -66,6 +66,8 @@ private slots:
 
     void on_deleteAction_triggered(uint btnIdx);
     void on_menuAddBtn_Action_triggered();
+    void on_addBtn_OK_clicked();
+
 
 public:
     int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
@@ -78,6 +80,8 @@ private:
     void fillPortsParameters();
     void showStatusMessage(const QString &message);
     void updateSettings();
+
+    void addNewBtn(QString btnName, QVector<uchar> cmd_hex, QRect btnRect=QRect(0,30, 100, 30));
 
 private:
     Ui::ProtocolAnalyze *ui;
@@ -95,6 +99,8 @@ private:
     QPoint m_press;
     bool midBtnPress;
 
+    QLineEdit* _lineEdit_btnName;
+    QLineEdit* _lineEdit_cmdHex;
 
 };
 
