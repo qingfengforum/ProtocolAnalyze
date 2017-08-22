@@ -234,9 +234,7 @@ void ProtocolAnalyze::show_rightClickedMenu(const QPoint &)
 {
     qDebug()<< "right clicked";
     QMenu * menu = new QMenu(ui->pushBtn_clear);
-    QAction * newAction = new QAction(tr("add button"));
-    connect(newAction, SIGNAL(triggered()), this, SLOT(btnRename()));
-    menu->addAction(newAction);
+    menu->addAction("add button", this, SLOT(on_menuAddBtn_Action_triggered()));
     menu->exec(QCursor::pos());
     delete menu;
 }
@@ -266,6 +264,38 @@ void ProtocolAnalyze::on_deleteAction_triggered(uint btnIdx)
         cmdMap.remove(btnIdx);
         ptr_PushBtn->deleteLater();
     }
+}
+
+void ProtocolAnalyze::on_menuAddBtn_Action_triggered()
+{
+    QDialog* dialogAddBtn = new QDialog();
+
+    /* set title */
+    dialogAddBtn->setWindowTitle("AddBtn");
+
+    /* lay out */
+    QGridLayout* lay = new QGridLayout(dialogAddBtn);
+    //lay->setColumnMinimumWidth(0, 200);
+
+    /* add items */
+    QLabel* label_btnName = new QLabel("button name", dialogAddBtn);
+    QLineEdit*  lineEdit_btnName = new QLineEdit(dialogAddBtn);
+    QLabel* label_cmdHex = new QLabel("cmd hex", dialogAddBtn);
+    QLineEdit*  lineEdit_cmdHex = new QLineEdit(dialogAddBtn);
+    QPushButton* btn = new QPushButton(dialogAddBtn);
+
+    lay->addWidget(label_btnName, 0, 0);
+    lay->addWidget(lineEdit_btnName, 0, 1);
+    lay->addWidget(label_cmdHex, 1, 0);
+    lay->addWidget(lineEdit_cmdHex, 1, 1);
+    lay->addWidget(btn, 2, 1);
+
+    btn->setText("OK");
+    //connect(btn, SIGNAL(clicked()), this, SLOT(on_btnRename_okBtn_pushed()));
+
+    /* show dialog*/
+    dialogAddBtn->show();
+    qDebug() << "qf button dialog";
 }
 
 /*********************************************************
