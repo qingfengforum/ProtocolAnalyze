@@ -29,6 +29,8 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     /* create new dialog of generate buttons */
     protGenDialog = new ProtocolGeneratorDialog(this);
+    protGenDialogRecAnalyzor = new ProtocolGeneratorDialog(this);
+    dialogRcvAnalyzor = new QDialog(this);
 
     console = new Console;
     ui->vtL_portOutPutInfo->addWidget(console);
@@ -40,6 +42,10 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     fillPortsParameters();
     fillPortsInfo();
+
+    /* initial */
+    /* initial dialog protocol generator receive analyzor */
+    initDialogGenRevAnalyzor();
 
     initActionsConnections();
 
@@ -317,6 +323,11 @@ void ProtocolAnalyze::on_addBtn_OK_clicked()
     }
 }
 
+void ProtocolAnalyze::on_pushBtn_startRcvAnalyzor_clicked()
+{
+    dialogRcvAnalyzor->show();
+}
+
 /*********************************************************
  * public funcs
  * *******************************************************/
@@ -378,6 +389,13 @@ QVector<uchar> ProtocolAnalyze::stringToHex(QString str_cmdHex)
  * private funcs
  * *******************************************************/
 /*
+ * @ brief : initialize dialog generator receive analyzor.
+ */
+void ProtocolAnalyze::initDialogGenRevAnalyzor()
+{
+    protGenDialogRecAnalyzor->initDialogGenRevAnalyzor();
+}
+/*
  * @ brief : auto fill the available port name
  */
 void ProtocolAnalyze::fillPortsInfo()
@@ -412,6 +430,7 @@ void ProtocolAnalyze::initActionsConnections()
     connect(ui->actionConnect, &QPushButton::clicked, this, &ProtocolAnalyze::openSerialPort);
     connect(ui->actionDisconnect, &QPushButton::clicked, this, &ProtocolAnalyze::closeSerialPort);
     connect(ui->actionProtocol_generator, &QAction::triggered, protGenDialog, &ProtocolAnalyze::show);
+    connect(ui->actionProtocol_rev_gen_analyzor, &QAction::triggered, protGenDialogRecAnalyzor, &ProtocolAnalyze::show);
 }
 
 void ProtocolAnalyze::fillPortsParameters()
@@ -495,3 +514,4 @@ void ProtocolAnalyze::addNewBtn(QString btnName, QVector<uchar> cmd_hex, QRect b
     connect(pushBtn, &qfPushButton::clicked, this ,&ProtocolAnalyze::on_pB_autoGenBtn_clicked);
     connect(pushBtn, &qfPushButton::deleteAction_triggered, this, &ProtocolAnalyze::on_deleteAction_triggered);
 }
+

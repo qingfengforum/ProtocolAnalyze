@@ -11,6 +11,9 @@ ProtocolGeneratorDialog::ProtocolGeneratorDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    configFilePath = "./config/Generator_Config_settings.txt";
+    genType = GEN_TYPE_GEN_BUTTONS;
+
     /* init */
     fillComboBoxParams();
 
@@ -23,6 +26,13 @@ ProtocolGeneratorDialog::~ProtocolGeneratorDialog()
     delete ui;
 }
 
+void ProtocolGeneratorDialog::initDialogGenRevAnalyzor()
+{
+    this->setWindowTitle("protocol receive analyzor generator");
+    ui->pushBtn_generate->setText("gen Analyzor");
+    configFilePath = "./config/Generator_receiveAnalyzor_settings.txt";
+    genType = GEN_TYPE_GEN_RCV_ANALYZOR;
+}
 /*******************************************
  * private slots
  * *****************************************/
@@ -73,7 +83,7 @@ void ProtocolGeneratorDialog::on_pushBtn_saveSettings_clicked()
     }
 
 
-    QSettings settings("./config/Generator_Config_settings.txt", QSettings::IniFormat);
+    QSettings settings(configFilePath, QSettings::IniFormat);
     settings.clear();
 
     /* save settings */
@@ -107,7 +117,7 @@ void ProtocolGeneratorDialog::on_pushBtn_saveSettings_clicked()
 void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
 {
     static int first_in = 1;
-    QSettings settings("./config/Generator_Config_settings.txt", QSettings::IniFormat);
+    QSettings settings(configFilePath, QSettings::IniFormat);
     ui->treeW_CmdList->clear();
     settings.beginGroup(ui->treeW_CmdList->objectName());
 
@@ -143,125 +153,20 @@ void ProtocolGeneratorDialog::on_pushBtn_loadSettings_clicked()
 
 void ProtocolGeneratorDialog::on_pushBtn_generate_clicked()
 {
-    int lastBtn_isNewBtn = 1;
+    on_pushBtn_saveSettings_clicked();
 
-    /* get parent pointer to access its public funcs */
-    ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
-
-    /* for lay out */
-    QRect btnRect(0,30, 100, 30);
-    int btn_dy = 30;
-    int btn_dx = 100;
-
-    int topCount = ui->treeW_CmdList->topLevelItemCount();
-
-    /* open file */
-    QFile btnSettings("./config/buttons_settings.txt");
-    QTextStream out(&btnSettings);
-
-    if (btnSettings.open(QFile::WriteOnly | QFile::Truncate)) {
-          out << "btnName " <<"btnCmd " << "btnRect " << endl;
-     } else {
-        qDebug() << "open file error";
-        return;
+    switch (genType) {
+    case GEN_TYPE_GEN_BUTTONS:
+        generatePushButtons();
+        break;
+    case GEN_TYPE_GEN_RCV_ANALYZOR:
+        generateRcvAnalyzor();
+        break;
+    default:
+        qDebug() << "not defined type";
+        break;
     }
 
-    for (int i=0; i<topCount; i++) {
-        QString btnName = "";
-        QVector<uchar> cmd_hex(2);
-
-        QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
-        int cmd_id = topItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);// cmd_id
-        int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
-        int total_len = param_len + 7; // 2(head) + 1(cmd_id) + 1(total_len) + 1(param_len) + 2(crc_check)
-
-        for (int i=0; i<total_len-2; i++) {
-            cmd_hex.append(0);
-        }
-
-        if (total_len < 7) {
-            qDebug() <<"total_len is too short" << total_len;
-            return;
-        }
-
-        /* head */
-        if (ui->cBBox_head->currentData() == CMD_HEAD_AB_BA) {
-            cmd_hex[0] = 0xab;
-            cmd_hex[1] = 0xba;
-        } else if (ui->cBBox_head->currentData() == CMD_HEAD_5A_A5) {
-            cmd_hex[0] = 0x5a;
-            cmd_hex[1] = 0xa5;
-        }
-
-        cmd_hex[2] = cmd_id;    // cmd_id
-        cmd_hex[3] = total_len; // total_len
-        cmd_hex[4] = param_len; // param_len
-
-        for (int j=0; j<topItem->childCount(); j++) {
-            /* clear param[] and crc_check */
-            for(int i=5; i< cmd_hex.size(); i++) {
-                cmd_hex[i] = 0;
-            }
-
-
-            QTreeWidgetItem* level1_childItem = topItem->child(j);
-            int paramPosByte = level1_childItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16);
-            QString strBit = level1_childItem->text(ITEM_COLUM_BIT);
-            QStringList strBitList = strBit.split('-', QString::SkipEmptyParts);
-            int startBit = 0;
-            int endBit = 0;
-            if (strBitList.at(0).toInt() < strBitList.at(1).toInt()) {
-                 startBit = strBitList.at(0).toInt();
-                 endBit = strBitList.at(1).toInt();
-            } else {
-                startBit = strBitList.at(1).toInt();
-                endBit = strBitList.at(0).toInt();
-            }
-            qDebug() << "startBit: " << startBit << ", endBit: " << endBit;
-
-            /* adjust button position --> move to top*/
-            if (j != 0 && lastBtn_isNewBtn) {
-                btnRect.translate(btn_dx,0);
-                btnRect.moveTop(30);
-            }
-
-            for (int k=0; k<level1_childItem->childCount(); k++) {
-                QTreeWidgetItem* level2_childItem = level1_childItem->child(k);
-                btnName = level1_childItem->text(ITEM_COLUM_MEANTING) + level2_childItem->text(ITEM_COLUM_MEANTING);
-                int int_param = level2_childItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);
-                int_param = int_param << startBit;
-
-                cmd_hex[paramPosByte+4] = int_param;
-
-                qDebug() << hex << cmd_hex;
-                if (k != 0 && lastBtn_isNewBtn) {
-                    if (k%4 == 0) {
-                        btnRect.moveTop(30);
-                        btnRect.translate(btn_dx,0);
-                    } else {
-                        btnRect.translate(0, btn_dy);
-                    }
-                }
-
-                /* crc_check */
-                uint16_t crcCheck = 0;
-                if (ui->cBBox_check_method->currentData() == CMD_CHECK_TYPE_CRC_2BYTE) {
-                    crcCheck = crc16_check(cmd_hex, cmd_hex.size()-2);
-                }
-                uchar crc_h = (uchar)(crcCheck>>8);
-                uchar crc_l = (uchar)(crcCheck&0xff);
-                cmd_hex[cmd_hex[3]-2] = crc_h;
-                cmd_hex[cmd_hex[3]-1] = crc_l;
-                qDebug() << "before send" << hex << cmd_hex;
-
-                QString str_cmdHex= pMain->hexToString(cmd_hex);
-                out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
-                lastBtn_isNewBtn = pMain->generateButtons(btnName, btnRect, cmd_hex);
-            }
-        }
-    }
-
-    btnSettings.close();
 }
 
 /**************************************************************************
@@ -388,5 +293,247 @@ void ProtocolGeneratorDialog::loadChildSettings(QSettings &settings, int size, Q
 }
 
 
+void ProtocolGeneratorDialog::generatePushButtons()
+{
+    int lastBtn_isNewBtn = 1;
+
+    /* get parent pointer to access its public funcs */
+    ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
+
+    /* for lay out */
+    QRect btnRect(0,30, 100, 30);
+    int btn_dy = 30;
+    int btn_dx = 100;
+
+    int topCount = ui->treeW_CmdList->topLevelItemCount();
+
+    /* open file */
+    QFile btnSettings("./config/buttons_settings.txt");
+    QTextStream out(&btnSettings);
+
+    if (btnSettings.open(QFile::WriteOnly | QFile::Truncate)) {
+          out << "btnName " <<"btnCmd " << "btnRect " << endl;
+     } else {
+        qDebug() << "open file error";
+        return;
+    }
+
+    for (int i=0; i<topCount; i++) {
+        QString btnName = "";
+        QVector<uchar> cmd_hex(2);
+
+        QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
+        int cmd_id = topItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);// cmd_id
+        int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
+        int total_len = param_len + 7; // 2(head) + 1(cmd_id) + 1(total_len) + 1(param_len) + 2(crc_check)
+
+        for (int i=0; i<total_len-2; i++) {
+            cmd_hex.append(0);
+        }
+
+        if (total_len < 7) {
+            qDebug() <<"total_len is too short" << total_len;
+            return;
+        }
+
+        /* head */
+        if (ui->cBBox_head->currentData() == CMD_HEAD_AB_BA) {
+            cmd_hex[0] = 0xab;
+            cmd_hex[1] = 0xba;
+        } else if (ui->cBBox_head->currentData() == CMD_HEAD_5A_A5) {
+            cmd_hex[0] = 0x5a;
+            cmd_hex[1] = 0xa5;
+        }
+
+        cmd_hex[2] = cmd_id;    // cmd_id
+        cmd_hex[3] = total_len; // total_len
+        cmd_hex[4] = param_len; // param_len
+
+        for (int j=0; j<topItem->childCount(); j++) {
+            /* clear param[] and crc_check */
+            for(int i=5; i< cmd_hex.size(); i++) {
+                cmd_hex[i] = 0;
+            }
+
+
+            QTreeWidgetItem* level1_childItem = topItem->child(j);
+            int paramPosByte = level1_childItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16);
+            QString strBit = level1_childItem->text(ITEM_COLUM_BIT);
+            QStringList strBitList = strBit.split('-', QString::SkipEmptyParts);
+            int startBit = 0;
+            int endBit = 0;
+            if (strBitList.at(0).toInt() < strBitList.at(1).toInt()) {
+                 startBit = strBitList.at(0).toInt();
+                 endBit = strBitList.at(1).toInt();
+            } else {
+                startBit = strBitList.at(1).toInt();
+                endBit = strBitList.at(0).toInt();
+            }
+            qDebug() << "startBit: " << startBit << ", endBit: " << endBit;
+
+            /* adjust button position --> move to top*/
+            if (j != 0 && lastBtn_isNewBtn) {
+                btnRect.translate(btn_dx,0);
+                btnRect.moveTop(30);
+            }
+
+            for (int k=0; k<level1_childItem->childCount(); k++) {
+                QTreeWidgetItem* level2_childItem = level1_childItem->child(k);
+                btnName = level1_childItem->text(ITEM_COLUM_MEANTING) + level2_childItem->text(ITEM_COLUM_MEANTING);
+                int int_param = level2_childItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);
+                int_param = int_param << startBit;
+
+                cmd_hex[paramPosByte+4] = int_param;
+
+                qDebug() << hex << cmd_hex;
+                if (k != 0 && lastBtn_isNewBtn) {
+                    if (k%4 == 0) {
+                        btnRect.moveTop(30);
+                        btnRect.translate(btn_dx,0);
+                    } else {
+                        btnRect.translate(0, btn_dy);
+                    }
+                }
+
+                /* crc_check */
+                uint16_t crcCheck = 0;
+                if (ui->cBBox_check_method->currentData() == CMD_CHECK_TYPE_CRC_2BYTE) {
+                    crcCheck = crc16_check(cmd_hex, cmd_hex.size()-2);
+                }
+                uchar crc_h = (uchar)(crcCheck>>8);
+                uchar crc_l = (uchar)(crcCheck&0xff);
+                cmd_hex[cmd_hex[3]-2] = crc_h;
+                cmd_hex[cmd_hex[3]-1] = crc_l;
+                qDebug() << "before send" << hex << cmd_hex;
+
+                QString str_cmdHex= pMain->hexToString(cmd_hex);
+                out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
+                lastBtn_isNewBtn = pMain->generateButtons(btnName, btnRect, cmd_hex);
+            }
+        }
+    }
+
+    btnSettings.close();
+}
+void ProtocolGeneratorDialog::generateRcvAnalyzor()
+{
+#if 0
+    qDebug() << __func__;
+
+    /* get parent pointer to access its public funcs */
+    ProtocolAnalyze* pMain = (ProtocolAnalyze*) QWidget::parent();
+
+    int topCount = ui->treeW_CmdList->topLevelItemCount();
+
+#if 0 // save settings
+    /* open file */
+    QFile rcvAnalyzorSettings("./config/receiveAnalyzor_settings.txt");
+    QTextStream out(&rcvAnalyzorSettings);
+
+    if (rcvAnalyzorSettings.open(QFile::WriteOnly | QFile::Truncate)) {
+          out << "btnName " <<"btnCmd " << "btnRect " << endl;
+     } else {
+        qDebug() << "open file error";
+        return;
+    }
+#endif
+    for (int i=0; i<topCount; i++) {
+        QString btnName = "";
+        QVector<uchar> cmd_hex(2);
+
+        QTreeWidgetItem* topItem= ui->treeW_CmdList->topLevelItem(i);
+        int cmd_id = topItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);// cmd_id
+        int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
+        int total_len = param_len + 7; // 2(head) + 1(cmd_id) + 1(total_len) + 1(param_len) + 2(crc_check)
+
+        for (int i=0; i<total_len-2; i++) {
+            cmd_hex.append(0);
+        }
+
+        if (total_len < 7) {
+            qDebug() <<"total_len is too short" << total_len;
+            return;
+        }
+
+        /* head */
+        if (ui->cBBox_head->currentData() == CMD_HEAD_AB_BA) {
+            cmd_hex[0] = 0xab;
+            cmd_hex[1] = 0xba;
+        } else if (ui->cBBox_head->currentData() == CMD_HEAD_5A_A5) {
+            cmd_hex[0] = 0x5a;
+            cmd_hex[1] = 0xa5;
+        }
+
+        cmd_hex[2] = cmd_id;    // cmd_id
+        cmd_hex[3] = total_len; // total_len
+        cmd_hex[4] = param_len; // param_len
+
+        for (int j=0; j<topItem->childCount(); j++) {
+            /* clear param[] and crc_check */
+            for(int i=5; i< cmd_hex.size(); i++) {
+                cmd_hex[i] = 0;
+            }
+
+
+            QTreeWidgetItem* level1_childItem = topItem->child(j);
+            int paramPosByte = level1_childItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16);
+            QString strBit = level1_childItem->text(ITEM_COLUM_BIT);
+            QStringList strBitList = strBit.split('-', QString::SkipEmptyParts);
+            int startBit = 0;
+            int endBit = 0;
+            if (strBitList.at(0).toInt() < strBitList.at(1).toInt()) {
+                 startBit = strBitList.at(0).toInt();
+                 endBit = strBitList.at(1).toInt();
+            } else {
+                startBit = strBitList.at(1).toInt();
+                endBit = strBitList.at(0).toInt();
+            }
+            qDebug() << "startBit: " << startBit << ", endBit: " << endBit;
+
+            /* adjust button position --> move to top*/
+            if (j != 0 && lastBtn_isNewBtn) {
+                btnRect.translate(btn_dx,0);
+                btnRect.moveTop(30);
+            }
+
+            for (int k=0; k<level1_childItem->childCount(); k++) {
+                QTreeWidgetItem* level2_childItem = level1_childItem->child(k);
+                btnName = level1_childItem->text(ITEM_COLUM_MEANTING) + level2_childItem->text(ITEM_COLUM_MEANTING);
+                int int_param = level2_childItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);
+                int_param = int_param << startBit;
+
+                cmd_hex[paramPosByte+4] = int_param;
+
+                qDebug() << hex << cmd_hex;
+                if (k != 0 && lastBtn_isNewBtn) {
+                    if (k%4 == 0) {
+                        btnRect.moveTop(30);
+                        btnRect.translate(btn_dx,0);
+                    } else {
+                        btnRect.translate(0, btn_dy);
+                    }
+                }
+
+                /* crc_check */
+                uint16_t crcCheck = 0;
+                if (ui->cBBox_check_method->currentData() == CMD_CHECK_TYPE_CRC_2BYTE) {
+                    crcCheck = crc16_check(cmd_hex, cmd_hex.size()-2);
+                }
+                uchar crc_h = (uchar)(crcCheck>>8);
+                uchar crc_l = (uchar)(crcCheck&0xff);
+                cmd_hex[cmd_hex[3]-2] = crc_h;
+                cmd_hex[cmd_hex[3]-1] = crc_l;
+                qDebug() << "before send" << hex << cmd_hex;
+
+                QString str_cmdHex= pMain->hexToString(cmd_hex);
+                out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
+                lastBtn_isNewBtn = pMain->generateButtons(btnName, btnRect, cmd_hex);
+            }
+        }
+    }
+
+    btnSettings.close();
+#endif
+}
 
 

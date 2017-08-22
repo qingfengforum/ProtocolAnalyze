@@ -68,6 +68,7 @@ private slots:
     void on_menuAddBtn_Action_triggered();
     void on_addBtn_OK_clicked();
 
+    void on_pushBtn_startRcvAnalyzor_clicked();
 
 public:
     int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
@@ -75,6 +76,7 @@ public:
     QVector<uchar> stringToHex(QString str_cmdHex);
 
 private:
+    void initDialogGenRevAnalyzor();
     void fillPortsInfo();
     void initActionsConnections();
     void fillPortsParameters();
@@ -91,6 +93,9 @@ private:
     QSerialPort *serial;
 
     ProtocolGeneratorDialog *protGenDialog;
+    ProtocolGeneratorDialog *protGenDialogRecAnalyzor; /* generate receive status analyzer */
+
+    QDialog* dialogRcvAnalyzor;
 
     QMap<int, qfPushButton*> cmdMap; /* store btn info */
     uint btnIdx;

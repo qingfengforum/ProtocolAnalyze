@@ -219,6 +219,19 @@
      <string>clear</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushBtn_startRcvAnalyzor">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>340</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>star RCV Analyzor</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -234,6 +247,7 @@
      <string>tools</string>
     </property>
     <addaction name="actionProtocol_generator"/>
+    <addaction name="actionProtocol_rev_gen_analyzor"/>
    </widget>
    <addaction name="menuTools"/>
   </widget>
@@ -249,6 +263,11 @@
   <action name="actionProtocol_generator">
    <property name="text">
     <string>protocol generator</string>
+   </property>
+  </action>
+  <action name="actionProtocol_rev_gen_analyzor">
+   <property name="text">
+    <string>protocol rev gen analyzor</string>
    </property>
   </action>
  </widget>

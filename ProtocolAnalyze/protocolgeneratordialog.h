@@ -33,9 +33,15 @@ private:
             CMD_CHECK_TYPE_CHECK_SUM_2BYTE,
         };
 
+        enum _GEN_TYPE_e_ {
+            GEN_TYPE_GEN_BUTTONS,
+            GEN_TYPE_GEN_RCV_ANALYZOR,
+        };
 public:
     explicit ProtocolGeneratorDialog(QWidget *parent = 0);
     ~ProtocolGeneratorDialog();
+
+     void initDialogGenRevAnalyzor();
 
 private slots:
     void on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum);
@@ -59,9 +65,14 @@ private:
     void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
     void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
 
+    void generatePushButtons();
+    void generateRcvAnalyzor();
+
 
 private:
     Ui::ProtocolGeneratorDialog *ui;
+    QString configFilePath;
+    uint genType;
 };
 
 #endif // PROTOCOLGENERATORDIALOG_H
