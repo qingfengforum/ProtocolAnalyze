@@ -480,6 +480,9 @@ void ProtocolGeneratorDialog::generateRcvAnalyzor()
                 ProtocolAnalyze::COMM_RCV_PARSE_VALUE_INFO_s rcv_parse_value_info;
                 rcv_parse_item.cmdInfo.cmdId = cmd_id;
                 rcv_parse_item.cmdInfo.cmdName = cmd_name;
+                rcv_parse_value_info.start_bit = startBit;
+                rcv_parse_value_info.end_bit = endBit;
+                
 
                 rcvParseTable.append(rcv_parse_item);
 #if 0

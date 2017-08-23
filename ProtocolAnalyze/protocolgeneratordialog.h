@@ -41,7 +41,9 @@ public:
     explicit ProtocolGeneratorDialog(QWidget *parent = 0);
     ~ProtocolGeneratorDialog();
 
+     void initDialogGenSndButtons();
      void initDialogGenRevAnalyzor();
+
 
 private slots:
     void on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum);

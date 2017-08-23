@@ -45,7 +45,9 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     /* initial */
     /* initial dialog protocol generator receive analyzor */
+    initDialogGenSndButtons();
     initDialogGenRevAnalyzor();
+
 
     initActionsConnections();
 
@@ -384,10 +386,19 @@ QVector<uchar> ProtocolAnalyze::stringToHex(QString str_cmdHex)
     return cmdHex;
 }
 
+QVector<ProtocolAnalyze::COMM_RCV_PARSE_s>& ProtocolAnalyze::get_rcvParseTable()
+{
+    return _rcvParseTable;
+}
 
 /*********************************************************
  * private funcs
  * *******************************************************/
+void ProtocolAnalyze::initDialogGenSndButtons()
+{
+    protGenDialog->initDialogGenSndButtons();
+}
+
 /*
  * @ brief : initialize dialog generator receive analyzor.
  */

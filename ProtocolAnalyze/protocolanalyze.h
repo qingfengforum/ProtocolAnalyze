@@ -41,6 +41,24 @@ public:
         QRect btnRect;
     };
 
+
+    typedef struct _COMM_RCV_PARSE_VALUE_INFO_s_ {
+        int start_bit;
+        int end_bit;
+        QString value_name;
+        int value;
+        QMap<int, QString> map_value;
+    }COMM_RCV_PARSE_VALUE_INFO_s;
+
+    typedef struct _COMM_RCV_PARSE_s_ {
+        struct {
+            int cmdId;
+            QString cmdName;
+        }cmdInfo;
+
+        QVector<COMM_RCV_PARSE_VALUE_INFO_s> valueInfo;
+    }COMM_RCV_PARSE_s;
+
 public:
     explicit ProtocolAnalyze(QWidget *parent = 0);
     ~ProtocolAnalyze();
@@ -74,8 +92,9 @@ public:
     int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
     QString hexToString(const QVector<uchar> hex);
     QVector<uchar> stringToHex(QString str_cmdHex);
-
+    QVector<COMM_RCV_PARSE_s>& get_rcvParseTable();
 private:
+    void initDialogGenSndButtons();
     void initDialogGenRevAnalyzor();
     void fillPortsInfo();
     void initActionsConnections();
@@ -106,6 +125,9 @@ private:
 
     QLineEdit* _lineEdit_btnName;
     QLineEdit* _lineEdit_cmdHex;
+
+    /* receive info parse */
+    QVector<COMM_RCV_PARSE_s> _rcvParseTable;
 
 };
 
