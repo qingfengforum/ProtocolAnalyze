@@ -47,6 +47,7 @@ public:
         int end_bit;
         QString value_name;
         int value;
+        QLineEdit* lineEdt;
         QMap<int, QString> map_value;
     }COMM_RCV_PARSE_VALUE_INFO_s;
 
@@ -97,6 +98,7 @@ private:
     void initDialogGenSndButtons();
     void initDialogGenRevAnalyzor();
     void initDialogRcvAnalyzor();
+    void updateRcvAnalyzor();
     void fillPortsInfo();
     void initActionsConnections();
     void fillPortsParameters();
