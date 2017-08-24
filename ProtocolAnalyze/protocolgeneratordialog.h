@@ -70,6 +70,8 @@ private:
     void generatePushButtons();
     void generateRcvAnalyzor();
 
+    void saveRcvAnalyzorSetTable(QVector<ProtocolAnalyze::COMM_RCV_PARSE_s> &rcvParseTable);
+
 
 private:
     Ui::ProtocolGeneratorDialog *ui;

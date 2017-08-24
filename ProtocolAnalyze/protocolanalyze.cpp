@@ -23,6 +23,7 @@ ProtocolAnalyze::ProtocolAnalyze(QWidget *parent) :
 
     /* init private properties */
     btnIdx = 0;
+    loadRcvAnalyzorSetTable();
 
     /* create serial object */
     serial = new QSerialPort(this);
@@ -327,6 +328,7 @@ void ProtocolAnalyze::on_addBtn_OK_clicked()
 
 void ProtocolAnalyze::on_pushBtn_startRcvAnalyzor_clicked()
 {
+    initDialogRcvAnalyzor();
     dialogRcvAnalyzor->show();
 }
 
@@ -406,6 +408,41 @@ void ProtocolAnalyze::initDialogGenRevAnalyzor()
 {
     protGenDialogRecAnalyzor->initDialogGenRevAnalyzor();
 }
+
+void ProtocolAnalyze::initDialogRcvAnalyzor()
+{
+    QVector<COMM_RCV_PARSE_s>& rcvParseTable = _rcvParseTable;
+    QGridLayout* layout = new QGridLayout(dialogRcvAnalyzor);
+
+    QLabel* cmdInfo = new QLabel("DVR info", dialogRcvAnalyzor);
+
+    layout->addWidget(cmdInfo, 0, 0);
+    /* print rcv Parse Table info */
+    for (int i=0; i<rcvParseTable.size(); i++) {
+        qDebug() << "***********************************";
+        qDebug() << hex << rcvParseTable[i].cmdInfo.cmdId << ":" << rcvParseTable[i].cmdInfo.cmdName;
+        qDebug() << "value Info size " << rcvParseTable[i].valueInfo.size();
+
+
+        for (int j=0; j<rcvParseTable[i].valueInfo.size(); j++) {
+            qDebug() << "================================";
+            qDebug() << "start bit :" << rcvParseTable[i].valueInfo[j].start_bit << endl
+                     << "end bit :"   << rcvParseTable[i].valueInfo[j].end_bit   << endl
+                     << "value name : " << rcvParseTable[i].valueInfo[j].value_name << endl
+                     << "cur value : " << rcvParseTable[i].valueInfo[j].value << endl;
+             qDebug() << "------------------------------------";
+            QMapIterator<int, QString> k(rcvParseTable[i].valueInfo[j].map_value);
+            while (k.hasNext()) {
+                k.next();
+                qDebug() << k.key() << "--" << (QString)k.value();
+            }
+
+        }
+
+        qDebug() << "***********************************";
+    }
+}
+
 /*
  * @ brief : auto fill the available port name
  */
@@ -526,3 +563,107 @@ void ProtocolAnalyze::addNewBtn(QString btnName, QVector<uchar> cmd_hex, QRect b
     connect(pushBtn, &qfPushButton::deleteAction_triggered, this, &ProtocolAnalyze::on_deleteAction_triggered);
 }
 
+void ProtocolAnalyze::loadRcvAnalyzorSetTable()
+{
+    QVector<COMM_RCV_PARSE_s>& rcvParseTable = _rcvParseTable;
+    // load settings
+    /* open file */
+    QFile rcvAnalyzorSettings("./config/receiveAnalyzor_settings_table.txt");
+    QTextStream fileIn(&rcvAnalyzorSettings);
+
+    if (!rcvAnalyzorSettings.open(QFile::ReadOnly)) {
+        qDebug() << "open file error";
+        return;
+    }
+
+    while(!fileIn.atEnd()) {
+        QString line = fileIn.readLine();
+        QStringList tmp = line.split('=');
+        qDebug() << "load:" <<  tmp.at(0) << tmp.at(1);
+        if (tmp.at(0) == "cmdId") {
+            COMM_RCV_PARSE_s rcv_parse_item;
+            rcv_parse_item.cmdInfo.cmdId = tmp.at(1).toInt();
+            tmp = fileIn.readLine().split('=');
+            qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+            rcv_parse_item.cmdInfo.cmdName = tmp.at(1);
+
+            tmp = fileIn.readLine().split('=');
+            qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+#if 1
+            while(!fileIn.atEnd()) {
+                if (tmp.at(0) == "startBit") {
+                    COMM_RCV_PARSE_VALUE_INFO_s rcv_parse_value_info;
+                    rcv_parse_value_info.start_bit = tmp.at(1).toInt();
+
+#if 1
+                    tmp = fileIn.readLine().split('=');
+                    qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+                    rcv_parse_value_info.end_bit = tmp.at(1).toInt();
+
+                    tmp = fileIn.readLine().split('=');
+                    qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+                    rcv_parse_value_info.value_name = tmp.at(1);
+
+                    tmp = fileIn.readLine().split('=');
+                    qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+                    rcv_parse_value_info.value = tmp.at(1).toInt();
+#endif
+#if 1
+                    while(!fileIn.atEnd()) {
+                        tmp = fileIn.readLine().split('=');
+                        qDebug() << "load:" << tmp.at(0) << tmp.at(1);
+                        if (tmp.at(0) == "key") {
+                            QStringList value = fileIn.readLine().split('=');
+                            qDebug() << "load:" << value.at(0) << value.at(1);
+                            rcv_parse_value_info.map_value.insert(tmp.at(1).toInt(), value.at(1));
+                        } else {
+                            break;
+                        }
+                    }
+#endif
+                    rcv_parse_item.valueInfo.append(rcv_parse_value_info);
+                } else {
+                    break;
+                }
+
+            }
+#endif
+            rcvParseTable.append(rcv_parse_item);
+        }
+
+    }
+
+    rcvAnalyzorSettings.close();
+
+    printRcvAnalyzorSetTable();
+}
+
+void ProtocolAnalyze::printRcvAnalyzorSetTable()
+{
+    QVector<COMM_RCV_PARSE_s>& rcvParseTable = _rcvParseTable;
+    /* print rcv Parse Table info */
+    for (int i=0; i<rcvParseTable.size(); i++) {
+        qDebug() << "***********************************";
+        qDebug() << hex << rcvParseTable[i].cmdInfo.cmdId << ":" << rcvParseTable[i].cmdInfo.cmdName;
+        qDebug() << "value Info size " << rcvParseTable[i].valueInfo.size();
+
+        for (int j=0; j<rcvParseTable[i].valueInfo.size(); j++) {
+            qDebug() << "================================";
+            qDebug() << "start bit :" << rcvParseTable[i].valueInfo[j].start_bit << endl
+                     << "end bit :"   << rcvParseTable[i].valueInfo[j].end_bit   << endl
+                     << "value name : " << rcvParseTable[i].valueInfo[j].value_name << endl
+                     << "cur value : " << rcvParseTable[i].valueInfo[j].value << endl;
+            qDebug() << "------------------------------------";
+
+            QMapIterator<int, QString> k(rcvParseTable[i].valueInfo[j].map_value);
+            while (k.hasNext()) {
+                k.next();
+                qDebug() << k.key() << "--" << (QString)k.value();
+            }
+
+        }
+
+        qDebug() << "***********************************";
+    }
+
+}

@@ -96,6 +96,7 @@ public:
 private:
     void initDialogGenSndButtons();
     void initDialogGenRevAnalyzor();
+    void initDialogRcvAnalyzor();
     void fillPortsInfo();
     void initActionsConnections();
     void fillPortsParameters();
@@ -103,6 +104,10 @@ private:
     void updateSettings();
 
     void addNewBtn(QString btnName, QVector<uchar> cmd_hex, QRect btnRect=QRect(0,30, 100, 30));
+
+    void loadRcvAnalyzorSetTable();
+    void printRcvAnalyzorSetTable();
+
 
 private:
     Ui::ProtocolAnalyze *ui;

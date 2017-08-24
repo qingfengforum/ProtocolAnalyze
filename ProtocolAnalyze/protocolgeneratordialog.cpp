@@ -435,18 +435,6 @@ void ProtocolGeneratorDialog::generateRcvAnalyzor()
     rcvParseTable.clear();
     int topCount = ui->treeW_CmdList->topLevelItemCount();
 
-#if 0 // save settings
-    /* open file */
-    QFile rcvAnalyzorSettings("./config/receiveAnalyzor_settings.txt");
-    QTextStream out(&rcvAnalyzorSettings);
-
-    if (rcvAnalyzorSettings.open(QFile::WriteOnly | QFile::Truncate)) {
-          out << "btnName " <<"btnCmd " << "btnRect " << endl;
-     } else {
-        qDebug() << "open file error";
-        return;
-    }
-#endif
 
     qDebug() << "topCount" << topCount;
     for (int i=0; i<topCount; i++) {// cmd_id items
@@ -457,6 +445,9 @@ void ProtocolGeneratorDialog::generateRcvAnalyzor()
         //int param_len = topItem->text(ITEM_COLUM_BYTE).toInt(NULL, 16); // param_len
         //int total_len = param_len + 7; // 2(head) + 1(cmd_id) + 1(total_len) + 1(param_len) + 2(crc_check)
 
+        ProtocolAnalyze::COMM_RCV_PARSE_s rcv_parse_item;
+        rcv_parse_item.cmdInfo.cmdId = cmd_id;
+        rcv_parse_item.cmdInfo.cmdName = cmd_name;
 
         for (int j=0; j<topItem->childCount(); j++) {// value info
 
@@ -475,15 +466,22 @@ void ProtocolGeneratorDialog::generateRcvAnalyzor()
             }
             qDebug() << "startBit: " << startBit << ", endBit: " << endBit;
 
-            for (int k=0; k<level1_childItem->childCount(); k++) {// values
-                ProtocolAnalyze::COMM_RCV_PARSE_s rcv_parse_item;
-                ProtocolAnalyze::COMM_RCV_PARSE_VALUE_INFO_s rcv_parse_value_info;
-                rcv_parse_item.cmdInfo.cmdId = cmd_id;
-                rcv_parse_item.cmdInfo.cmdName = cmd_name;
+            ProtocolAnalyze::COMM_RCV_PARSE_VALUE_INFO_s rcv_parse_value_info;
+            rcv_parse_value_info.start_bit = startBit;
+            rcv_parse_value_info.end_bit = endBit;
+            rcv_parse_value_info.value = 0;
+            rcv_parse_value_info.value_name = level1_childItem->text(ITEM_COLUM_MEANTING);
 
-                rcvParseTable.append(rcv_parse_item);
-#if 0
+            for (int k=0; k<level1_childItem->childCount(); k++) {// values
                 QTreeWidgetItem* level2_childItem = level1_childItem->child(k);
+                int l2_item_value = level2_childItem->text(ITEM_COLUM_VALUE).toInt(nullptr, 16);
+
+                QString l2_item_meaning = level2_childItem->text(ITEM_COLUM_MEANTING);
+                qDebug() << "l2_item_value:" << l2_item_value << l2_item_meaning;
+
+                rcv_parse_value_info.map_value.insert(l2_item_value, l2_item_meaning);
+//                qDebug() << "map:" <<
+#if 0
                 btnName = level1_childItem->text(ITEM_COLUM_MEANTING) + level2_childItem->text(ITEM_COLUM_MEANTING);
                 int int_param = level2_childItem->text(ITEM_COLUM_VALUE).toInt(NULL, 16);
                 int_param = int_param << startBit;
@@ -504,12 +502,64 @@ void ProtocolGeneratorDialog::generateRcvAnalyzor()
                 //out << btnName << "," << str_cmdHex << "," << btnRect.x() << "," << btnRect.y() << "," << btnRect.width() << "," <<btnRect.height()<<endl; //<< cmd_hex << "," << btnRect;
 #endif
             }
+            rcv_parse_item.valueInfo.append(rcv_parse_value_info);
+            qDebug() << "apeend Value Info";
+
         }
+        rcvParseTable.append(rcv_parse_item);
+        qDebug() << "apeend parse table item";
     }
 
-    qDebug() << rcvParseTable[0].cmdInfo.cmdId;
-    qDebug() << rcvParseTable[0].cmdInfo.cmdName;
-   // btnSettings.close();
+    saveRcvAnalyzorSetTable(rcvParseTable);
+
 }
 
+void ProtocolGeneratorDialog::saveRcvAnalyzorSetTable(QVector<ProtocolAnalyze::COMM_RCV_PARSE_s>& rcvParseTable)
+{
+    // save settings
+    /* open file */
+    QFile rcvAnalyzorSettings("./config/receiveAnalyzor_settings_table.txt");
+    QTextStream out(&rcvAnalyzorSettings);
 
+    if (!rcvAnalyzorSettings.open(QFile::WriteOnly | QFile::Truncate)) {
+        qDebug() << "open file error";
+        return;
+    }
+    /* print rcv Parse Table info */
+    for (int i=0; i<rcvParseTable.size(); i++) {
+        qDebug() << "***********************************";
+        qDebug() << hex << rcvParseTable[i].cmdInfo.cmdId << ":" << rcvParseTable[i].cmdInfo.cmdName;
+        qDebug() << "value Info size " << rcvParseTable[i].valueInfo.size();
+
+        out << "cmdId=" << rcvParseTable[i].cmdInfo.cmdId << endl;
+        out << "cmdName=" << rcvParseTable[i].cmdInfo.cmdName << endl;
+
+        for (int j=0; j<rcvParseTable[i].valueInfo.size(); j++) {
+            qDebug() << "================================";
+            qDebug() << "start bit :" << rcvParseTable[i].valueInfo[j].start_bit << endl
+                     << "end bit :"   << rcvParseTable[i].valueInfo[j].end_bit   << endl
+                     << "value name : " << rcvParseTable[i].valueInfo[j].value_name << endl
+                     << "cur value : " << rcvParseTable[i].valueInfo[j].value << endl;
+            qDebug() << "------------------------------------";
+
+            out << "startBit=" << rcvParseTable[i].valueInfo[j].start_bit << endl;
+            out << "endBit=" << rcvParseTable[i].valueInfo[j].end_bit   << endl;
+            out << "valueName=" << rcvParseTable[i].valueInfo[j].value_name << endl;
+            out << "curValue=" << rcvParseTable[i].valueInfo[j].value << endl;
+
+            QMapIterator<int, QString> k(rcvParseTable[i].valueInfo[j].map_value);
+            while (k.hasNext()) {
+                k.next();
+                qDebug() << k.key() << "--" << (QString)k.value();
+
+                out << "key=" << k.key() << endl;
+                out << "value=" << k.value() << endl;
+            }
+
+        }
+
+        qDebug() << "***********************************";
+    }
+
+    rcvAnalyzorSettings.close();
+}
