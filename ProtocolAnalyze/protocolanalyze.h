@@ -110,6 +110,7 @@ private:
     void loadRcvAnalyzorSetTable();
     void printRcvAnalyzorSetTable();
 
+    void sendDataToSerial(QVector<uchar> data);
 
 private:
     Ui::ProtocolAnalyze *ui;

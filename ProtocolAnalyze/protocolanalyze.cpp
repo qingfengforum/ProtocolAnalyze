@@ -133,6 +133,8 @@ void ProtocolAnalyze::on_pB_autoGenBtn_clicked()
     cmd_str += "\n";
     qDebug() << cmd_str;
     console->putData(cmd_str.toLocal8Bit());
+
+    sendDataToSerial(ptrBtn->getCmdHex());
 }
 void ProtocolAnalyze::on_pB_autoGenBtn_pressed()
 {
@@ -694,3 +696,15 @@ void ProtocolAnalyze::printRcvAnalyzorSetTable()
     }
 
 }
+
+ void ProtocolAnalyze::sendDataToSerial(QVector<uchar> data)
+ {
+    QByteArray byteArrayData;
+
+    for(auto iter = data.cbegin(); iter != data.cend(); iter++) {
+        byteArrayData.append(*iter);
+    }
+
+
+    writeData(byteArrayData);
+ }
