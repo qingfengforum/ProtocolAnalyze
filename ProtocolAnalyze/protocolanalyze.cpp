@@ -147,7 +147,20 @@ void ProtocolAnalyze::on_pB_autoGenBtn_pressed()
 void ProtocolAnalyze::readData()
 {
     QByteArray data = serial->readAll();
-    console->putData(data);
+    QVector<uchar> data_hex;
+    for (auto it = data.cbegin(); it != data.cend(); it++) {
+        data_hex.append(*it);
+    }
+
+    QString data_str = hexToString(data_hex);
+    QByteArray data_bArray;
+    for(auto it = data_str.cbegin(); it!=data_str.cend(); it++) {
+        data_bArray.append(*it);
+    }
+    data_bArray.append('\n');
+    qDebug() << "read:(str)" << data_str;
+    qDebug() << "read:(array)" << data_bArray;
+    console->putData(data_bArray);
 }
 void ProtocolAnalyze::writeData(const QByteArray &data)
 {
@@ -354,7 +367,7 @@ int ProtocolAnalyze::generateButtons(QString btnName, QRect& btnRect, QVector<uc
     qfPushButton* pushBtn = new qfPushButton(ui->tabWdgt_btns);
     btnIdx++;
     pushBtn->setText(btnName);
-    pushBtn->setGeometry(btnRect);
+    //pushBtn->setGeometry(btnRect);
     pushBtn->setCmdHex(cmd_hex);
     pushBtn->setBtnIdx(btnIdx);
     pushBtn->show();
