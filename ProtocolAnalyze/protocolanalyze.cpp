@@ -721,3 +721,116 @@ void ProtocolAnalyze::printRcvAnalyzorSetTable()
 
     writeData(byteArrayData);
  }
+
+void ProtocolAnalyze::on_pushButton_snd_carInfo_clicked()
+{
+    QVector<uchar> cmd_hex;
+    cmd_hex.append(0xAB);
+    cmd_hex.append(0xBA);
+    cmd_hex.append(0x03);
+    cmd_hex.append(0x0C);
+    cmd_hex.append(0x05);
+
+    /* speed */
+    uint16_t speed = 0;
+    speed = ui->lineEdit_carSpeed->text().toInt();
+    cmd_hex.append((speed>>8) & 0xff);
+    cmd_hex.append(speed & 0xff);
+
+    /* gear */
+    uint8_t gear = 0;
+    if (ui->radioButton_p->isChecked()) {
+        gear = 0x01;
+    } else if (ui->radioButton_r->isChecked()) {
+        gear = 0x02;
+    } else if (ui->radioButton_n->isChecked()) {
+        gear = 0x03;
+    } else if (ui->radioButton_d->isChecked()) {
+        gear = 0x04;
+    } else if (ui->radioButton_m1->isChecked()) {
+        gear = 0x05;
+    } else if (ui->radioButton_m2->isChecked()) {
+        gear = 0x06;
+    } else if (ui->radioButton_m3->isChecked()) {
+        gear = 0x07;
+    } else if (ui->radioButton_m4->isChecked()) {
+        gear = 0x08;
+    } else if (ui->radioButton_m5->isChecked()) {
+        gear = 0x09;
+    } else if (ui->radioButton_m6->isChecked()) {
+        gear = 0x0A;
+    } else if (ui->radioButton_m7->isChecked()) {
+        gear = 0x0B;
+    } else if (ui->radioButton_m1_plus->isChecked()) {
+        gear = 0x0D;
+    } else if (ui->radioButton_m2_plus->isChecked()) {
+        gear = 0x0E;
+    } else if (ui->radioButton_m3_plus->isChecked()) {
+        gear = 0x0F;
+    } else if (ui->radioButton_m4_plus->isChecked()) {
+        gear = 0x10;
+    } else if (ui->radioButton_m5_plus->isChecked()) {
+        gear = 0x11;
+    } else if (ui->radioButton_m6_plus->isChecked()) {
+        gear = 0x12;
+    } else if (ui->radioButton_m2_minus->isChecked()) {
+        gear = 0x14;
+    } else if (ui->radioButton_m3_minus->isChecked()) {
+        gear = 0x15;
+    } else if (ui->radioButton_m4_minus->isChecked()) {
+        gear = 0x16;
+    } else if (ui->radioButton_m5_minus->isChecked()) {
+        gear = 0x17;
+    } else if (ui->radioButton_m6_minus->isChecked()) {
+        gear = 0x18;
+    } else if (ui->radioButton_m7_minus->isChecked()) {
+        gear = 0x19;
+    }
+    cmd_hex.append(gear);
+
+    /* light signal */
+    uint8_t light = 0;
+    if (ui->checkBox_leftLight->isChecked()) {
+        light |= 0x1;
+    }
+    if (ui->checkBox_rightLight->isChecked()) {
+        light |= 0x01 << 1;
+    }
+    if (ui->checkBox_highbeam->isChecked()) {
+        light |= 0x01 << 2;
+    }
+    if (ui->checkBox_dippedHeadLight->isChecked()) {
+        light |= 0x01 << 3;
+    }
+    if (ui->checkBox_afterFogLight->isChecked()) {
+        light |= 0x01 << 4;
+    }
+    if (ui->checkBox_beforeFogLight->isChecked()) {
+        light |= 0x01 << 5;
+    }
+    if (ui->checkBox_hazardLight->isChecked()) {
+        light |= 0x01 << 6;
+    }
+    cmd_hex.append(light);
+
+    /* safety signals */
+    uint8_t safety = 0;
+    if (ui->checkBox_throttle->isChecked()) {
+        safety |= 0x01;
+    }
+    if (ui->checkBox_brake->isChecked()) {
+        safety |= 0x01 << 1;
+    }
+    if (ui->checkBox_safetyBelt->isChecked()) {
+        safety |= 0x01 << 2;
+    }
+    cmd_hex.append(safety);
+
+    ProtocolGeneratorDialog p;
+    uint16_t crc_check = p.crc16_check(cmd_hex, cmd_hex.size());
+    cmd_hex.append((crc_check>>8) & 0xff);
+    cmd_hex.append(crc_check & 0xff);
+
+    qDebug() << hex << cmd_hex;
+    sendDataToSerial(cmd_hex);
+}

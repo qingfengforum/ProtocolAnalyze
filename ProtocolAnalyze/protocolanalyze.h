@@ -89,6 +89,8 @@ private slots:
 
     void on_pushBtn_startRcvAnalyzor_clicked();
 
+    void on_pushButton_snd_carInfo_clicked();
+
 public:
     int generateButtons(QString btnName, QRect &btnRect, QVector<uchar> &cmd_hex);
     QString hexToString(const QVector<uchar> hex);

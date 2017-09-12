@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
-    <height>674</height>
+    <width>808</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,19 +165,371 @@
      <rect>
       <x>0</x>
       <y>430</y>
-      <width>791</width>
-      <height>181</height>
+      <width>801</width>
+      <height>191</height>
      </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="carInfo">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>CarInfor</string>
      </attribute>
+     <widget class="QLineEdit" name="lineEdit_carSpeed">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>10</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>车速（km/h）</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_snd_carInfo">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>10</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>send</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>50</y>
+        <width>341</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>档位</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>319</width>
+         <height>84</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QRadioButton" name="radioButton_p">
+          <property name="text">
+           <string>P</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QRadioButton" name="radioButton_m2">
+          <property name="text">
+           <string>M2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QRadioButton" name="radioButton_d">
+          <property name="text">
+           <string>D</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="radioButton_n">
+          <property name="text">
+           <string>N</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QRadioButton" name="radioButton_m3">
+          <property name="text">
+           <string>M3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QRadioButton" name="radioButton_m4">
+          <property name="text">
+           <string>M4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QRadioButton" name="radioButton_m2_plus">
+          <property name="text">
+           <string>M2+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5">
+         <widget class="QRadioButton" name="radioButton_m6_plus">
+          <property name="text">
+           <string>M6+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QRadioButton" name="radioButton_m3_plus">
+          <property name="text">
+           <string>M3+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QRadioButton" name="radioButton_m4_plus">
+          <property name="text">
+           <string>M4+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QRadioButton" name="radioButton_m5_plus">
+          <property name="text">
+           <string>M5+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QRadioButton" name="radioButton_m5">
+          <property name="text">
+           <string>M5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QRadioButton" name="radioButton_m6">
+          <property name="text">
+           <string>M6</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QRadioButton" name="radioButton_m7">
+          <property name="text">
+           <string>M7</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="radioButton_r">
+          <property name="text">
+           <string>R</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QRadioButton" name="radioButton_m1">
+          <property name="text">
+           <string>M1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QRadioButton" name="radioButton_m1_plus">
+          <property name="text">
+           <string>M1+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QRadioButton" name="radioButton_m2_minus">
+          <property name="text">
+           <string>M2-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QRadioButton" name="radioButton_m3_minus">
+          <property name="text">
+           <string>M3-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QRadioButton" name="radioButton_m4_minus">
+          <property name="text">
+           <string>M4-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QRadioButton" name="radioButton_m5_minus">
+          <property name="text">
+           <string>M5-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4">
+         <widget class="QRadioButton" name="radioButton_m6_minus">
+          <property name="text">
+           <string>M6-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="5">
+         <widget class="QRadioButton" name="radioButton_m7_minus">
+          <property name="text">
+           <string>M7-</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>50</y>
+        <width>291</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>车灯信息</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>268</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_leftLight">
+          <property name="text">
+           <string>左转向灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QCheckBox" name="checkBox_afterFogLight">
+          <property name="text">
+           <string>后雾灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="checkBox_highbeam">
+          <property name="text">
+           <string>远光灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="checkBox_rightLight">
+          <property name="text">
+           <string>右转向灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="checkBox_dippedHeadLight">
+          <property name="text">
+           <string>近光灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QCheckBox" name="checkBox_beforeFogLight">
+          <property name="text">
+           <string>前雾灯</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QCheckBox" name="checkBox_hazardLight">
+          <property name="text">
+           <string>双闪灯</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>171</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>安全信息</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>160</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_throttle">
+          <property name="text">
+           <string>油门</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="checkBox_safetyBelt">
+          <property name="text">
+           <string>安全带</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="checkBox_handBrake">
+          <property name="text">
+           <string>手刹</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="checkBox_brake">
+          <property name="text">
+           <string>制动</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushBtn_saveBtnSettings">
@@ -238,7 +590,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>799</width>
+     <width>808</width>
      <height>23</height>
     </rect>
    </property>
