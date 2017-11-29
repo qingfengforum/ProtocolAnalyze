@@ -164,6 +164,18 @@ void ProtocolAnalyze::readData()
 }
 void ProtocolAnalyze::writeData(const QByteArray &data)
 {
+    QVector<uchar> data_hex;
+    for (auto it = data.cbegin(); it != data.cend(); it++) {
+        data_hex.append(*it);
+    }
+    QString data_str = hexToString(data_hex);
+    QByteArray data_bArray;
+    for(auto it = data_str.cbegin(); it!=data_str.cend(); it++) {
+        data_bArray.append(*it);
+    }
+    data_bArray.append('\n');
+    console->putData(data_bArray);
+
     serial->write(data);
 }
 void ProtocolAnalyze::on_pushBtn_loadBtnSettings_clicked()
